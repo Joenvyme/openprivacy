@@ -40,8 +40,15 @@ module.exports = async (req, res) => {
       `openprivacy_licenses?email=eq.${encodeURIComponent(email)}&select=license_key,status,plan,valid_until&limit=1`
     );
     if (!existing.ok) {
-      console.error("supabase existing", await existing.text());
-      sendJson(res, 502, { error: "Service indisponible" }, origin);
+      const detail = await existing.text();
+      console.error("supabase existing", existing.status, detail);
+      const hint =
+        existing.status === 404
+          ? "Table openprivacy_licenses introuvable sur ce projet Supabase. Vérifiez SUPABASE_URL (https://REF.supabase.co) et exécutez la migration SQL."
+          : existing.status === 401
+            ? "Clé Supabase invalide : utilisez la clé service_role (pas anon)."
+            : "Service indisponible";
+      sendJson(res, 502, { error: hint }, origin);
       return;
     }
     const rows = await existing.json();

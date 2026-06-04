@@ -20,14 +20,27 @@ module.exports = async (req, res) => {
     }
   }
 
+  let supabase_host = null;
+  if (process.env.SUPABASE_URL) {
+    try {
+      supabase_host = new URL(process.env.SUPABASE_URL).hostname;
+    } catch {
+      supabase_host = "invalid_url";
+    }
+  }
+
   sendJson(
     res,
     200,
     {
       ok: true,
       supabase_configured: configured,
+      supabase_host,
       supabase_ok,
       supabase_status,
+      hint: !supabase_ok
+        ? "Créez la table openprivacy_licenses sur CE projet (SQL dans le repo) ou corrigez SUPABASE_URL sur Vercel."
+        : null,
     },
     origin
   );
