@@ -2,6 +2,7 @@ const {
   corsHeaders,
   generateLicenseKey,
   normalizeEmail,
+  parseJsonBody,
   sendJson,
   supabaseFetch,
 } = require("./_lib.js");
@@ -22,7 +23,7 @@ module.exports = async (req, res) => {
 
   let payload;
   try {
-    payload = JSON.parse(req.body || "{}");
+    payload = parseJsonBody(req);
   } catch {
     sendJson(res, 400, { error: "JSON invalide" }, origin);
     return;

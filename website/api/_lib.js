@@ -74,6 +74,14 @@ function licenseIsValid(row) {
   return new Date(row.valid_until).getTime() > Date.now();
 }
 
+function parseJsonBody(req) {
+  const raw = req.body;
+  if (raw == null || raw === "") return {};
+  if (typeof raw === "object" && !Buffer.isBuffer(raw)) return raw;
+  const text = Buffer.isBuffer(raw) ? raw.toString("utf8") : String(raw);
+  return JSON.parse(text);
+}
+
 module.exports = {
   ALLOWED_ORIGINS,
   corsHeaders,
@@ -82,4 +90,5 @@ module.exports = {
   normalizeEmail,
   generateLicenseKey,
   licenseIsValid,
+  parseJsonBody,
 };
