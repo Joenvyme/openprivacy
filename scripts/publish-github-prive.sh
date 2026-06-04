@@ -26,7 +26,7 @@ if gh repo view "$REPO_NAME" &>/dev/null; then
 else
   git remote remove origin 2>/dev/null || true
   gh repo create "$REPO_NAME" $VISIBILITY \
-    --description "OpenPrivacy — anonymisation locale des données personnelles (OpenCaslaw)" \
+    --description "OpenPrivacy — anonymisation locale des données personnelles" \
     --source=. --remote=origin --push
   echo "==> Dépôt créé et code poussé."
   exit 0

@@ -68,30 +68,31 @@
       releases.forEach((rel, index) => {
         const isLatest = rel.version === latest || index === 0;
         const li = document.createElement("li");
-        li.className = `version-card${isLatest ? " version-card--latest" : ""}`;
+        li.className = "versions-compact-row";
 
         const mac = rel.downloads?.mac;
         const win = rel.downloads?.windows;
-        const dlMac = mac
-          ? `<a class="version-dl" href="${mac}" download>Télécharger macOS</a>`
-          : `<span class="version-dl version-dl--muted">macOS — non publié</span>`;
-        const dlWin = win
-          ? `<a class="version-dl" href="${win}" download>Télécharger Windows</a>`
-          : `<span class="version-dl version-dl--muted">Windows — bientôt</span>`;
+        const links = [];
+        if (mac) {
+          links.push(`<a href="${mac}" download>Mac</a>`);
+        }
+        if (win) {
+          links.push(`<a href="${win}" download>Win</a>`);
+        }
+        const linksHtml = links.length
+          ? links.join(" · ")
+          : '<span class="muted">—</span>';
+
+        const note = rel.title || (rel.highlights && rel.highlights[0]) || "";
+        const noteHtml = note
+          ? `<span class="versions-compact-note" title="${note.replace(/"/g, "&quot;")}">${note}</span>`
+          : "";
 
         li.innerHTML = `
-          <div class="version-card-header">
-            <h3>${rel.title || "Version " + rel.version}</h3>
-            <span class="version-tag">v${rel.version}</span>
-            <span class="version-date">${formatDate(rel.date || "")}</span>
-            ${isLatest ? '<span class="version-badge">Actuelle</span>' : ""}
-          </div>
-          <ul class="version-highlights">
-            ${(rel.highlights || [])
-              .map((h) => `<li>${h}</li>`)
-              .join("")}
-          </ul>
-          <div class="version-downloads">${dlMac}${dlWin}</div>
+          <span class="versions-compact-ver">v${rel.version}${isLatest ? '<span class="versions-compact-badge">actuelle</span>' : ""}</span>
+          <span class="versions-compact-date">${formatDate(rel.date || "")}</span>
+          ${noteHtml}
+          <span class="versions-compact-links">${linksHtml}</span>
         `;
         list.appendChild(li);
       });

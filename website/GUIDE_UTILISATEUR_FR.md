@@ -57,8 +57,8 @@ Ce logiciel anonymise localement les données personnelles dans vos textes (noms
 **Mes données partent-elles sur Internet ?**  
 Non, pendant l’anonymisation. Seul le **premier téléchargement** du modèle utilise Internet.
 
-**Puis-je traiter des dossiers Word (.docx) ?**  
-Pour l’instant, ouvrez le document dans Word, copiez le texte, collez-le dans l’application, puis enregistrez le résultat. L’ouverture directe de `.docx` pourra être ajoutée ultérieurement.
+**Puis-je traiter des fichiers Word (.docx) ?**  
+Oui : ouvrez le `.docx`, anonymisez, puis enregistrez le fichier Word généré (mise en forme conservée).
 
 **L’outil garantit-il la conformité RGPD ?**  
 Non. C’est une **aide** à la réduction des données personnelles. Une relecture humaine reste recommandée pour les dossiers sensibles.

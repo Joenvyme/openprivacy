@@ -19,7 +19,7 @@ fi
 source .venv/bin/activate
 
 pip install --upgrade pip
-pip install -e .
+pip install -e ".[desktop]"
 pip install pyinstaller
 
 echo "==> Compilation PyInstaller (peut prendre 10–20 min)…"

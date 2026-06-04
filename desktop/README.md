@@ -1,6 +1,6 @@
 # OpenPrivacy — application de bureau
 
-Interface graphique pour utilisateurs **sans compétences techniques**. Projet open source de la famille **OpenCaslaw**.
+Interface graphique pour utilisateurs **sans compétences techniques**.
 
 | Document | Public |
 |----------|--------|

@@ -18,7 +18,7 @@ if (-not (Test-Path ".venv")) {
 & ".\.venv\Scripts\Activate.ps1"
 
 pip install --upgrade pip
-pip install -e .
+pip install -e ".[desktop]"
 pip install pyinstaller
 
 Write-Host "==> Compilation PyInstaller (10-20 min)..."

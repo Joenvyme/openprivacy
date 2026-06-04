@@ -8,6 +8,7 @@ du texte ou ouvrir un fichier, puis anonymiser.
 from __future__ import annotations
 
 import queue
+import shutil
 import sys
 import threading
 import tkinter as tk
@@ -15,8 +16,22 @@ from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
 try:
+    from .docx_redact import (
+        default_output_path,
+        docx_available,
+        extract_plaintext,
+        is_docx_path,
+        redact_docx_file,
+    )
     from .ui_theme import apply_app_theme, build_header, configure_editor_text
 except ImportError:
+    from docx_redact import (
+        default_output_path,
+        docx_available,
+        extract_plaintext,
+        is_docx_path,
+        redact_docx_file,
+    )
     from ui_theme import apply_app_theme, build_header, configure_editor_text
 
 APP_TITLE = "OpenPrivacy"
@@ -24,8 +39,16 @@ APP_VERSION = "1.1.0"
 WINDOW_MIN_WIDTH = 960
 WINDOW_MIN_HEIGHT = 640
 
-TEXT_FILE_TYPES = [
+FILE_TYPES = [
+    ("Word et texte", "*.docx *.txt *.md *.rtf *.log"),
+    ("Microsoft Word", "*.docx"),
     ("Documents texte", "*.txt *.md *.rtf *.log"),
+    ("Tous les fichiers", "*.*"),
+]
+
+DOCX_SAVE_TYPES = [
+    ("Document Word", "*.docx"),
+    ("Document texte", "*.txt"),
     ("Tous les fichiers", "*.*"),
 ]
 
@@ -51,6 +74,8 @@ class PrivacyFilterApp:
         self._ready = False
         self._load_queue: queue.Queue = queue.Queue()
         self._current_file: Path | None = None
+        self._input_mode: str = "text"  # "text" | "docx"
+        self._docx_output_path: Path | None = None
 
         self._build_ui()
         self._poll_load_queue()
@@ -64,8 +89,8 @@ class PrivacyFilterApp:
             title=APP_TITLE,
             subtitle=(
                 "Anonymisez des données personnelles sur votre ordinateur. "
-                "Seule la clé d'activation est vérifiée en ligne — jamais le contenu "
-                "de vos documents."
+                "Fichiers Word (.docx) : mise en forme préservée. "
+                "Seule la clé d’activation est vérifiée en ligne."
             ),
             palette=p,
         ).pack(fill=tk.X)
@@ -108,10 +133,13 @@ class PrivacyFilterApp:
         panes.pack(fill=tk.BOTH, expand=True, padx=20, pady=(4, 12))
 
         left = ttk.LabelFrame(
-            panes, text="  Texte original  ", style="Card.TLabelframe", padding=4
+            panes, text="  Document source (aperçu)  ", style="Card.TLabelframe", padding=4
         )
         right = ttk.LabelFrame(
-            panes, text="  Texte anonymisé  ", style="Card.TLabelframe", padding=4
+            panes,
+            text="  Résultat (aperçu texte)  ",
+            style="Card.TLabelframe",
+            padding=4,
         )
         panes.add(left, weight=1)
         panes.add(right, weight=1)
@@ -154,7 +182,8 @@ class PrivacyFilterApp:
             self.root,
             text=(
                 f"Version {APP_VERSION} · Traitement 100 % local · "
-                "Premier lancement : téléchargement du modèle (~3 Go, une seule fois)"
+                "Word : styles et tableaux conservés · "
+                "Zones de texte flottantes non prises en charge"
             ),
             style="Footer.TLabel",
             padding=(20, 0, 20, 14),
@@ -165,6 +194,10 @@ class PrivacyFilterApp:
         self.btn_open.configure(state=state)
         self.btn_save.configure(state=state)
         self.btn_redact.configure(state=state)
+
+    def _reset_docx_state(self) -> None:
+        self._input_mode = "text"
+        self._docx_output_path = None
 
     def _start_model_load(self) -> None:
         thread = threading.Thread(target=self._load_model_worker, daemon=True)
@@ -197,9 +230,7 @@ class PrivacyFilterApp:
             device = msg[2]
             self._ready = True
             self._set_controls_enabled(True)
-            self.status_var.set(
-                f"Prêt · {device.upper()} · modèle chargé"
-            )
+            self.status_var.set(f"Prêt · {device.upper()} · modèle chargé")
         else:
             self.status_var.set("Erreur au chargement du moteur")
             messagebox.showerror(
@@ -213,28 +244,90 @@ class PrivacyFilterApp:
     def _open_file(self) -> None:
         path = filedialog.askopenfilename(
             title="Ouvrir un document",
-            filetypes=TEXT_FILE_TYPES,
+            filetypes=FILE_TYPES,
         )
         if not path:
             return
+
+        file_path = Path(path)
+        suffix = file_path.suffix.lower()
+
+        if suffix == ".doc":
+            messagebox.showerror(
+                "Format non supporté",
+                "Les anciens fichiers .doc ne sont pas pris en charge.\n\n"
+                "Ouvrez le document dans Word et enregistrez-le au format .docx.",
+            )
+            return
+
+        if is_docx_path(file_path):
+            if not docx_available():
+                messagebox.showerror(
+                    "Word indisponible",
+                    "Le module Word n’est pas installé dans cette build.",
+                )
+                return
+            try:
+                content = extract_plaintext(file_path)
+            except Exception as exc:
+                messagebox.showerror(
+                    "Erreur",
+                    f"Impossible de lire le fichier Word :\n{exc}",
+                )
+                return
+            self._input_mode = "docx"
+            self._docx_output_path = None
+            self._current_file = file_path
+            self.input_text.delete("1.0", tk.END)
+            self.input_text.insert("1.0", content)
+            self._set_output_text(
+                "Cliquez sur « Anonymiser » pour générer le fichier Word anonymisé "
+                "(mise en forme conservée)."
+            )
+            self.status_var.set(f"Word ouvert : {file_path.name}")
+            return
+
         try:
-            content = Path(path).read_text(encoding="utf-8")
+            content = file_path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
-            content = Path(path).read_text(encoding="latin-1")
+            content = file_path.read_text(encoding="latin-1")
         except OSError as exc:
             messagebox.showerror("Erreur", f"Impossible d’ouvrir le fichier :\n{exc}")
             return
 
-        self._current_file = Path(path)
+        self._reset_docx_state()
+        self._current_file = file_path
         self.input_text.delete("1.0", tk.END)
         self.input_text.insert("1.0", content)
-        self.status_var.set(f"Fichier ouvert : {self._current_file.name}")
+        self._set_output_text("")
+        self.status_var.set(f"Fichier ouvert : {file_path.name}")
 
     def _save_file(self) -> None:
+        if self._input_mode == "docx" and self._docx_output_path:
+            default_name = self._docx_output_path.name
+            path = filedialog.asksaveasfilename(
+                title="Enregistrer le document Word anonymisé",
+                defaultextension=".docx",
+                initialfile=default_name,
+                initialdir=str(self._docx_output_path.parent),
+                filetypes=DOCX_SAVE_TYPES,
+            )
+            if not path:
+                return
+            dest = Path(path)
+            try:
+                if dest.resolve() != self._docx_output_path.resolve():
+                    shutil.copy2(self._docx_output_path, dest)
+            except OSError as exc:
+                messagebox.showerror("Erreur", f"Impossible d’enregistrer :\n{exc}")
+                return
+            self.status_var.set(f"Enregistré : {dest.name}")
+            messagebox.showinfo("Enregistré", f"Document Word enregistré :\n{dest}")
+            return
+
         default_name = "document_anonymise.txt"
         if self._current_file:
-            stem = self._current_file.stem
-            default_name = f"{stem}_anonymise.txt"
+            default_name = f"{self._current_file.stem}_anonymise.txt"
 
         path = filedialog.asksaveasfilename(
             title="Enregistrer le texte anonymisé",
@@ -278,6 +371,7 @@ class PrivacyFilterApp:
         self.input_text.delete("1.0", tk.END)
         self._set_output_text("")
         self._current_file = None
+        self._reset_docx_state()
         self.status_var.set("Texte effacé")
 
     def _run_redaction(self) -> None:
@@ -286,6 +380,16 @@ class PrivacyFilterApp:
                 "Patientez",
                 "Le moteur se charge encore. Réessayez dans quelques instants.",
             )
+            return
+
+        if self._input_mode == "docx":
+            if not self._current_file or not is_docx_path(self._current_file):
+                messagebox.showwarning(
+                    "Document Word",
+                    "Ouvrez un fichier .docx avant d’anonymiser.",
+                )
+                return
+            self._run_docx_redaction()
             return
 
         text = self._get_input_text()
@@ -311,6 +415,30 @@ class PrivacyFilterApp:
         threading.Thread(target=worker, daemon=True).start()
         self.root.after(100, self._poll_redaction_queue)
 
+    def _run_docx_redaction(self) -> None:
+        assert self._current_file is not None
+        out_path = default_output_path(self._current_file)
+
+        self._set_controls_enabled(False)
+        self.status_var.set("Anonymisation du document Word…")
+        self.progress.pack(side=tk.RIGHT)
+        self.progress.start(10)
+
+        def worker() -> None:
+            try:
+                stats = redact_docx_file(
+                    self._current_file,
+                    out_path,
+                    self._redactor.redact,
+                )
+                preview = extract_plaintext(out_path)
+                self._load_queue.put(("docx_ok", out_path, preview, stats))
+            except Exception as exc:
+                self._load_queue.put(("redact_error", str(exc)))
+
+        threading.Thread(target=worker, daemon=True).start()
+        self.root.after(100, self._poll_redaction_queue)
+
     def _poll_redaction_queue(self) -> None:
         try:
             msg = self._load_queue.get_nowait()
@@ -325,6 +453,23 @@ class PrivacyFilterApp:
         if msg[0] == "redact_ok":
             self._set_output_text(msg[1])
             self.status_var.set("Anonymisation terminée")
+        elif msg[0] == "docx_ok":
+            out_path, preview, stats = msg[1], msg[2], msg[3]
+            self._docx_output_path = out_path
+            header = (
+                f"Document Word anonymisé créé :\n{out_path}\n\n"
+                f"Paragraphes modifiés : {stats.paragraphs_changed} "
+                f"sur {stats.paragraphs_processed}.\n\n"
+                "Utilisez « Enregistrer le résultat… » pour le copier ailleurs.\n"
+                "— Aperçu du texte —\n\n"
+            )
+            self._set_output_text(header + preview)
+            self.status_var.set(f"Word anonymisé : {out_path.name}")
+            messagebox.showinfo(
+                "Document prêt",
+                f"Le fichier a été enregistré à côté de l’original :\n\n{out_path}\n\n"
+                f"{stats.paragraphs_changed} paragraphe(s) modifié(s).",
+            )
         else:
             self.status_var.set("Erreur lors de l’anonymisation")
             messagebox.showerror(

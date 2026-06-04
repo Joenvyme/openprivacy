@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="OpenPrivacy — anonymisez localement les données personnelles. Projet open source de la famille OpenCaslaw. Mac et Windows."
+      content="OpenPrivacy — anonymisez localement les données personnelles. Mac et Windows."
     />
     <title>OpenPrivacy — Anonymisation locale</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -24,7 +24,6 @@
           <a href="#fonctionnement">Fonctionnement</a>
           <a href="#acces">Accès gratuit</a>
           <a href="#telecharger">Télécharger</a>
-          <a href="#versions">Versions</a>
           <a href="#faq">FAQ</a>
         </nav>
       </div>
@@ -34,7 +33,7 @@
       <section class="hero">
         <div class="wrap hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow">Open source · OpenCaslaw · 100 % local</p>
+            <p class="eyebrow">Open source · 100 % local</p>
             <h1>
               OpenPrivacy protège les données personnelles de vos dossiers,
               <em>sans les envoyer sur Internet</em>
@@ -42,7 +41,7 @@
             <p class="lead">
               Application simple pour avocats et professions réglementées :
               détectez et anonymisez noms, coordonnées, dates et informations
-              sensibles — dans la lignée du projet open source OpenCaslaw.
+              sensibles — sur votre poste, sans cloud.
             </p>
             <div class="hero-cta">
               <a class="btn btn-primary" href="#acces">Obtenir une clé gratuite</a>
@@ -109,11 +108,11 @@
             </article>
             <article class="card">
               <div class="card-icon" aria-hidden="true">📄</div>
-              <h3>Fichiers texte</h3>
+              <h3>Word et texte</h3>
               <p>
-                Ouvrez ou enregistrez des fichiers <code>.txt</code>,
-                <code>.md</code> et autres formats texte. Copier-coller depuis
-                Word fonctionne aussi.
+                Ouvrez des fichiers <code>.docx</code> : la mise en forme est
+                conservée dans le document anonymisé. Formats texte
+                <code>.txt</code>, <code>.md</code>, etc.
               </p>
             </article>
           </div>
@@ -261,17 +260,14 @@
         </div>
       </section>
 
-      <section id="versions" class="section versions">
+      <section id="versions" class="section versions section--compact">
         <div class="wrap">
-          <h2>Historique des versions</h2>
-          <p class="section-intro">
-            Téléchargements et notes de chaque release. La version la plus récente
-            est proposée en haut de la page
-            <a href="#telecharger">Télécharger</a>.
-          </p>
-          <ol id="versions-list" class="versions-list" aria-label="Liste des versions"></ol>
-          <p id="versions-loading" class="versions-loading">Chargement…</p>
-          <p id="versions-error" class="versions-error" hidden></p>
+          <details class="versions-disclosure">
+            <summary>Versions publiées</summary>
+            <ul id="versions-list" class="versions-compact" aria-label="Liste des versions"></ul>
+            <p id="versions-loading" class="versions-meta">Chargement…</p>
+            <p id="versions-error" class="versions-meta versions-meta--error" hidden></p>
+          </details>
         </div>
       </section>
 
@@ -315,8 +311,11 @@
           <details>
             <summary>Puis-je utiliser des fichiers Word ?</summary>
             <p>
-              Ouvrez le document dans Word, copiez le texte dans l’application,
-              anonymisez, puis collez ou enregistrez le résultat.
+              Oui, au format <strong>.docx</strong> : ouvrez le fichier dans
+              l’application, cliquez <strong>Anonymiser</strong>, puis
+              enregistrez le document <code>Nom_anonymise.docx</code> (styles,
+              tableaux et en-têtes préservés). Les fichiers <code>.doc</code>
+              anciens doivent être convertis en .docx dans Word.
             </p>
           </details>
           <details>
@@ -326,8 +325,8 @@
               <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
                 >openai/privacy-filter</a
               >
-              (licence Apache 2.0). OpenPrivacy est un projet open source de la
-              famille <strong>OpenCaslaw</strong>, empaqueté pour un usage en cabinet.
+              (licence Apache 2.0). OpenPrivacy en est une distribution simplifiée
+              pour un usage en cabinet.
             </p>
           </details>
         </div>
@@ -348,8 +347,8 @@
     <footer class="site-footer">
       <div class="wrap footer-inner">
         <p>
-          <strong>OpenPrivacy</strong> · Projet open source
-          <a href="https://github.com/opencaslaw" rel="noopener">OpenCaslaw</a>
+          <strong>OpenPrivacy</strong> ·
+          <a href="https://github.com/Joenvyme/openprivacy" rel="noopener">Code source</a>
           · Moteur
           <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
             >OpenAI Privacy Filter</a
