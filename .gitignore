@@ -8,4 +8,7 @@ uv.lock
 local_scripts/
 .DS_Store
 web_exports.jsonl
+website/downloads/*.zip
+dist/
+build/
 .vercel

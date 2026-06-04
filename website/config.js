@@ -9,11 +9,11 @@ window.SITE_CONFIG = {
   // downloadWindows:
   //   "https://github.com/VOTRE_ORG/openprivacy/releases/latest/download/OpenPrivacy-windows.zip",
 
-  downloadMac: "downloads/OpenPrivacy-mac.zip",
+  downloadMac:
+    "https://github.com/Joenvyme/openprivacy/releases/download/v1.0.0/OpenPrivacy-mac.zip",
   downloadWindows: "downloads/OpenPrivacy-windows.zip",
 
-  // Lien optionnel vers la page des releases
-  releasesPage: "",
+  releasesPage: "https://github.com/Joenvyme/openprivacy/releases",
 
   // E-mail ou page de contact (affiché si renseigné)
   contactUrl: "",
