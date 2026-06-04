@@ -19,6 +19,7 @@ dependencies = [
 
 [project.scripts]
 opf = "opf.__main__:main"
+filtre-confidentialite = "desktop.app_gui:main"
 
 [tool.setuptools.packages.find]
 include = ["opf*"]

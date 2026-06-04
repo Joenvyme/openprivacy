@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Anonymisez localement les données personnelles dans vos documents. Application gratuite pour Mac et Windows, sans envoi de données vers le cloud."
+    />
+    <title>Filtre de confidentialité — Anonymisation locale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="logo" href="#">Filtre de confidentialité</a>
+        <nav class="nav">
+          <a href="#fonctionnement">Fonctionnement</a>
+          <a href="#telecharger">Télécharger</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Traitement 100 % sur votre ordinateur</p>
+            <h1>
+              Protégez les données personnelles de vos dossiers,
+              <em>sans les envoyer sur Internet</em>
+            </h1>
+            <p class="lead">
+              Une application simple pour avocats et professions réglementées :
+              détectez et anonymisez noms, coordonnées, dates et informations
+              sensibles dans vos textes, en local.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#telecharger">Télécharger gratuitement</a>
+              <a class="btn btn-ghost" href="GUIDE_UTILISATEUR_FR.md">Guide utilisateur</a>
+            </div>
+            <ul class="hero-badges">
+              <li>Mac &amp; Windows</li>
+              <li>Aucun compte requis</li>
+              <li>Basé sur <a href="https://huggingface.co/openai/privacy-filter" rel="noopener">OpenAI Privacy Filter</a></li>
+            </ul>
+          </div>
+          <div class="hero-demo" aria-hidden="true">
+            <div class="demo-window">
+              <div class="demo-titlebar">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="demo-body">
+                <div class="demo-pane demo-before">
+                  <span class="demo-label">Avant</span>
+                  <p>
+                    M<sup>e</sup> Martin, 12 rue de la Paix, 75002 Paris.<br />
+                    Contact : <mark class="pii">martin@cabinet-avocats.fr</mark>,
+                    tél. <mark class="pii">06 12 34 56 78</mark>.
+                  </p>
+                </div>
+                <div class="demo-arrow">→</div>
+                <div class="demo-pane demo-after">
+                  <span class="demo-label">Après</span>
+                  <p>
+                    M<sup>e</sup> &lt;PRIVATE_PERSON&gt;, &lt;PRIVATE_ADDRESS&gt;.<br />
+                    Contact : &lt;PRIVATE_EMAIL&gt;, tél. &lt;PRIVATE_PHONE&gt;.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="fonctionnement" class="section features">
+        <div class="wrap">
+          <h2>Pensé pour des utilisateurs non techniques</h2>
+          <p class="section-intro">
+            Pas de ligne de commande, pas de configuration complexe. Ouvrez
+            l’application, collez votre texte ou ouvrez un fichier, cliquez sur
+            <strong>Anonymiser</strong>.
+          </p>
+          <div class="cards">
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">🔒</div>
+              <h3>Local et confidentiel</h3>
+              <p>
+                L’anonymisation s’exécute sur votre machine. Aucun envoi de vos
+                dossiers vers un serveur pendant le traitement.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">⚡</div>
+              <h3>Rapide au quotidien</h3>
+              <p>
+                Au premier lancement, le moteur se télécharge une fois (~3 Go).
+                Ensuite, l’outil est prêt en quelques secondes.
+              </p>
+            </article>
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">📄</div>
+              <h3>Fichiers texte</h3>
+              <p>
+                Ouvrez ou enregistrez des fichiers <code>.txt</code>,
+                <code>.md</code> et autres formats texte. Copier-coller depuis
+                Word fonctionne aussi.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section types">
+        <div class="wrap types-inner">
+          <h2>Ce que l’outil détecte</h2>
+          <ul class="tag-list">
+            <li>Noms de personnes</li>
+            <li>Adresses</li>
+            <li>E-mails</li>
+            <li>Téléphones</li>
+            <li>URLs</li>
+            <li>Dates</li>
+            <li>Numéros de compte</li>
+            <li>Secrets / identifiants</li>
+          </ul>
+          <p class="disclaimer">
+            Outil d’aide à la réduction des données personnelles — pas un
+            substitut à une relecture humaine ni une garantie de conformité
+            RGPD. Voir les
+            <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
+              >limites du modèle</a
+            >.
+          </p>
+        </div>
+      </section>
+
+      <section id="telecharger" class="section download">
+        <div class="wrap download-inner">
+          <h2>Télécharger l’application</h2>
+          <p class="section-intro">
+            Choisissez votre système. Extrayez le fichier zip, puis double-cliquez
+            sur l’application. Consultez le
+            <a href="GUIDE_UTILISATEUR_FR.md">guide utilisateur</a> en cas de
+            question.
+          </p>
+
+          <div class="download-grid">
+            <a
+              id="link-mac"
+              class="download-card"
+              href="downloads/FiltreConfidentialite-mac.zip"
+              download
+            >
+              <span class="os-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+                  <path
+                    d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+                  />
+                </svg>
+              </span>
+              <h3>macOS</h3>
+              <p>Apple Silicon &amp; Intel · macOS 12+</p>
+              <span class="btn btn-download">Télécharger pour Mac</span>
+              <span class="file-meta">FiltreConfidentialite-mac.zip</span>
+            </a>
+
+            <a
+              id="link-windows"
+              class="download-card"
+              href="downloads/FiltreConfidentialite-windows.zip"
+              download
+            >
+              <span class="os-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+                  <path d="M3 12V6.75l8-1v5.28H3zm0 1.5h8V19l-8-1.12V13.5zm9-7.03V11h9V4.91l-9 1.56zM12 12.5h9v7.09l-9-1.35V12.5z" />
+                </svg>
+              </span>
+              <h3>Windows</h3>
+              <p>Windows 10 et 11 (64 bits)</p>
+              <span class="btn btn-download">Télécharger pour Windows</span>
+              <span class="file-meta">FiltreConfidentialite-windows.zip</span>
+            </a>
+          </div>
+
+          <div class="requirements">
+            <h3>Prérequis</h3>
+            <ul>
+              <li><strong>Espace disque :</strong> environ 5 Go libres</li>
+              <li><strong>Premier lancement :</strong> connexion Internet (téléchargement du modèle, une fois)</li>
+              <li><strong>RAM :</strong> 8 Go recommandés</li>
+            </ul>
+          </div>
+
+          <p class="build-note">
+            Les liens pointent vers <code>website/downloads/</code>. Après
+            compilation, copiez-y vos fichiers zip ou remplacez les URLs par une
+            <a href="https://github.com" id="link-releases">release GitHub</a>.
+          </p>
+        </div>
+      </section>
+
+      <section id="faq" class="section faq">
+        <div class="wrap">
+          <h2>Questions fréquentes</h2>
+          <details>
+            <summary>Mes données sont-elles envoyées en ligne ?</summary>
+            <p>
+              Non, pendant l’anonymisation. Seul le premier téléchargement du
+              moteur utilise Internet (~3 Go), stocké ensuite sur votre
+              ordinateur.
+            </p>
+          </details>
+          <details>
+            <summary>macOS bloque l’application (« développeur non identifié »)</summary>
+            <p>
+              Clic droit sur l’application → <strong>Ouvrir</strong> → confirmer.
+              Votre service informatique peut aussi distribuer une version signée.
+            </p>
+          </details>
+          <details>
+            <summary>Puis-je utiliser des fichiers Word ?</summary>
+            <p>
+              Ouvrez le document dans Word, copiez le texte dans l’application,
+              anonymisez, puis collez ou enregistrez le résultat.
+            </p>
+          </details>
+          <details>
+            <summary>Licence et origine du moteur</summary>
+            <p>
+              Le détecteur repose sur le modèle open source
+              <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
+                >openai/privacy-filter</a
+              >
+              (licence Apache 2.0). Cette interface et l’empaquetage sont fournis
+              pour faciliter l’usage en cabinet.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section class="section cta-bottom">
+        <div class="wrap cta-bottom-inner">
+          <h2>Une question ou un déploiement en cabinet ?</h2>
+          <p>
+            Contactez l’équipe qui vous a communiqué ce lien, ou consultez la
+            documentation technique pour construire les installateurs.
+          </p>
+          <a class="btn btn-primary" href="#telecharger">Télécharger maintenant</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <p>
+          Filtre de confidentialité · Propulsé par
+          <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
+            >OpenAI Privacy Filter</a
+          >
+          ·
+          <a href="https://github.com/openai/privacy-filter" rel="noopener">Code source du modèle</a>
+        </p>
+        <p class="footer-small">
+          <a href="GUIDE_UTILISATEUR_FR.md">Guide utilisateur</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
