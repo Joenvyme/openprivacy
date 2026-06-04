@@ -1,6 +1,6 @@
-# Page web de promotion
+# OpenPrivacy — page web
 
-Site vitrine statique pour présenter le projet et proposer les téléchargements Mac / Windows.
+Site vitrine statique pour présenter **OpenPrivacy** et proposer les téléchargements Mac / Windows.
 
 ## Prévisualisation locale
 
@@ -16,8 +16,8 @@ Ouvrez [http://localhost:8080](http://localhost:8080).
 Après avoir compilé les installateurs (`scripts/build-mac.sh` et `scripts/build-windows.ps1`), copiez les zip ici :
 
 ```
-website/downloads/FiltreConfidentialite-mac.zip
-website/downloads/FiltreConfidentialite-windows.zip
+website/downloads/OpenPrivacy-mac.zip
+website/downloads/OpenPrivacy-windows.zip
 ```
 
 ## Publier en ligne
@@ -33,9 +33,9 @@ Pour les gros fichiers zip (>100 Mo), utilisez **GitHub Releases** et mettez à 
 ```javascript
 window.SITE_CONFIG = {
   downloadMac:
-    "https://github.com/VOTRE_ORG/privacy-filter/releases/latest/download/FiltreConfidentialite-mac.zip",
+    "https://github.com/VOTRE_ORG/privacy-filter/releases/latest/download/OpenPrivacy-mac.zip",
   downloadWindows:
-    "https://github.com/VOTRE_ORG/privacy-filter/releases/latest/download/FiltreConfidentialite-windows.zip",
+    "https://github.com/VOTRE_ORG/privacy-filter/releases/latest/download/OpenPrivacy-windows.zip",
   releasesPage:
     "https://github.com/VOTRE_ORG/privacy-filter/releases",
 };

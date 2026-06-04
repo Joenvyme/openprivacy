@@ -22,14 +22,14 @@ pip install -e .
 pip install pyinstaller
 
 Write-Host "==> Compilation PyInstaller (10-20 min)..."
-pyinstaller --noconfirm --clean packaging/privacy-filter.spec
+pyinstaller --noconfirm --clean packaging/openprivacy.spec
 
-$OutDir = Join-Path $Root "dist\FiltreConfidentialite"
+$OutDir = Join-Path $Root "dist\OpenPrivacy"
 if (Test-Path $OutDir) {
     Write-Host ""
     Write-Host "Application creee : $OutDir"
-    Write-Host "Lancez : $OutDir\FiltreConfidentialite.exe"
-    Write-Host "Distribuez le dossier entier (zip) aux utilisateurs."
+    Write-Host "Lancez : $OutDir\OpenPrivacy.exe"
+    Write-Host "Distribuez : Compress-Archive -> OpenPrivacy-windows.zip"
 } else {
     throw "Compilation echouee : dossier $OutDir introuvable."
 }

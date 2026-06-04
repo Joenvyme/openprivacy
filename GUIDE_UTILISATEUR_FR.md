@@ -1,4 +1,4 @@
-# Filtre de confidentialité — Guide utilisateur
+# OpenPrivacy — Guide utilisateur
 
 Ce logiciel anonymise localement les données personnelles dans vos textes (noms, e-mails, téléphones, adresses, dates, etc.). **Rien n’est envoyé sur Internet** pendant l’anonymisation : le traitement se fait sur votre ordinateur.
 
@@ -6,9 +6,9 @@ Ce logiciel anonymise localement les données personnelles dans vos textes (noms
 
 ## Installation (Mac)
 
-1. Téléchargez le fichier **`FiltreConfidentialite-mac.zip`** (fourni par votre cabinet ou votre service informatique).
+1. Téléchargez le fichier **`OpenPrivacy-mac.zip`** (fourni par votre cabinet ou votre service informatique).
 2. Double-cliquez sur le fichier `.zip` pour l’extraire.
-3. Ouvrez le dossier obtenu et **double-cliquez** sur **`FiltreConfidentialite.app`**.
+3. Ouvrez le dossier obtenu et **double-cliquez** sur **`OpenPrivacy.app`**.
 4. Si macOS affiche « développeur non identifié » :
    - Clic droit sur l’application → **Ouvrir** → confirmer **Ouvrir**.
    - Ou : **Réglages Système** → **Confidentialité et sécurité** → autoriser l’application.
@@ -23,10 +23,10 @@ Ce logiciel anonymise localement les données personnelles dans vos textes (noms
 
 ## Installation (Windows)
 
-1. Téléchargez **`FiltreConfidentialite-windows.zip`**.
-2. Clic droit → **Extraire tout…** dans un dossier (par ex. `Documents\FiltreConfidentialite`).
-3. Ouvrez le dossier **`FiltreConfidentialite`**.
-4. Double-cliquez sur **`FiltreConfidentialite.exe`**.
+1. Téléchargez **`OpenPrivacy-windows.zip`**.
+2. Clic droit → **Extraire tout…** dans un dossier (par ex. `Documents\OpenPrivacy`).
+3. Ouvrez le dossier **`OpenPrivacy`**.
+4. Double-cliquez sur **`OpenPrivacy.exe`**.
 5. Si Windows Defender affiche un avertissement : votre service informatique peut avoir signé l’application ; sinon, choisissez **Informations complémentaires** → **Exécuter quand même** (uniquement si vous faites confiance à la source du fichier).
 
 ### Premier lancement
@@ -37,7 +37,7 @@ Ce logiciel anonymise localement les données personnelles dans vos textes (noms
 
 ## Utilisation quotidienne
 
-1. Lancez l’application (icône **Filtre de confidentialité**).
+1. Lancez l’application (icône **OpenPrivacy**).
 2. **Collez** votre texte dans la zone de gauche, ou cliquez **Ouvrir un fichier…** (`.txt`, `.md`, etc.).
 3. Cliquez **Anonymiser**.
 4. Le résultat apparaît à droite. Cliquez **Enregistrer le résultat…** pour sauvegarder un nouveau fichier.

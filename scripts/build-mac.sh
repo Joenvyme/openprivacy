@@ -23,14 +23,14 @@ pip install -e .
 pip install pyinstaller
 
 echo "==> Compilation PyInstaller (peut prendre 10–20 min)…"
-pyinstaller --noconfirm --clean packaging/privacy-filter.spec
+pyinstaller --noconfirm --clean packaging/openprivacy.spec
 
-APP="dist/FiltreConfidentialite.app"
+APP="dist/OpenPrivacy.app"
 if [[ -d "$APP" ]]; then
   echo ""
   echo "✓ Application créée : $ROOT/$APP"
   echo "  Pour tester : open \"$APP\""
-  echo "  Pour distribuer : compressez l'app (clic droit > Compresser) et envoyez le .zip"
+  echo "  Pour distribuer : zip -r OpenPrivacy-mac.zip OpenPrivacy.app"
 else
   echo "Erreur : $APP introuvable après la compilation." >&2
   exit 1

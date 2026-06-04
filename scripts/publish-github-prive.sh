@@ -17,7 +17,7 @@ if ! gh auth status &>/dev/null; then
   exit 1
 fi
 
-REPO_NAME="${1:-filtre-confidentialite}"
+REPO_NAME="${1:-openprivacy}"
 VISIBILITY="--private"
 
 echo "==> Création du dépôt privé : $REPO_NAME"
@@ -25,7 +25,7 @@ if gh repo view "$REPO_NAME" &>/dev/null; then
   echo "    Le dépôt existe déjà sur votre compte."
 else
   gh repo create "$REPO_NAME" $VISIBILITY \
-    --description "Filtre de confidentialité — anonymisation locale (interface + site vitrine)" \
+    --description "OpenPrivacy — anonymisation locale des données personnelles (OpenCaslaw)" \
     --source=. --remote=origin --push
   echo "==> Dépôt créé et code poussé."
   exit 0

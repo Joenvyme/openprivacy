@@ -5,12 +5,12 @@
 window.SITE_CONFIG = {
   // Exemple GitHub Releases (décommentez et adaptez) :
   // downloadMac:
-  //   "https://github.com/VOTRE_ORG/privacy-filter/releases/latest/download/FiltreConfidentialite-mac.zip",
+  //   "https://github.com/VOTRE_ORG/openprivacy/releases/latest/download/OpenPrivacy-mac.zip",
   // downloadWindows:
-  //   "https://github.com/VOTRE_ORG/privacy-filter/releases/latest/download/FiltreConfidentialite-windows.zip",
+  //   "https://github.com/VOTRE_ORG/openprivacy/releases/latest/download/OpenPrivacy-windows.zip",
 
-  downloadMac: "downloads/FiltreConfidentialite-mac.zip",
-  downloadWindows: "downloads/FiltreConfidentialite-windows.zip",
+  downloadMac: "downloads/OpenPrivacy-mac.zip",
+  downloadWindows: "downloads/OpenPrivacy-windows.zip",
 
   // Lien optionnel vers la page des releases
   releasesPage: "",

@@ -9,7 +9,7 @@ Ce document explique comment **fabriquer** l’installateur pour des utilisateur
 | Composant | Rôle |
 |-----------|------|
 | `desktop/app_gui.py` | Interface graphique en français (tkinter) |
-| `packaging/privacy-filter.spec` | Configuration PyInstaller |
+| `packaging/openprivacy.spec` | Configuration PyInstaller |
 | `scripts/build-mac.sh` | Build `.app` sur Mac |
 | `scripts/build-windows.ps1` | Build `.exe` sur Windows |
 
@@ -33,16 +33,16 @@ chmod +x scripts/build-mac.sh scripts/run-gui-dev.sh
 ./scripts/build-mac.sh
 ```
 
-Résultat : `dist/FiltreConfidentialite.app`
+Résultat : `dist/OpenPrivacy.app`
 
 Distribution :
 
 ```bash
 cd dist
-zip -r FiltreConfidentialite-mac.zip FiltreConfidentialite.app
+zip -r OpenPrivacy-mac.zip OpenPrivacy.app
 ```
 
-Envoyez **`FiltreConfidentialite-mac.zip`** + **`GUIDE_UTILISATEUR_FR.md`**.
+Envoyez **`OpenPrivacy-mac.zip`** + **`GUIDE_UTILISATEUR_FR.md`**.
 
 ### Signature macOS (recommandé en production)
 
@@ -51,7 +51,7 @@ Pour éviter l’avertissement « développeur non identifié », signez avec un
 ```bash
 codesign --deep --force --verify --verbose \
   --sign "Developer ID Application: Votre Société" \
-  dist/FiltreConfidentialite.app
+  dist/OpenPrivacy.app
 ```
 
 Puis notarisez via `xcrun notarytool` (compte Apple Developer requis).
@@ -68,12 +68,12 @@ Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\build-windows.ps1
 ```
 
-Résultat : dossier `dist\FiltreConfidentialite\` contenant `FiltreConfidentialite.exe`.
+Résultat : dossier `dist\OpenPrivacy\` contenant `OpenPrivacy.exe`.
 
 Distribution : compressez tout le dossier :
 
 ```powershell
-Compress-Archive -Path dist\FiltreConfidentialite -DestinationPath FiltreConfidentialite-windows.zip
+Compress-Archive -Path dist\OpenPrivacy -DestinationPath OpenPrivacy-windows.zip
 ```
 
 ### Signature Windows (recommandé)
@@ -101,7 +101,7 @@ Signez l’exe avec un certificat de code signing (Authenticode) pour limiter le
 ## Publier sur GitHub Releases (optionnel)
 
 1. Créez une release (ex. `v1.0.0`).
-2. Uploadez `FiltreConfidentialite-mac.zip` et `FiltreConfidentialite-windows.zip`.
+2. Uploadez `OpenPrivacy-mac.zip` et `OpenPrivacy-windows.zip`.
 3. Joignez `GUIDE_UTILISATEUR_FR.md`.
 4. Lien de téléchargement simple pour les utilisateurs finaux.
 
@@ -121,6 +121,6 @@ Le premier lancement peut prendre **10–30 minutes** (téléchargement). Préve
 
 ## Personnalisation
 
-- Nom affiché : `desktop/app_gui.py` → `APP_TITLE`
-- Identifiant Mac : `packaging/privacy-filter.spec` → `bundle_identifier`
+- Nom affiché : `desktop/app_gui.py` → `APP_TITLE` (OpenPrivacy)
+- Identifiant Mac : `packaging/openprivacy.spec` → `bundle_identifier`
 - Icône : ajoutez `packaging/icon.icns` (Mac) / `packaging/icon.ico` (Windows) et référencez-les dans le `.spec`

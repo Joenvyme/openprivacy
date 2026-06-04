@@ -1,6 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
-# PyInstaller — application de bureau « Filtre de confidentialité »
-# Usage : pyinstaller packaging/privacy-filter.spec (depuis la racine du projet)
+# PyInstaller — application de bureau OpenPrivacy
+# Usage : pyinstaller packaging/openprivacy.spec (depuis la racine du projet)
 
 import sys
 from pathlib import Path
@@ -66,7 +66,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name="FiltreConfidentialite",
+    name="OpenPrivacy",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -87,21 +87,21 @@ coll = COLLECT(
     strip=False,
     upx=False,
     upx_exclude=[],
-    name="FiltreConfidentialite",
+    name="OpenPrivacy",
 )
 
 if sys.platform == "darwin":
     app = BUNDLE(
         coll,
-        name="FiltreConfidentialite.app",
+        name="OpenPrivacy.app",
         icon=None,
-        bundle_identifier="fr.joenvyme.privacyfilter",
+        bundle_identifier="com.opencaslaw.openprivacy",
         info_plist={
-            "CFBundleName": "Filtre de confidentialité",
-            "CFBundleDisplayName": "Filtre de confidentialité",
+            "CFBundleName": "OpenPrivacy",
+            "CFBundleDisplayName": "OpenPrivacy",
             "CFBundleVersion": "1.0.0",
             "CFBundleShortVersionString": "1.0.0",
             "NSHighResolutionCapable": True,
-            "NSHumanReadableCopyright": "OpenAI Privacy Filter (Apache 2.0)",
+            "NSHumanReadableCopyright": "OpenPrivacy · OpenAI Privacy Filter (Apache 2.0)",
         },
     )

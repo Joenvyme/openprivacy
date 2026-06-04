@@ -1,5 +1,5 @@
 """
-Interface graphique locale — Filtre de confidentialité (OpenAI Privacy Filter).
+Interface graphique locale — OpenPrivacy (OpenAI Privacy Filter).
 
 Conçue pour des utilisateurs sans compétences techniques : double-clic, coller
 du texte ou ouvrir un fichier, puis anonymiser.
@@ -14,7 +14,7 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
-APP_TITLE = "Filtre de confidentialité"
+APP_TITLE = "OpenPrivacy"
 APP_VERSION = "1.0"
 WINDOW_MIN_WIDTH = 900
 WINDOW_MIN_HEIGHT = 600
