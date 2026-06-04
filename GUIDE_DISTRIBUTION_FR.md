@@ -42,7 +42,7 @@ cd dist
 zip -r OpenPrivacy-mac.zip OpenPrivacy.app
 ```
 
-Envoyez **`OpenPrivacy-mac.zip`** + **`GUIDE_UTILISATEUR_FR.md`**.
+Envoyez **`OpenPrivacy-mac.zip`** + **`GUIDE_UTILISATEUR_FR.pdf`** (généré via `./scripts/build-guide-pdf.py`).
 
 ### Signature macOS (recommandé en production)
 
@@ -102,7 +102,7 @@ Signez l’exe avec un certificat de code signing (Authenticode) pour limiter le
 
 1. Créez une release (ex. `v1.0.0`).
 2. Uploadez `OpenPrivacy-mac.zip` et `OpenPrivacy-windows.zip`.
-3. Joignez `GUIDE_UTILISATEUR_FR.md`.
+3. Joignez `GUIDE_UTILISATEUR_FR.pdf`.
 4. Lien de téléchargement simple pour les utilisateurs finaux.
 
 ---

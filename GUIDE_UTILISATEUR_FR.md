@@ -38,15 +38,15 @@ Ce logiciel anonymise localement les données personnelles dans vos textes (noms
 ## Utilisation quotidienne
 
 1. Lancez l’application (icône **OpenPrivacy**).
-2. **Collez** votre texte dans la zone de gauche, ou cliquez **Ouvrir un fichier…** (`.txt`, `.md`, etc.).
+2. **Collez** votre texte dans la zone de gauche, ou cliquez **Ouvrir un fichier…** (`.txt`, `.md`, `.docx`, etc.).
 3. Cliquez **Anonymiser**.
-4. Le résultat apparaît à droite. Cliquez **Enregistrer le résultat…** pour sauvegarder un nouveau fichier.
+4. Pour un fichier Word : le document **`Nom_anonymise.docx`** est créé à côté de l’original. Pour du texte : **Enregistrer le résultat…**.
 
 ### Exemple
 
 | Avant | Après |
 |-------|--------|
-| M. Dupont habite au 12 rue de la Paix, Paris. Contact : dupont@cabinet.fr | M. \<PRIVATE_PERSON\> habite au \<PRIVATE_ADDRESS\>. Contact : \<PRIVATE_EMAIL\> |
+| Me Dupont, rue du Rhône 14, 1204 Genève. Contact : dupont@cabinet-ge.ch | Me \<PRIVATE_PERSON\>, \<PRIVATE_ADDRESS\>. Contact : \<PRIVATE_EMAIL\> |
 
 *(Les libellés exacts peuvent varier selon le type de donnée détectée.)*
 

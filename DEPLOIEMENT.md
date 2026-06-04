@@ -40,3 +40,17 @@ Crée `https://github.com/VOTRE_COMPTE/openprivacy` (privé).
 | Windows | `OpenPrivacy-windows.zip` (contient `OpenPrivacy.exe`) |
 
 Placez les zip dans `website/downloads/` ou GitHub Releases, puis mettez à jour `website/config.js`.
+
+## Guide utilisateur (PDF)
+
+Le site propose **`website/GUIDE_UTILISATEUR_FR.pdf`** (plus simple qu’un fichier Markdown pour les utilisateurs).
+
+Après modification de `GUIDE_UTILISATEUR_FR.md` à la racine :
+
+```bash
+source .venv/bin/activate
+pip install fpdf2
+python scripts/build-guide-pdf.py
+```
+
+Puis redéployez le site (push Git ou `npx vercel deploy --prod` depuis `website/`).
