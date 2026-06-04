@@ -35,7 +35,7 @@ except ImportError:
     from ui_theme import apply_app_theme, build_header, configure_editor_text
 
 APP_TITLE = "OpenPrivacy"
-APP_VERSION = "1.1.0"
+APP_VERSION = "1.2.0"
 WINDOW_MIN_WIDTH = 960
 WINDOW_MIN_HEIGHT = 640
 
