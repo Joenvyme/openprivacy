@@ -23,7 +23,7 @@
   --chart-3: oklch(0.444 0.011 73.639);
   --chart-4: oklch(0.374 0.01 67.558);
   --chart-5: oklch(0.268 0.007 34.298);
-  --radius: 0.875rem;
+  --radius: 0.375rem;
   --sidebar: oklch(0.985 0.001 106.423);
   --sidebar-foreground: oklch(0.147 0.004 49.25);
   --sidebar-primary: oklch(0.216 0.006 56.043);
@@ -41,7 +41,6 @@
   --primary-hover: oklch(0.268 0.007 34.298);
   --shadow: 0 1px 2px oklch(0 0 0 / 0.06);
   --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -158,13 +157,22 @@ a:hover {
   padding: 1rem 0;
 }
 
-.logo {
-  font-family: var(--font-heading);
-  font-size: 1.35rem;
-  color: var(--text);
-  text-decoration: none;
+.logo,
+.title-brand {
+  font-family: var(--font-sans);
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.logo {
+  font-size: 1.125rem;
+  text-decoration: none;
+}
+
+.logo-tld {
+  color: var(--muted-foreground);
+  font-weight: 500;
 }
 
 .nav {
@@ -207,17 +215,24 @@ a:hover {
 }
 
 .hero h1 {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-family: var(--font-sans);
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.25;
   letter-spacing: -0.02em;
   margin: 0 0 1.25rem;
   color: var(--text);
 }
 
+.hero h1 .title-brand {
+  display: block;
+  font-size: clamp(1.85rem, 4.2vw, 2.5rem);
+  margin-bottom: 0.35rem;
+}
+
 .hero h1 em {
-  font-style: italic;
+  font-style: normal;
+  font-weight: 500;
   color: var(--muted-foreground);
 }
 
@@ -342,7 +357,7 @@ a:hover {
 
 .demo-pane {
   padding: 0.75rem;
-  border-radius: calc(var(--radius) - 4px);
+  border-radius: var(--radius);
   background: var(--muted);
 }
 
@@ -362,7 +377,7 @@ mark.pii {
   background: color-mix(in oklch, var(--destructive) 18%, transparent);
   color: var(--destructive);
   padding: 0 2px;
-  border-radius: 4px;
+  border-radius: var(--radius);
 }
 
 /* Sections */
@@ -379,8 +394,9 @@ h3,
 .card h3,
 .download-card h3,
 .requirements h3 {
-  font-family: var(--font-heading);
+  font-family: var(--font-sans);
   font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .section h2 {
@@ -469,7 +485,6 @@ h3,
 
 .types h2 {
   color: var(--primary-foreground);
-  font-family: var(--font-heading);
 }
 
 .tag-list {
@@ -565,7 +580,6 @@ h3,
 }
 
 .register-success-title {
-  font-family: var(--font-heading);
   font-weight: 600;
   margin: 0 0 0.5rem;
 }
@@ -583,7 +597,7 @@ h3,
   letter-spacing: 0.06em;
   padding: 0.75rem 1rem;
   background: var(--surface);
-  border-radius: 8px;
+  border-radius: var(--radius);
   margin-bottom: 1rem;
   user-select: all;
 }
@@ -674,7 +688,7 @@ h3,
   background: var(--primary);
   color: var(--primary-foreground);
   padding: 0.65rem 1.25rem;
-  border-radius: calc(var(--radius) - 4px);
+  border-radius: var(--radius);
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -900,7 +914,6 @@ h3,
 
 .cta-bottom h2 {
   color: var(--primary-foreground);
-  font-family: var(--font-heading);
 }
 
 .cta-bottom-inner p {
