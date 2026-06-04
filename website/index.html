@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -44,13 +44,31 @@
               sensibles — sur votre poste, sans cloud.
             </p>
             <div class="hero-cta">
-              <a class="btn btn-primary" href="#acces">Obtenir une clé gratuite</a>
-              <a class="btn btn-ghost" href="GUIDE_UTILISATEUR_FR.md">Guide utilisateur</a>
+              <a class="btn btn-primary" href="#acces">
+                <i data-lucide="key-round" class="icon icon-sm" aria-hidden="true"></i>
+                Obtenir une clé gratuite
+              </a>
+              <a class="btn btn-ghost" href="GUIDE_UTILISATEUR_FR.md">
+                <i data-lucide="book-open" class="icon icon-sm" aria-hidden="true"></i>
+                Guide utilisateur
+              </a>
             </div>
             <ul class="hero-badges">
-              <li>Mac &amp; Windows</li>
-              <li>Inscription e-mail · clé gratuite</li>
-              <li>Basé sur <a href="https://huggingface.co/openai/privacy-filter" rel="noopener">OpenAI Privacy Filter</a></li>
+              <li>
+                <i data-lucide="laptop" class="icon icon-sm" aria-hidden="true"></i>
+                Mac &amp; Windows
+              </li>
+              <li>
+                <i data-lucide="mail" class="icon icon-sm" aria-hidden="true"></i>
+                Inscription e-mail · clé gratuite
+              </li>
+              <li>
+                <i data-lucide="cpu" class="icon icon-sm" aria-hidden="true"></i>
+                Basé sur
+                <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
+                  >OpenAI Privacy Filter</a
+                >
+              </li>
             </ul>
           </div>
           <div class="hero-demo" aria-hidden="true">
@@ -67,7 +85,9 @@
                     tél. <mark class="pii">06 12 34 56 78</mark>.
                   </p>
                 </div>
-                <div class="demo-arrow">→</div>
+                <div class="demo-arrow" aria-hidden="true">
+                  <i data-lucide="arrow-right" class="icon"></i>
+                </div>
                 <div class="demo-pane demo-after">
                   <span class="demo-label">Après</span>
                   <p>
@@ -91,7 +111,9 @@
           </p>
           <div class="cards">
             <article class="card">
-              <div class="card-icon" aria-hidden="true">🔒</div>
+              <div class="card-icon" aria-hidden="true">
+                <i data-lucide="shield-check" class="icon icon-lg"></i>
+              </div>
               <h3>Local et confidentiel</h3>
               <p>
                 L’anonymisation s’exécute sur votre machine. Aucun envoi de vos
@@ -99,7 +121,9 @@
               </p>
             </article>
             <article class="card">
-              <div class="card-icon" aria-hidden="true">⚡</div>
+              <div class="card-icon" aria-hidden="true">
+                <i data-lucide="zap" class="icon icon-lg"></i>
+              </div>
               <h3>Rapide au quotidien</h3>
               <p>
                 Au premier lancement, le moteur se télécharge une fois (~3 Go).
@@ -107,7 +131,9 @@
               </p>
             </article>
             <article class="card">
-              <div class="card-icon" aria-hidden="true">📄</div>
+              <div class="card-icon" aria-hidden="true">
+                <i data-lucide="file-text" class="icon icon-lg"></i>
+              </div>
               <h3>Word et texte</h3>
               <p>
                 Ouvrez des fichiers <code>.docx</code> : la mise en forme est
@@ -168,9 +194,12 @@
           <div id="register-result-new" class="register-result register-result-new" hidden>
             <p class="register-success-title">Votre clé d’activation — affichée une seule fois</p>
             <p class="register-warning">
-              <strong>Important :</strong> cette clé ne sera plus visible sur ce site.
+              <i data-lucide="alert-circle" class="icon icon-sm" aria-hidden="true"></i>
+              <span
+                ><strong>Important :</strong> cette clé ne sera plus visible sur ce site.
               Enregistrez-la maintenant (gestionnaire de mots de passe, coffre-fort,
-              note sécurisée). Vous en aurez besoin pour activer l’application.
+              note sécurisée). Vous en aurez besoin pour activer l’application.</span
+              >
             </p>
             <code id="license-key-display" class="license-key"></code>
             <button type="button" id="copy-key" class="btn btn-primary">Copier la clé</button>
@@ -198,6 +227,7 @@
           </p>
 
           <p class="download-soon" id="download-notice-windows">
+            <i data-lucide="info" class="icon icon-sm" aria-hidden="true"></i>
             Installateur Windows en cours de préparation.
           </p>
 
@@ -209,15 +239,14 @@
               download
             >
               <span class="os-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
-                  <path
-                    d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
-                  />
-                </svg>
+                <i data-lucide="laptop" class="icon icon-xl"></i>
               </span>
               <h3>macOS</h3>
               <p>Apple Silicon &amp; Intel · macOS 12+</p>
-              <span class="btn btn-download">Télécharger pour Mac</span>
+              <span class="btn btn-download">
+                <i data-lucide="download" class="icon icon-sm" aria-hidden="true"></i>
+                Télécharger pour Mac
+              </span>
               <span class="file-meta" id="mac-version-meta">OpenPrivacy-mac.zip</span>
             </a>
 
@@ -227,9 +256,7 @@
               aria-disabled="true"
             >
               <span class="os-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
-                  <path d="M3 12V6.75l8-1v5.28H3zm0 1.5h8V19l-8-1.12V13.5zm9-7.03V11h9V4.91l-9 1.56zM12 12.5h9v7.09l-9-1.35V12.5z" />
-                </svg>
+                <i data-lucide="monitor" class="icon icon-xl"></i>
               </span>
               <h3>Windows</h3>
               <p>Windows 10 et 11 (64 bits)</p>
@@ -240,10 +267,22 @@
 
           <div class="requirements">
             <h3>Prérequis</h3>
-            <ul>
-              <li><strong>Espace disque :</strong> environ 5 Go libres</li>
-              <li><strong>Premier lancement :</strong> connexion Internet (téléchargement du modèle, une fois)</li>
-              <li><strong>RAM :</strong> 8 Go recommandés</li>
+            <ul class="requirements-list">
+              <li>
+                <i data-lucide="hard-drive" class="icon icon-sm" aria-hidden="true"></i>
+                <span><strong>Espace disque :</strong> environ 5 Go libres</span>
+              </li>
+              <li>
+                <i data-lucide="wifi" class="icon icon-sm" aria-hidden="true"></i>
+                <span
+                  ><strong>Premier lancement :</strong> connexion Internet (téléchargement du
+                  modèle, une fois)</span
+                >
+              </li>
+              <li>
+                <i data-lucide="gauge" class="icon icon-sm" aria-hidden="true"></i>
+                <span><strong>RAM :</strong> 8 Go recommandés</span>
+              </li>
             </ul>
           </div>
 
@@ -360,7 +399,13 @@
       </div>
     </footer>
 
+    <script src="https://unpkg.com/lucide@0.487.0/dist/umd/lucide.min.js"></script>
     <script src="config.js"></script>
     <script src="main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) lucide.createIcons({ attrs: { "stroke-width": 1.75 } });
+      });
+    </script>
   </body>
 </html>
