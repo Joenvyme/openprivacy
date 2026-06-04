@@ -5,7 +5,6 @@
   const linkMac = document.getElementById("link-mac");
   const linkWin = document.getElementById("link-windows");
   const linkReleases = document.getElementById("link-releases");
-  const linkAllVersions = document.getElementById("link-all-versions");
   const latestLabel = document.getElementById("download-latest-label");
   const macVersionMeta = document.getElementById("mac-version-meta");
 
@@ -18,22 +17,6 @@
   if (cfg.releasesPage && linkReleases) {
     linkReleases.href = cfg.releasesPage;
   }
-  if (cfg.releasesPage && linkAllVersions) {
-    linkAllVersions.href = cfg.releasesPage;
-  }
-
-  function formatDate(iso) {
-    try {
-      return new Date(iso + "T12:00:00").toLocaleDateString("fr-CH", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
-    } catch {
-      return iso;
-    }
-  }
-
   function applyLatestVersion(latest, tag) {
     if (latestLabel) {
       latestLabel.textContent = `v${latest}`;
@@ -46,73 +29,23 @@
     }
   }
 
-  async function loadVersions() {
-    const list = document.getElementById("versions-list");
-    const loading = document.getElementById("versions-loading");
-    const errorBox = document.getElementById("versions-error");
-    if (!list || !cfg.versionsData) return;
-
+  async function loadLatestVersion() {
+    if (!cfg.versionsData) return;
     try {
       const res = await fetch(cfg.versionsData);
-      if (!res.ok) throw new Error("Fichier versions introuvable");
+      if (!res.ok) return;
       const data = await res.json();
       const releases = Array.isArray(data.releases) ? data.releases : [];
       const latest = data.latest || releases[0]?.version;
-
-      if (latest) {
-        const latestRelease = releases.find((r) => r.version === latest) || releases[0];
-        applyLatestVersion(latest, latestRelease?.tag);
-      }
-
-      list.innerHTML = "";
-      releases.forEach((rel, index) => {
-        const isLatest = rel.version === latest || index === 0;
-        const li = document.createElement("li");
-        li.className = "versions-compact-row";
-
-        const mac = rel.downloads?.mac;
-        const win = rel.downloads?.windows;
-        const links = [];
-        if (mac) {
-          links.push(`<a href="${mac}" download>Mac</a>`);
-        }
-        if (win) {
-          links.push(`<a href="${win}" download>Win</a>`);
-        }
-        const linksHtml = links.length
-          ? links.join(" · ")
-          : '<span class="muted">—</span>';
-
-        const note = rel.title || (rel.highlights && rel.highlights[0]) || "";
-        const noteHtml = note
-          ? `<span class="versions-compact-note" title="${note.replace(/"/g, "&quot;")}">${note}</span>`
-          : "";
-
-        li.innerHTML = `
-          <span class="versions-compact-ver">v${rel.version}${isLatest ? '<span class="versions-compact-badge">actuelle</span>' : ""}</span>
-          <span class="versions-compact-date">${formatDate(rel.date || "")}</span>
-          ${noteHtml}
-          <span class="versions-compact-links">${linksHtml}</span>
-        `;
-        list.appendChild(li);
-      });
-
-      if (loading) loading.hidden = true;
-      if (errorBox) errorBox.hidden = true;
-      if (releases.length === 0 && loading) {
-        loading.textContent = "Aucune version publiée pour le moment.";
-      }
-    } catch (err) {
-      if (loading) loading.hidden = true;
-      if (errorBox) {
-        errorBox.textContent =
-          err.message || "Impossible de charger la liste des versions.";
-        errorBox.hidden = false;
-      }
+      if (!latest) return;
+      const latestRelease = releases.find((r) => r.version === latest) || releases[0];
+      applyLatestVersion(latest, latestRelease?.tag);
+    } catch {
+      /* garde les libellés par défaut */
     }
   }
 
-  loadVersions();
+  loadLatestVersion();
 
   const form = document.getElementById("register-form");
   const resultNew = document.getElementById("register-result-new");
