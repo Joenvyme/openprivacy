@@ -40,6 +40,7 @@ a = Analysis(
         "numpy",
         "torch",
         "license",
+        "ui_theme",
     ],
     hookspath=[],
     hooksconfig={},
@@ -100,8 +101,8 @@ if sys.platform == "darwin":
         info_plist={
             "CFBundleName": "OpenPrivacy",
             "CFBundleDisplayName": "OpenPrivacy",
-            "CFBundleVersion": "1.0.0",
-            "CFBundleShortVersionString": "1.0.0",
+            "CFBundleVersion": "1.1.0",
+            "CFBundleShortVersionString": "1.1.0",
             "NSHighResolutionCapable": True,
             "NSHumanReadableCopyright": "OpenPrivacy · OpenAI Privacy Filter (Apache 2.0)",
         },

@@ -5,23 +5,113 @@
   const linkMac = document.getElementById("link-mac");
   const linkWin = document.getElementById("link-windows");
   const linkReleases = document.getElementById("link-releases");
+  const linkAllVersions = document.getElementById("link-all-versions");
+  const latestLabel = document.getElementById("download-latest-label");
+  const macVersionMeta = document.getElementById("mac-version-meta");
 
-  if (cfg.downloadMac && linkMac && linkMac.tagName === "A") linkMac.href = cfg.downloadMac;
+  if (cfg.downloadMac && linkMac && linkMac.tagName === "A") {
+    linkMac.href = cfg.downloadMac;
+  }
   if (cfg.downloadWindows && linkWin && linkWin.tagName === "A") {
     linkWin.href = cfg.downloadWindows;
   }
   if (cfg.releasesPage && linkReleases) {
     linkReleases.href = cfg.releasesPage;
-    linkReleases.textContent = "page des releases";
+  }
+  if (cfg.releasesPage && linkAllVersions) {
+    linkAllVersions.href = cfg.releasesPage;
   }
 
-  const buildNote = document.querySelector(".build-note");
-  if (
-    buildNote &&
-    (cfg.downloadMac?.startsWith("http") || cfg.downloadWindows?.startsWith("http"))
-  ) {
-    buildNote.hidden = true;
+  function formatDate(iso) {
+    try {
+      return new Date(iso + "T12:00:00").toLocaleDateString("fr-CH", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    } catch {
+      return iso;
+    }
   }
+
+  function applyLatestVersion(latest, tag) {
+    if (latestLabel) {
+      latestLabel.textContent = `v${latest}`;
+    }
+    if (macVersionMeta) {
+      macVersionMeta.textContent = `OpenPrivacy-mac.zip · v${latest}`;
+    }
+    if (linkMac && linkMac.tagName === "A" && tag && !cfg.downloadMac?.includes("latest")) {
+      linkMac.href = `https://github.com/Joenvyme/openprivacy/releases/download/${tag}/OpenPrivacy-mac.zip`;
+    }
+  }
+
+  async function loadVersions() {
+    const list = document.getElementById("versions-list");
+    const loading = document.getElementById("versions-loading");
+    const errorBox = document.getElementById("versions-error");
+    if (!list || !cfg.versionsData) return;
+
+    try {
+      const res = await fetch(cfg.versionsData);
+      if (!res.ok) throw new Error("Fichier versions introuvable");
+      const data = await res.json();
+      const releases = Array.isArray(data.releases) ? data.releases : [];
+      const latest = data.latest || releases[0]?.version;
+
+      if (latest) {
+        const latestRelease = releases.find((r) => r.version === latest) || releases[0];
+        applyLatestVersion(latest, latestRelease?.tag);
+      }
+
+      list.innerHTML = "";
+      releases.forEach((rel, index) => {
+        const isLatest = rel.version === latest || index === 0;
+        const li = document.createElement("li");
+        li.className = `version-card${isLatest ? " version-card--latest" : ""}`;
+
+        const mac = rel.downloads?.mac;
+        const win = rel.downloads?.windows;
+        const dlMac = mac
+          ? `<a class="version-dl" href="${mac}" download>Télécharger macOS</a>`
+          : `<span class="version-dl version-dl--muted">macOS — non publié</span>`;
+        const dlWin = win
+          ? `<a class="version-dl" href="${win}" download>Télécharger Windows</a>`
+          : `<span class="version-dl version-dl--muted">Windows — bientôt</span>`;
+
+        li.innerHTML = `
+          <div class="version-card-header">
+            <h3>${rel.title || "Version " + rel.version}</h3>
+            <span class="version-tag">v${rel.version}</span>
+            <span class="version-date">${formatDate(rel.date || "")}</span>
+            ${isLatest ? '<span class="version-badge">Actuelle</span>' : ""}
+          </div>
+          <ul class="version-highlights">
+            ${(rel.highlights || [])
+              .map((h) => `<li>${h}</li>`)
+              .join("")}
+          </ul>
+          <div class="version-downloads">${dlMac}${dlWin}</div>
+        `;
+        list.appendChild(li);
+      });
+
+      if (loading) loading.hidden = true;
+      if (errorBox) errorBox.hidden = true;
+      if (releases.length === 0 && loading) {
+        loading.textContent = "Aucune version publiée pour le moment.";
+      }
+    } catch (err) {
+      if (loading) loading.hidden = true;
+      if (errorBox) {
+        errorBox.textContent =
+          err.message || "Impossible de charger la liste des versions.";
+        errorBox.hidden = false;
+      }
+    }
+  }
+
+  loadVersions();
 
   const form = document.getElementById("register-form");
   const resultNew = document.getElementById("register-result-new");
@@ -72,8 +162,7 @@
       if (data.existing) {
         if (existingMessage) {
           existingMessage.textContent =
-            data.message ||
-            "Une clé existe déjà pour cet e-mail.";
+            data.message || "Une clé existe déjà pour cet e-mail.";
         }
         if (resultExisting) {
           resultExisting.hidden = false;

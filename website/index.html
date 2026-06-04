@@ -24,6 +24,7 @@
           <a href="#fonctionnement">Fonctionnement</a>
           <a href="#acces">Accès gratuit</a>
           <a href="#telecharger">Télécharger</a>
+          <a href="#versions">Versions</a>
           <a href="#faq">FAQ</a>
         </nav>
       </div>
@@ -218,7 +219,7 @@
               <h3>macOS</h3>
               <p>Apple Silicon &amp; Intel · macOS 12+</p>
               <span class="btn btn-download">Télécharger pour Mac</span>
-              <span class="file-meta">OpenPrivacy-mac.zip (~110 Mo)</span>
+              <span class="file-meta" id="mac-version-meta">OpenPrivacy-mac.zip</span>
             </a>
 
             <span
@@ -247,11 +248,30 @@
             </ul>
           </div>
 
-          <p class="build-note">
-            Les liens pointent vers <code>website/downloads/</code>. Après
-            compilation, copiez-y vos fichiers zip ou remplacez les URLs par une
-            <a href="https://github.com" id="link-releases">release GitHub</a>.
+          <p class="download-latest-hint">
+            Dernière version :
+            <strong id="download-latest-label">—</strong>
+            ·
+            <a href="#versions" id="link-all-versions">Voir l’historique</a>
+            ou
+            <a href="https://github.com/Joenvyme/openprivacy/releases" id="link-releases"
+              >releases GitHub</a
+            >.
           </p>
+        </div>
+      </section>
+
+      <section id="versions" class="section versions">
+        <div class="wrap">
+          <h2>Historique des versions</h2>
+          <p class="section-intro">
+            Téléchargements et notes de chaque release. La version la plus récente
+            est proposée en haut de la page
+            <a href="#telecharger">Télécharger</a>.
+          </p>
+          <ol id="versions-list" class="versions-list" aria-label="Liste des versions"></ol>
+          <p id="versions-loading" class="versions-loading">Chargement…</p>
+          <p id="versions-error" class="versions-error" hidden></p>
         </div>
       </section>
 

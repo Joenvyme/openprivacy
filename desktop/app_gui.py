@@ -14,10 +14,15 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
+try:
+    from .ui_theme import apply_app_theme, build_header, configure_editor_text
+except ImportError:
+    from ui_theme import apply_app_theme, build_header, configure_editor_text
+
 APP_TITLE = "OpenPrivacy"
-APP_VERSION = "1.0"
-WINDOW_MIN_WIDTH = 900
-WINDOW_MIN_HEIGHT = 600
+APP_VERSION = "1.1.0"
+WINDOW_MIN_WIDTH = 960
+WINDOW_MIN_HEIGHT = 640
 
 TEXT_FILE_TYPES = [
     ("Documents texte", "*.txt *.md *.rtf *.log"),
@@ -36,15 +41,12 @@ def _default_device() -> str:
     return "cpu"
 
 
-def _is_frozen() -> bool:
-    return getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS")
-
-
 class PrivacyFilterApp:
     def __init__(self, root: tk.Tk) -> None:
         self.root = root
-        self.root.title(f"{APP_TITLE} — anonymisation locale")
+        self.root.title(APP_TITLE)
         self.root.minsize(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT)
+        self.palette = apply_app_theme(root)
         self._redactor = None
         self._ready = False
         self._load_queue: queue.Queue = queue.Queue()
@@ -55,39 +57,21 @@ class PrivacyFilterApp:
         self._start_model_load()
 
     def _build_ui(self) -> None:
-        style = ttk.Style()
-        if "clam" in style.theme_names():
-            style.theme_use("clam")
+        p = self.palette
 
-        header = ttk.Frame(self.root, padding=(12, 10, 12, 4))
-        header.pack(fill=tk.X)
-
-        ttk.Label(
-            header,
-            text=APP_TITLE,
-            font=("Helvetica", 18, "bold"),
-        ).pack(anchor=tk.W)
-        ttk.Label(
-            header,
-            text=(
+        build_header(
+            self.root,
+            title=APP_TITLE,
+            subtitle=(
                 "Anonymisez des données personnelles sur votre ordinateur. "
-                "Seule la clé d'activation est vérifiée en ligne — jamais le contenu de vos documents."
+                "Seule la clé d'activation est vérifiée en ligne — jamais le contenu "
+                "de vos documents."
             ),
-            wraplength=860,
-        ).pack(anchor=tk.W, pady=(4, 0))
+            palette=p,
+        ).pack(fill=tk.X)
 
-        toolbar = ttk.Frame(self.root, padding=(12, 8, 12, 4))
+        toolbar = ttk.Frame(self.root, style="Toolbar.TFrame", padding=(20, 14, 20, 6))
         toolbar.pack(fill=tk.X)
-
-        self.btn_open = ttk.Button(
-            toolbar, text="Ouvrir un fichier…", command=self._open_file
-        )
-        self.btn_open.pack(side=tk.LEFT, padx=(0, 6))
-
-        self.btn_save = ttk.Button(
-            toolbar, text="Enregistrer le résultat…", command=self._save_file
-        )
-        self.btn_save.pack(side=tk.LEFT, padx=(0, 6))
 
         self.btn_redact = ttk.Button(
             toolbar,
@@ -95,59 +79,86 @@ class PrivacyFilterApp:
             command=self._run_redaction,
             style="Accent.TButton",
         )
-        self.btn_redact.pack(side=tk.LEFT, padx=(0, 6))
+        self.btn_redact.pack(side=tk.LEFT, padx=(0, 10))
 
-        ttk.Button(toolbar, text="Effacer", command=self._clear_all).pack(
-            side=tk.LEFT
+        self.btn_open = ttk.Button(
+            toolbar,
+            text="Ouvrir un fichier…",
+            command=self._open_file,
+            style="Secondary.TButton",
         )
+        self.btn_open.pack(side=tk.LEFT, padx=(0, 8))
+
+        self.btn_save = ttk.Button(
+            toolbar,
+            text="Enregistrer le résultat…",
+            command=self._save_file,
+            style="Secondary.TButton",
+        )
+        self.btn_save.pack(side=tk.LEFT, padx=(0, 8))
+
+        ttk.Button(
+            toolbar,
+            text="Effacer",
+            command=self._clear_all,
+            style="Secondary.TButton",
+        ).pack(side=tk.LEFT)
 
         panes = ttk.PanedWindow(self.root, orient=tk.HORIZONTAL)
-        panes.pack(fill=tk.BOTH, expand=True, padx=12, pady=8)
+        panes.pack(fill=tk.BOTH, expand=True, padx=20, pady=(4, 12))
 
-        left = ttk.LabelFrame(panes, text="Texte original", padding=6)
-        right = ttk.LabelFrame(panes, text="Texte anonymisé", padding=6)
+        left = ttk.LabelFrame(
+            panes, text="  Texte original  ", style="Card.TLabelframe", padding=4
+        )
+        right = ttk.LabelFrame(
+            panes, text="  Texte anonymisé  ", style="Card.TLabelframe", padding=4
+        )
         panes.add(left, weight=1)
         panes.add(right, weight=1)
 
-        self.input_text = tk.Text(left, wrap=tk.WORD, font=("Menlo", 12), undo=True)
-        self.output_text = tk.Text(
-            right, wrap=tk.WORD, font=("Menlo", 12), state=tk.DISABLED
-        )
-        scroll_in = ttk.Scrollbar(left, command=self.input_text.yview)
-        scroll_out = ttk.Scrollbar(right, command=self.output_text.yview)
-        self.input_text.configure(yscrollcommand=scroll_in.set)
-        self.output_text.configure(yscrollcommand=scroll_out.set)
-        self.input_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        scroll_in.pack(side=tk.RIGHT, fill=tk.Y)
-        self.output_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        scroll_out.pack(side=tk.RIGHT, fill=tk.Y)
+        self.input_text = tk.Text(left, wrap=tk.WORD, undo=True)
+        self.output_text = tk.Text(right, wrap=tk.WORD)
+        configure_editor_text(self.input_text, palette=p, readonly=False)
+        configure_editor_text(self.output_text, palette=p, readonly=True)
 
-        status_frame = ttk.Frame(self.root, padding=(12, 4, 12, 10))
-        status_frame.pack(fill=tk.X)
+        for panel, text_w in ((left, self.input_text), (right, self.output_text)):
+            bar = ttk.Scrollbar(panel, command=text_w.yview)
+            text_w.configure(yscrollcommand=bar.set)
+            text_w.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(4, 0), pady=4)
+            bar.pack(side=tk.RIGHT, fill=tk.Y, pady=4, padx=(0, 4))
+
+        status_frame = ttk.Frame(self.root, style="Status.TFrame", padding=(20, 10))
+        status_frame.pack(fill=tk.X, padx=20, pady=(0, 4))
 
         self.status_var = tk.StringVar(
             value="Préparation du moteur d’anonymisation…"
         )
-        ttk.Label(status_frame, textvariable=self.status_var).pack(
-            side=tk.LEFT, anchor=tk.W
-        )
+        ttk.Label(
+            status_frame,
+            textvariable=self.status_var,
+            style="Status.TLabel",
+        ).pack(side=tk.LEFT, anchor=tk.W)
+
         self.progress = ttk.Progressbar(
-            status_frame, mode="indeterminate", length=180
+            status_frame,
+            mode="indeterminate",
+            length=200,
+            style="Horizontal.TProgressbar",
         )
         self.progress.pack(side=tk.RIGHT)
-        self.progress.start(12)
+        self.progress.start(10)
 
         self._set_controls_enabled(False)
 
-        footer = ttk.Label(
+        ttk.Label(
             self.root,
             text=(
                 f"Version {APP_VERSION} · Traitement 100 % local · "
                 "Premier lancement : téléchargement du modèle (~3 Go, une seule fois)"
             ),
-            padding=(12, 0, 12, 10),
-        )
-        footer.pack(anchor=tk.W)
+            style="Footer.TLabel",
+            padding=(20, 0, 20, 14),
+        ).pack(anchor=tk.W)
 
     def _set_controls_enabled(self, enabled: bool) -> None:
         state = tk.NORMAL if enabled else tk.DISABLED
@@ -187,7 +198,7 @@ class PrivacyFilterApp:
             self._ready = True
             self._set_controls_enabled(True)
             self.status_var.set(
-                f"Prêt · appareil : {device.upper()} · modèle chargé"
+                f"Prêt · {device.upper()} · modèle chargé"
             )
         else:
             self.status_var.set("Erreur au chargement du moteur")
@@ -288,7 +299,7 @@ class PrivacyFilterApp:
         self._set_controls_enabled(False)
         self.status_var.set("Anonymisation en cours…")
         self.progress.pack(side=tk.RIGHT)
-        self.progress.start(12)
+        self.progress.start(10)
 
         def worker() -> None:
             try:
@@ -329,6 +340,7 @@ def main() -> None:
         from license import ensure_license
 
     root = tk.Tk()
+    apply_app_theme(root)
     root.withdraw()
     if sys.platform == "darwin":
         try:

@@ -10,7 +10,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-APP_VERSION = "1.0"
+APP_VERSION = "1.1.0"
 LICENSE_DIR = Path.home() / ".openprivacy"
 LICENSE_FILE = LICENSE_DIR / "license.json"
 DEFAULT_API_BASE = "https://www.openprivacy.ch"
@@ -136,39 +136,41 @@ def ensure_license(parent) -> bool:
     from tkinter import messagebox, ttk
     import webbrowser
 
+    try:
+        from .ui_theme import apply_app_theme, build_header, style_activation_dialog
+    except ImportError:
+        from ui_theme import apply_app_theme, build_header, style_activation_dialog
+
     cached_ok, cached_key = cached_license_valid()
     if cached_ok and cached_key:
         return True
 
+    apply_app_theme(parent)
+
     dialog = tk.Toplevel(parent)
-    dialog.title("Activation OpenPrivacy")
+    dialog.title("Activation — OpenPrivacy")
     dialog.transient(parent)
     dialog.grab_set()
     dialog.resizable(False, False)
+    dialog.minsize(480, 0)
 
-    frame = ttk.Frame(dialog, padding=20)
-    frame.pack()
-
-    ttk.Label(
-        frame,
-        text="Activez OpenPrivacy",
-        font=("Helvetica", 14, "bold"),
-    ).pack(anchor=tk.W)
-    ttk.Label(
-        frame,
-        text=(
-            "Seule votre clé est vérifiée en ligne.\n"
+    build_header(
+        dialog,
+        title="Activation",
+        subtitle=(
+            "Seule votre clé est vérifiée en ligne. "
             "Vos documents ne quittent jamais cet ordinateur."
         ),
-        justify=tk.LEFT,
-    ).pack(anchor=tk.W, pady=(8, 12))
+    ).pack(fill=tk.X)
+
+    frame = ttk.Frame(dialog, padding=(24, 20, 24, 24))
+    frame.pack(fill=tk.BOTH, expand=True)
+    style_activation_dialog(dialog, frame)
 
     ttk.Label(frame, text="Clé d'activation (OP-…)").pack(anchor=tk.W)
-    key_var = tk.StringVar(
-        value=(cached_key or "") if cached_key else ""
-    )
-    entry = ttk.Entry(frame, textvariable=key_var, width=36)
-    entry.pack(anchor=tk.W, pady=(4, 8))
+    key_var = tk.StringVar(value=(cached_key or "") if cached_key else "")
+    entry = ttk.Entry(frame, textvariable=key_var, width=40)
+    entry.pack(anchor=tk.W, pady=(6, 16), ipady=4)
     entry.focus()
 
     result = {"ok": False}
@@ -188,12 +190,16 @@ def ensure_license(parent) -> bool:
         dialog.destroy()
 
     btns = ttk.Frame(frame)
-    btns.pack(anchor=tk.W, pady=(8, 0))
-    ttk.Button(btns, text="Activer", command=submit).pack(side=tk.LEFT, padx=(0, 6))
-    ttk.Button(btns, text="Obtenir une clé…", command=open_register).pack(
-        side=tk.LEFT, padx=(0, 6)
+    btns.pack(anchor=tk.W)
+    ttk.Button(btns, text="Activer", command=submit, style="Accent.TButton").pack(
+        side=tk.LEFT, padx=(0, 8)
     )
-    ttk.Button(btns, text="Quitter", command=quit_app).pack(side=tk.LEFT)
+    ttk.Button(
+        btns, text="Obtenir une clé…", command=open_register, style="Secondary.TButton"
+    ).pack(side=tk.LEFT, padx=(0, 8))
+    ttk.Button(btns, text="Quitter", command=quit_app, style="Secondary.TButton").pack(
+        side=tk.LEFT
+    )
 
     dialog.protocol("WM_DELETE_WINDOW", quit_app)
     parent.withdraw()
