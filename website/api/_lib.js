@@ -28,13 +28,22 @@ function sendJson(res, status, body, origin) {
   res.end(JSON.stringify(body));
 }
 
+function normalizeSupabaseUrl(raw) {
+  let url = String(raw).trim().replace(/\/$/, "");
+  // Certains collent l’URL REST complète par erreur → évite /rest/v1/rest/v1/...
+  if (url.endsWith("/rest/v1")) {
+    url = url.slice(0, -"/rest/v1".length);
+  }
+  return url;
+}
+
 function supabaseConfig() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
     throw new Error("SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY requis.");
   }
-  return { url: url.replace(/\/$/, ""), key };
+  return { url: normalizeSupabaseUrl(url), key };
 }
 
 async function supabaseFetch(path, { method = "GET", body, prefer } = {}) {

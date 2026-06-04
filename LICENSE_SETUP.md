@@ -24,7 +24,7 @@ Dans [Vercel → openprivacy → Settings → Environment Variables](https://ver
 
 | Variable | Valeur |
 |----------|--------|
-| `SUPABASE_URL` | `https://zzhhfwbmdisibyruuzmm.supabase.co` |
+| `SUPABASE_URL` | `https://zzhhfwbmdisibyruuzmm.supabase.co` (sans `/rest/v1`) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Clé **service_role** (Supabase → Project Settings → API) |
 
 Ne commitez **jamais** la service role dans git.

@@ -19,7 +19,7 @@ Si `"supabase_ok": false` et `"supabase_status": 404` → la table n’existe pa
 
 | Variable | Valeur correcte |
 |----------|-----------------|
-| `SUPABASE_URL` | `https://VOTRE_REF.supabase.co` (commence par `https://`, finit par `.supabase.co`) |
+| `SUPABASE_URL` | `https://VOTRE_REF.supabase.co` — **sans** `/rest/v1` à la fin |
 | `SUPABASE_SERVICE_ROLE_KEY` | Clé **service_role** (onglet API, pas « anon ») |
 
 **Pas** l’URL `db.xxx.supabase.co` — uniquement `https://xxx.supabase.co`.
