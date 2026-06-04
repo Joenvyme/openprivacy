@@ -4,7 +4,7 @@
 
 **URL de production :** https://openprivacy.vercel.app
 
-Projet Vercel : `aptiq1s-projects/website` (déploiement depuis le dossier `website/`).
+Projet Vercel : `aptiq1s-projects/openprivacy` (déploiement depuis le dossier `website/`).
 
 ### Mettre à jour le site
 
@@ -27,7 +27,7 @@ Crée `https://github.com/VOTRE_COMPTE/openprivacy` (privé).
 
 ### Lier Vercel ↔ GitHub
 
-1. [Vercel → website → Settings → Git](https://vercel.com/aptiq1s-projects/website/settings/git)
+1. [Vercel → openprivacy → Settings → Git](https://vercel.com/aptiq1s-projects/openprivacy/settings/git)
 2. Dépôt `openprivacy`, **Root Directory** : `website`
 
 ---

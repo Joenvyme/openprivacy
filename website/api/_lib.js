@@ -2,7 +2,7 @@
 
 const ALLOWED_ORIGINS = new Set([
   "https://openprivacy.vercel.app",
-  "https://website-six-flame-48.vercel.app",
+  "https://openprivacy-aptiq1s-projects.vercel.app",
   "http://localhost:8080",
   "http://127.0.0.1:8080",
 ]);

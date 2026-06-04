@@ -20,7 +20,7 @@ Fichier local : `supabase/migrations/20260604_openprivacy_licenses.sql`
 
 ## Variables Vercel (obligatoires)
 
-Dans [Vercel → website → Settings → Environment Variables](https://vercel.com/aptiq1s-projects/website/settings/environment-variables) :
+Dans [Vercel → openprivacy → Settings → Environment Variables](https://vercel.com/aptiq1s-projects/openprivacy/settings/environment-variables) :
 
 | Variable | Valeur |
 |----------|--------|
