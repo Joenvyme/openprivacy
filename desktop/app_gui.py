@@ -71,7 +71,7 @@ class PrivacyFilterApp:
             header,
             text=(
                 "Anonymisez des données personnelles sur votre ordinateur. "
-                "Aucun envoi vers Internet après le téléchargement initial du modèle."
+                "Seule la clé d'activation est vérifiée en ligne — jamais le contenu de vos documents."
             ),
             wraplength=860,
         ).pack(anchor=tk.W, pady=(4, 0))
@@ -323,12 +323,21 @@ class PrivacyFilterApp:
 
 
 def main() -> None:
+    if __package__:
+        from .license import ensure_license
+    else:
+        from license import ensure_license
+
     root = tk.Tk()
+    root.withdraw()
     if sys.platform == "darwin":
         try:
             root.createcommand("::tk::mac::ReopenApplication", root.deiconify)
         except tk.TclError:
             pass
+    if not ensure_license(root):
+        root.destroy()
+        return
     PrivacyFilterApp(root)
     root.mainloop()
 

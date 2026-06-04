@@ -357,6 +357,75 @@ mark.pii {
   color: #9ecae8;
 }
 
+/* Register / access */
+.access {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.register-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.register-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.register-row input[type="email"] {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+}
+
+.register-result {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.register-success-title {
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.register-hint {
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+
+.license-key {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  user-select: all;
+}
+
+.register-error {
+  color: #8b2942;
+  background: #fde8e8;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
 /* Download */
 .download {
   background: linear-gradient(180deg, var(--accent-soft) 0%, var(--bg) 100%);

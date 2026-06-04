@@ -10,7 +10,7 @@ project_root = Path(SPECPATH).parent
 
 a = Analysis(
     [str(project_root / "desktop" / "app_gui.py")],
-    pathex=[str(project_root)],
+    pathex=[str(project_root), str(project_root / "desktop")],
     binaries=[],
     datas=[],
     hiddenimports=[
@@ -39,6 +39,7 @@ a = Analysis(
         "regex",
         "numpy",
         "torch",
+        "license",
     ],
     hookspath=[],
     hooksconfig={},

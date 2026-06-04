@@ -22,6 +22,7 @@
         <a class="logo" href="#">OpenPrivacy</a>
         <nav class="nav">
           <a href="#fonctionnement">Fonctionnement</a>
+          <a href="#acces">Accès gratuit</a>
           <a href="#telecharger">Télécharger</a>
           <a href="#faq">FAQ</a>
         </nav>
@@ -43,12 +44,12 @@
               sensibles — dans la lignée du projet open source OpenCaslaw.
             </p>
             <div class="hero-cta">
-              <a class="btn btn-primary" href="#telecharger">Télécharger gratuitement</a>
+              <a class="btn btn-primary" href="#acces">Obtenir une clé gratuite</a>
               <a class="btn btn-ghost" href="GUIDE_UTILISATEUR_FR.md">Guide utilisateur</a>
             </div>
             <ul class="hero-badges">
               <li>Mac &amp; Windows</li>
-              <li>Aucun compte requis</li>
+              <li>Inscription e-mail · clé gratuite</li>
               <li>Basé sur <a href="https://huggingface.co/openai/privacy-filter" rel="noopener">OpenAI Privacy Filter</a></li>
             </ul>
           </div>
@@ -142,12 +143,47 @@
         </div>
       </section>
 
+      <section id="acces" class="section access">
+        <div class="wrap">
+          <h2>Obtenir votre clé gratuite</h2>
+          <p class="section-intro">
+            Nous stockons <strong>uniquement votre e-mail et votre clé</strong> —
+            jamais le contenu que vous anonymisez. L’anonymisation reste
+            <strong>100 % sur votre ordinateur</strong>.
+          </p>
+          <form id="register-form" class="register-form" novalidate>
+            <label for="email">Adresse e-mail professionnelle</label>
+            <div class="register-row">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="vous@cabinet.fr"
+              />
+              <button type="submit" class="btn btn-primary">Créer ma clé</button>
+            </div>
+          </form>
+          <div id="register-result" class="register-result" hidden>
+            <p class="register-success-title">Votre clé d’activation</p>
+            <p class="register-hint">
+              Copiez cette clé : vous en aurez besoin au premier lancement de
+              l’application.
+            </p>
+            <code id="license-key-display" class="license-key"></code>
+            <button type="button" id="copy-key" class="btn btn-ghost">Copier la clé</button>
+          </div>
+          <p id="register-error" class="register-error" hidden></p>
+        </div>
+      </section>
+
       <section id="telecharger" class="section download">
         <div class="wrap download-inner">
           <h2>Télécharger l’application</h2>
           <p class="section-intro">
-            Choisissez votre système. Extrayez le fichier zip, puis double-cliquez
-            sur l’application. Consultez le
+            Après avoir obtenu votre clé ci-dessus, choisissez votre système.
+            Consultez le
             <a href="GUIDE_UTILISATEUR_FR.md">guide utilisateur</a> en cas de
             question.
           </p>
@@ -213,9 +249,19 @@
           <details>
             <summary>Mes données sont-elles envoyées en ligne ?</summary>
             <p>
-              Non, pendant l’anonymisation. Seul le premier téléchargement du
-              moteur utilise Internet (~3 Go), stocké ensuite sur votre
-              ordinateur.
+              <strong>Non</strong> pour le contenu de vos documents : l’anonymisation
+              est entièrement locale. En ligne : l’inscription (e-mail), la
+              vérification de votre <strong>clé d’activation</strong>, et le premier
+              téléchargement du moteur (~3 Go, une fois).
+            </p>
+          </details>
+          <details>
+            <summary>Que stockez-vous sur vos serveurs ?</summary>
+            <p>
+              Uniquement votre <strong>adresse e-mail</strong>, votre
+              <strong>clé</strong>, le plan (gratuit pour l’instant), et la date de
+              dernière vérification de la clé. Aucun texte, fichier ou résultat
+              d’anonymisation.
             </p>
           </details>
           <details>
