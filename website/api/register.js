@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
 
   try {
     const existing = await supabaseFetch(
-      `openprivacy_licenses?email=eq.${encodeURIComponent(email)}&select=license_key,status,plan,valid_until&limit=1`
+      `openprivacy_licenses?email=eq.${encodeURIComponent(email)}&select=id,status,plan&limit=1`
     );
     if (!existing.ok) {
       const detail = await existing.text();
@@ -58,11 +58,10 @@ module.exports = async (req, res) => {
         200,
         {
           email,
-          license_key: rows[0].license_key,
-          plan: rows[0].plan,
           existing: true,
+          plan: rows[0].plan,
           message:
-            "Une clé existe déjà pour cet e-mail. Conservez-la pour activer l'application.",
+            "Une clé a déjà été créée pour cet e-mail. Pour votre sécurité, elle n'est plus affichée ici. Utilisez la clé que vous avez enregistrée lors de la première inscription.",
         },
         origin
       );
@@ -93,7 +92,7 @@ module.exports = async (req, res) => {
           plan: row.plan,
           existing: false,
           message:
-            "Votre clé gratuite est créée. Copiez-la avant de fermer cette page.",
+            "Votre clé est affichée une seule fois. Copiez-la et conservez-la en lieu sûr avant de quitter cette page.",
         },
         origin
       );

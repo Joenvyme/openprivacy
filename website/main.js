@@ -24,7 +24,9 @@
   }
 
   const form = document.getElementById("register-form");
-  const resultBox = document.getElementById("register-result");
+  const resultNew = document.getElementById("register-result-new");
+  const resultExisting = document.getElementById("register-result-existing");
+  const existingMessage = document.getElementById("register-existing-message");
   const errorBox = document.getElementById("register-error");
   const keyDisplay = document.getElementById("license-key-display");
   const copyBtn = document.getElementById("copy-key");
@@ -39,7 +41,8 @@
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     showError("");
-    resultBox.hidden = true;
+    if (resultNew) resultNew.hidden = true;
+    if (resultExisting) resultExisting.hidden = true;
 
     const email = new FormData(form).get("email");
     const btn = form.querySelector('button[type="submit"]');
@@ -66,9 +69,27 @@
       if (!res.ok) {
         throw new Error(data.error || "Erreur serveur");
       }
+      if (data.existing) {
+        if (existingMessage) {
+          existingMessage.textContent =
+            data.message ||
+            "Une clé existe déjà pour cet e-mail.";
+        }
+        if (resultExisting) {
+          resultExisting.hidden = false;
+          resultExisting.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+        return;
+      }
+
+      if (!data.license_key) {
+        throw new Error("Réponse serveur incomplète.");
+      }
       keyDisplay.textContent = data.license_key;
-      resultBox.hidden = false;
-      resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (resultNew) {
+        resultNew.hidden = false;
+        resultNew.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
     } catch (err) {
       showError(err.message || "Impossible de créer la clé. Réessayez plus tard.");
     } finally {

@@ -165,14 +165,24 @@
               <button type="submit" class="btn btn-primary">Créer ma clé</button>
             </div>
           </form>
-          <div id="register-result" class="register-result" hidden>
-            <p class="register-success-title">Votre clé d’activation</p>
-            <p class="register-hint">
-              Copiez cette clé : vous en aurez besoin au premier lancement de
-              l’application.
+          <div id="register-result-new" class="register-result register-result-new" hidden>
+            <p class="register-success-title">Votre clé d’activation — affichée une seule fois</p>
+            <p class="register-warning">
+              <strong>Important :</strong> cette clé ne sera plus visible sur ce site.
+              Enregistrez-la maintenant (gestionnaire de mots de passe, coffre-fort,
+              note sécurisée). Vous en aurez besoin pour activer l’application.
             </p>
             <code id="license-key-display" class="license-key"></code>
-            <button type="button" id="copy-key" class="btn btn-ghost">Copier la clé</button>
+            <button type="button" id="copy-key" class="btn btn-primary">Copier la clé</button>
+          </div>
+          <div id="register-result-existing" class="register-result register-result-existing" hidden>
+            <p class="register-success-title">Clé déjà créée</p>
+            <p id="register-existing-message" class="register-hint"></p>
+            <p class="register-hint">
+              Pour des raisons de sécurité, votre clé n’est jamais réaffichée ici.
+              Si vous l’avez perdue, contactez l’équipe qui vous a orienté vers
+              OpenPrivacy.
+            </p>
           </div>
           <p id="register-error" class="register-error" hidden></p>
         </div>
@@ -265,6 +275,15 @@
               <strong>clé</strong>, le plan (gratuit pour l’instant), et la date de
               dernière vérification de la clé. Aucun texte, fichier ou résultat
               d’anonymisation.
+            </p>
+          </details>
+          <details>
+            <summary>J’ai perdu ma clé ou je la vois plus sur le site</summary>
+            <p>
+              La clé n’est montrée <strong>qu’une seule fois</strong> lors de la
+              création, pour éviter qu’une autre personne la récupère avec votre
+              e-mail. Si vous l’avez perdue, contactez le support OpenPrivacy —
+              elle reste consultable côté administration, pas sur ce site public.
             </p>
           </details>
           <details>
