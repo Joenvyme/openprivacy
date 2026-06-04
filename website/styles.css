@@ -157,16 +157,12 @@ a:hover {
   padding: 1rem 0;
 }
 
-.logo,
-.title-brand {
+.logo {
   font-family: var(--font-sans);
+  font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--text);
-}
-
-.logo {
-  font-size: 1.125rem;
   text-decoration: none;
 }
 
@@ -222,12 +218,6 @@ a:hover {
   letter-spacing: -0.02em;
   margin: 0 0 1.25rem;
   color: var(--text);
-}
-
-.hero h1 .title-brand {
-  display: block;
-  font-size: clamp(1.85rem, 4.2vw, 2.5rem);
-  margin-bottom: 0.35rem;
 }
 
 .hero h1 em {
