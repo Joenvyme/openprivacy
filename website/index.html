@@ -182,18 +182,22 @@
         <div class="wrap download-inner">
           <h2>Télécharger l’application</h2>
           <p class="section-intro">
-            Après avoir obtenu votre clé ci-dessus, choisissez votre système.
-            Consultez le
-            <a href="GUIDE_UTILISATEUR_FR.md">guide utilisateur</a> en cas de
-            question.
+            Après avoir obtenu votre clé ci-dessus, installez l’application.
+            Les installateurs Mac/Windows seront publiés ici très prochainement.
+            En attendant, l’équipe peut vous fournir le build ou voir le
+            <a href="GUIDE_UTILISATEUR_FR.md">guide utilisateur</a>.
           </p>
 
-          <div class="download-grid">
-            <a
+          <p class="download-soon" id="download-notice">
+            Installateurs en cours de préparation — utilisez votre clé dans
+            l’app dès réception du fichier zip.
+          </p>
+
+          <div class="download-grid download-grid-disabled">
+            <span
               id="link-mac"
-              class="download-card"
-              href="downloads/OpenPrivacy-mac.zip"
-              download
+              class="download-card download-card-soon"
+              aria-disabled="true"
             >
               <span class="os-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
@@ -204,15 +208,14 @@
               </span>
               <h3>macOS</h3>
               <p>Apple Silicon &amp; Intel · macOS 12+</p>
-              <span class="btn btn-download">Télécharger pour Mac</span>
+              <span class="btn btn-download">Bientôt — macOS</span>
               <span class="file-meta">OpenPrivacy-mac.zip</span>
-            </a>
+            </span>
 
-            <a
+            <span
               id="link-windows"
-              class="download-card"
-              href="downloads/OpenPrivacy-windows.zip"
-              download
+              class="download-card download-card-soon"
+              aria-disabled="true"
             >
               <span class="os-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
@@ -221,9 +224,9 @@
               </span>
               <h3>Windows</h3>
               <p>Windows 10 et 11 (64 bits)</p>
-              <span class="btn btn-download">Télécharger pour Windows</span>
+              <span class="btn btn-download">Bientôt — Windows</span>
               <span class="file-meta">OpenPrivacy-windows.zip</span>
-            </a>
+            </span>
           </div>
 
           <div class="requirements">

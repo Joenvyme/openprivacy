@@ -24,6 +24,7 @@ echo "==> Création du dépôt privé : $REPO_NAME"
 if gh repo view "$REPO_NAME" &>/dev/null; then
   echo "    Le dépôt existe déjà sur votre compte."
 else
+  git remote remove origin 2>/dev/null || true
   gh repo create "$REPO_NAME" $VISIBILITY \
     --description "OpenPrivacy — anonymisation locale des données personnelles (OpenCaslaw)" \
     --source=. --remote=origin --push
@@ -32,7 +33,7 @@ else
 fi
 
 # Dépôt existant : mettre à jour le remote et pousser
-REMOTE_URL="$(gh repo view "$REPO_NAME" --json url -q .url).git"
+REMOTE_URL="$(gh repo view "$(gh api user -q .login)/$REPO_NAME" --json url -q .url).git"
 git remote remove origin 2>/dev/null || true
 git remote add origin "$REMOTE_URL"
 git push -u origin main

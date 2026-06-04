@@ -1,31 +1,37 @@
-import {
+const {
   corsHeaders,
   generateLicenseKey,
-  jsonResponse,
   normalizeEmail,
+  sendJson,
   supabaseFetch,
-} from "./_lib.js";
+} = require("./_lib.js");
 
-export default async function handler(request) {
-  const origin = request.headers.get("origin");
+module.exports = async (req, res) => {
+  const origin = req.headers.origin || req.headers.Origin;
 
-  if (request.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: corsHeaders(origin) });
+  if (req.method === "OPTIONS") {
+    res.statusCode = 204;
+    Object.entries(corsHeaders(origin)).forEach(([k, v]) => res.setHeader(k, v));
+    res.end();
+    return;
   }
-  if (request.method !== "POST") {
-    return jsonResponse(405, { error: "Method not allowed" }, origin);
+  if (req.method !== "POST") {
+    sendJson(res, 405, { error: "Method not allowed" }, origin);
+    return;
   }
 
   let payload;
   try {
-    payload = await request.json();
+    payload = JSON.parse(req.body || "{}");
   } catch {
-    return jsonResponse(400, { error: "JSON invalide" }, origin);
+    sendJson(res, 400, { error: "JSON invalide" }, origin);
+    return;
   }
 
   const email = normalizeEmail(payload.email);
   if (!email) {
-    return jsonResponse(400, { error: "Adresse e-mail invalide" }, origin);
+    sendJson(res, 400, { error: "Adresse e-mail invalide" }, origin);
+    return;
   }
 
   try {
@@ -33,13 +39,14 @@ export default async function handler(request) {
       `openprivacy_licenses?email=eq.${encodeURIComponent(email)}&select=license_key,status,plan,valid_until&limit=1`
     );
     if (!existing.ok) {
-      const detail = await existing.text();
-      console.error("supabase existing", detail);
-      return jsonResponse(502, { error: "Service indisponible" }, origin);
+      console.error("supabase existing", await existing.text());
+      sendJson(res, 502, { error: "Service indisponible" }, origin);
+      return;
     }
     const rows = await existing.json();
     if (rows.length > 0 && rows[0].status === "active") {
-      return jsonResponse(
+      sendJson(
+        res,
         200,
         {
           email,
@@ -51,6 +58,7 @@ export default async function handler(request) {
         },
         origin
       );
+      return;
     }
 
     const license_key = generateLicenseKey();
@@ -68,7 +76,8 @@ export default async function handler(request) {
     if (insert.status === 201) {
       const created = await insert.json();
       const row = Array.isArray(created) ? created[0] : created;
-      return jsonResponse(
+      sendJson(
+        res,
         201,
         {
           email,
@@ -80,17 +89,18 @@ export default async function handler(request) {
         },
         origin
       );
+      return;
     }
 
-    const errText = await insert.text();
-    console.error("supabase insert", insert.status, errText);
-    return jsonResponse(502, { error: "Impossible de créer la clé" }, origin);
+    console.error("supabase insert", insert.status, await insert.text());
+    sendJson(res, 502, { error: "Impossible de créer la clé" }, origin);
   } catch (err) {
     console.error(err);
-    return jsonResponse(
+    sendJson(
+      res,
       503,
       { error: "Configuration serveur incomplète (Supabase)." },
       origin
     );
   }
-}
+};

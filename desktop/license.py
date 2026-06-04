@@ -13,7 +13,7 @@ from typing import Any
 APP_VERSION = "1.0"
 LICENSE_DIR = Path.home() / ".openprivacy"
 LICENSE_FILE = LICENSE_DIR / "license.json"
-DEFAULT_API_BASE = "https://openprivacy.vercel.app"
+DEFAULT_API_BASE = "https://www.openprivacy.ch"
 CACHE_DAYS_DEFAULT = 7
 
 

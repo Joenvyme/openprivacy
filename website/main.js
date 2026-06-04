@@ -6,8 +6,10 @@
   const linkWin = document.getElementById("link-windows");
   const linkReleases = document.getElementById("link-releases");
 
-  if (cfg.downloadMac && linkMac) linkMac.href = cfg.downloadMac;
-  if (cfg.downloadWindows && linkWin) linkWin.href = cfg.downloadWindows;
+  if (cfg.downloadMac && linkMac && linkMac.tagName === "A") linkMac.href = cfg.downloadMac;
+  if (cfg.downloadWindows && linkWin && linkWin.tagName === "A") {
+    linkWin.href = cfg.downloadWindows;
+  }
   if (cfg.releasesPage && linkReleases) {
     linkReleases.href = cfg.releasesPage;
     linkReleases.textContent = "page des releases";
@@ -50,7 +52,17 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(
+          text.startsWith("A server error")
+            ? "Serveur indisponible. Réessayez dans quelques minutes."
+            : text.slice(0, 120) || "Réponse serveur invalide"
+        );
+      }
       if (!res.ok) {
         throw new Error(data.error || "Erreur serveur");
       }
