@@ -2,9 +2,7 @@
 
 ## Site en ligne (Vercel)
 
-**URL de production :** https://openprivacy.vercel.app
-
-Projet Vercel : `aptiq1s-projects/openprivacy` (déploiement depuis le dossier `website/`).
+Déployez le dossier `website/` sur Vercel (Git ou CLI).
 
 ### Mettre à jour le site
 
@@ -13,21 +11,23 @@ cd website
 npx vercel deploy --prod
 ```
 
+Variables et migrations : voir `LICENSE_SETUP.md`.
+
 ---
 
-## Dépôt GitHub privé
+## Dépôt GitHub
 
 ```bash
 gh auth login
-cd "/Users/weblaw/Joenvyme/privacy filter"
+cd /chemin/vers/votre-clone
 ./scripts/publish-github-prive.sh openprivacy
 ```
 
-Crée `https://github.com/VOTRE_COMPTE/openprivacy` (privé).
+Crée `https://github.com/VOTRE_COMPTE/openprivacy` (privé si vous utilisez ce script).
 
 ### Lier Vercel ↔ GitHub
 
-1. [Vercel → openprivacy → Settings → Git](https://vercel.com/aptiq1s-projects/openprivacy/settings/git)
+1. Vercel → votre projet → **Settings → Git**
 2. Dépôt `openprivacy`, **Root Directory** : `website`
 
 ---
@@ -43,7 +43,7 @@ Placez les zip dans `website/downloads/` ou GitHub Releases, puis mettez à jour
 
 ## Guide utilisateur (PDF)
 
-Le site propose **`website/GUIDE_UTILISATEUR_FR.pdf`** (plus simple qu’un fichier Markdown pour les utilisateurs).
+Le site peut proposer **`website/GUIDE_UTILISATEUR_FR.pdf`**.
 
 Après modification de `GUIDE_UTILISATEUR_FR.md` à la racine :
 

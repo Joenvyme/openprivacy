@@ -1,5 +1,6 @@
 /**
  * Configuration du site OpenPrivacy.
+ * turnstileSiteKey : clé site Cloudflare Turnstile (si TURNSTILE_SECRET_KEY sur Vercel).
  */
 window.SITE_CONFIG = {
   downloadMac:
@@ -10,4 +11,5 @@ window.SITE_CONFIG = {
   versionsData: "versions.json",
 
   contactUrl: "",
+  turnstileSiteKey: "",
 };

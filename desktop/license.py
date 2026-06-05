@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -16,9 +18,36 @@ LICENSE_FILE = LICENSE_DIR / "license.json"
 DEFAULT_API_BASE = "https://www.openprivacy.ch"
 CACHE_DAYS_DEFAULT = 7
 
+ALLOWED_API_HOSTS = frozenset(
+    {
+        "www.openprivacy.ch",
+        "openprivacy.ch",
+        "openprivacy.vercel.app",
+    }
+)
+
+
+def _api_override_allowed() -> bool:
+    if os.environ.get("OPENPRIVACY_ALLOW_API_OVERRIDE") == "1":
+        return True
+    return not getattr(sys, "frozen", False)
+
 
 def api_base() -> str:
-    return os.environ.get("OPENPRIVACY_API_URL", DEFAULT_API_BASE).rstrip("/")
+    override = os.environ.get("OPENPRIVACY_API_URL", "").strip()
+    if not override:
+        return DEFAULT_API_BASE
+    if not _api_override_allowed():
+        return DEFAULT_API_BASE
+    parsed = urllib.parse.urlparse(override.rstrip("/"))
+    host = (parsed.hostname or "").lower()
+    if parsed.scheme not in {"https", "http"} or host not in ALLOWED_API_HOSTS:
+        raise RuntimeError(
+            "OPENPRIVACY_API_URL invalide. Utilisez https://www.openprivacy.ch "
+            "ou définissez OPENPRIVACY_ALLOW_API_OVERRIDE=1 en développement."
+        )
+    port = f":{parsed.port}" if parsed.port else ""
+    return f"{parsed.scheme}://{host}{port}"
 
 
 def _read_cache() -> dict[str, Any] | None:
@@ -31,11 +60,16 @@ def _read_cache() -> dict[str, Any] | None:
 
 
 def _write_cache(payload: dict[str, Any]) -> None:
-    LICENSE_DIR.mkdir(parents=True, exist_ok=True)
+    LICENSE_DIR.mkdir(parents=True, exist_ok=True, mode=0o700)
     LICENSE_FILE.write_text(
         json.dumps(payload, indent=2),
         encoding="utf-8",
     )
+    try:
+        os.chmod(LICENSE_DIR, 0o700)
+        os.chmod(LICENSE_FILE, 0o600)
+    except OSError:
+        pass
 
 
 def cached_license_valid() -> tuple[bool, str | None]:
@@ -123,6 +157,9 @@ def activate(license_key: str, *, allow_offline_cache: bool = True) -> tuple[boo
             "unknown_key": "Clé inconnue.",
             "revoked": "Cette clé a été révoquée.",
             "expired": "Cette clé a expiré.",
+            "pending_verification": (
+                "Confirmez votre e-mail via le lien reçu à l’inscription, puis réessayez."
+            ),
         }
         return False, messages.get(reason, "Clé non valide.")
 
