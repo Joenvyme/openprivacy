@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "title": "OpenPrivacy.ch — Local anonymisation",
+    "description": "OpenPrivacy — anonymise personal data locally on your computer. Mac and Windows."
+  },
+  "nav": {
+    "how": "How it works",
+    "access": "Free access",
+    "download": "Download",
+    "faq": "FAQ"
+  },
+  "hero": {
+    "eyebrow": "Open source · 100% local",
+    "title": "Protect personal data in your case files, <em>without sending them over the Internet</em>",
+    "lead": "A simple app for lawyers and regulated professions: detect and anonymise names, contact details, dates and sensitive information — on your machine, no cloud.",
+    "ctaKey": "Get a free licence key",
+    "ctaGuide": "User guide",
+    "badgeMac": "Mac & Windows",
+    "badgeEmail": "Email sign-up · free key",
+    "badgeEngine": "Powered by",
+    "demoBefore": "Before",
+    "demoAfter": "After",
+    "demoBeforeText": "Mr Jean Dupont, rue du Rhône 14, 1204 Geneva.<br />Contact: <mark class=\"pii\">dupont@lawfirm.ch</mark>, tel. <mark class=\"pii\">+41 22 731 45 67</mark>.",
+    "demoAfterText": "Mr &lt;PRIVATE_PERSON&gt;, &lt;PRIVATE_ADDRESS&gt;.<br />Contact: &lt;PRIVATE_EMAIL&gt;, tel. &lt;PRIVATE_PHONE&gt;."
+  },
+  "features": {
+    "title": "Built for non-technical users",
+    "intro": "No command line, no complex setup. Open the app, paste your text or open a file, click <strong>Anonymise</strong>.",
+    "localTitle": "Local and confidential",
+    "localText": "Anonymisation runs on your computer. Your case files are not sent to a server during processing.",
+    "fastTitle": "Fast day-to-day use",
+    "fastText": "On first launch, the engine downloads once (~3 GB). After that, the tool is ready in seconds.",
+    "wordTitle": "Word and text",
+    "wordText": "Open <code>.docx</code> files: formatting is preserved in the anonymised document. Text formats <code>.txt</code>, <code>.md</code>, etc."
+  },
+  "types": {
+    "title": "What the tool detects",
+    "tags": [
+      "Person names",
+      "Addresses",
+      "Email addresses",
+      "Phone numbers",
+      "URLs",
+      "Dates",
+      "Account numbers",
+      "Secrets / credentials"
+    ],
+    "disclaimer": "A tool to help reduce personal data — not a substitute for human review or a guarantee of GDPR compliance. See the <a href=\"https://huggingface.co/openai/privacy-filter\" rel=\"noopener\">model limitations</a>."
+  },
+  "access": {
+    "title": "Get your free licence key",
+    "intro": "We store <strong>only your email and your key</strong> — never the content you anonymise. Processing stays <strong>100% on your computer</strong>.",
+    "emailLabel": "Professional email address",
+    "emailPlaceholder": "you@lawfirm.com",
+    "submit": "Create my key",
+    "submitting": "Creating…",
+    "pendingTitle": "Confirm your email",
+    "newTitle": "Your activation key — shown only once",
+    "newWarning": "<strong>Important:</strong> this key will no longer be visible on this site. Save it now (password manager, secure vault, encrypted note). You will need it to activate the app.",
+    "copyKey": "Copy key",
+    "copied": "Copied!",
+    "existingTitle": "Key already created",
+    "existingHint": "For security reasons, your key is never shown again here. If you lost it, contact the team that referred you to OpenPrivacy."
+  },
+  "download": {
+    "title": "Download the app",
+    "intro": "After obtaining your key above, download the app for macOS. Windows version: coming soon. <a href=\"GUIDE_UTILISATEUR_FR.pdf\" target=\"_blank\" rel=\"noopener\">User guide (PDF, French)</a>.",
+    "windowsSoon": "Windows installer in preparation.",
+    "macTitle": "macOS",
+    "macSub": "Apple Silicon & Intel · macOS 12+",
+    "macBtn": "Download for Mac",
+    "winTitle": "Windows",
+    "winSub": "Windows 10 and 11 (64-bit)",
+    "winBtn": "Coming soon — Windows",
+    "reqTitle": "Requirements",
+    "reqDisk": "<strong>Disk space:</strong> about 5 GB free",
+    "reqNet": "<strong>First launch:</strong> Internet connection (one-time model download)",
+    "reqRam": "<strong>RAM:</strong> 8 GB recommended",
+    "latestPrefix": "Latest version:",
+    "latestSuffix": "· <a href=\"https://github.com/Joenvyme/openprivacy/releases\" id=\"link-releases\">All releases on GitHub</a>."
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "q1": "Is my data sent online?",
+    "a1": "<strong>No</strong> for the content of your documents: anonymisation is fully local. Online: sign-up (email), <strong>activation key</strong> verification, and the first engine download (~3 GB, once).",
+    "q2": "What do you store on your servers?",
+    "a2": "Only your <strong>email address</strong>, your <strong>key</strong>, the plan (free for now), and the date of the last key check. No text, files or anonymisation results.",
+    "q3": "I lost my key or can’t see it on the site",
+    "a3": "The key is shown <strong>only once</strong> when created, so others cannot retrieve it with your email. If you lost it, contact OpenPrivacy support — it remains available on the admin side, not on this public site.",
+    "q4": "macOS blocks the app (“unidentified developer”)",
+    "a4": "Right-click the app → <strong>Open</strong> → confirm. Your IT department can also distribute a signed version.",
+    "q5": "Can I use Word files?",
+    "a5": "Yes, in <strong>.docx</strong> format: open the file in the app, click <strong>Anonymise</strong>, then save <code>Name_anonymised.docx</code> (styles, tables and headers preserved). Legacy <code>.doc</code> files must be converted to .docx in Word.",
+    "q6": "Licence and engine origin",
+    "a6": "The detector is based on the open-source <a href=\"https://huggingface.co/openai/privacy-filter\" rel=\"noopener\">openai/privacy-filter</a> model (Apache 2.0 licence). OpenPrivacy is a simplified distribution for law firm use."
+  },
+  "cta": {
+    "title": "Questions or firm-wide deployment?",
+    "text": "Contact the team that shared this link, or see the technical documentation to build installers.",
+    "btn": "Download now"
+  },
+  "footer": {
+    "source": "Source code",
+    "engine": "Engine",
+    "guide": "User guide (PDF)"
+  },
+  "errors": {
+    "verifyInvalid": "Invalid or already used confirmation link.",
+    "verifyExpired": "This link has expired. Please request a new key.",
+    "verifyError": "Unable to confirm email. Please try again later.",
+    "verifyUnknown": "Confirmation failed.",
+    "turnstile": "Please complete the anti-bot verification below.",
+    "serverDown": "Server unavailable. Please try again in a few minutes.",
+    "invalidResponse": "Invalid server response",
+    "serverError": "Server error",
+    "incomplete": "Incomplete server response.",
+    "registerFail": "Unable to create key. Please try again later.",
+    "copyFail": "Copy failed — select the key manually.",
+    "pendingDefault": "Check your inbox and click the confirmation link.",
+    "existingDefault": "A key already exists for this email."
+  },
+  "lang": {
+    "label": "Language",
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch"
+  }
+}

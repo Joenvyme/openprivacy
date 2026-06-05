@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "title": "OpenPrivacy.ch — Anonymisation locale",
+    "description": "OpenPrivacy — anonymisez localement les données personnelles. Mac et Windows."
+  },
+  "nav": {
+    "how": "Fonctionnement",
+    "access": "Accès gratuit",
+    "download": "Télécharger",
+    "faq": "FAQ"
+  },
+  "hero": {
+    "eyebrow": "Open source · 100 % local",
+    "title": "Protégez les données personnelles de vos dossiers, <em>sans les envoyer sur Internet</em>",
+    "lead": "Application simple pour avocats et professions réglementées : détectez et anonymisez noms, coordonnées, dates et informations sensibles — sur votre poste, sans cloud.",
+    "ctaKey": "Obtenir une clé gratuite",
+    "ctaGuide": "Guide utilisateur",
+    "badgeMac": "Mac & Windows",
+    "badgeEmail": "Inscription e-mail · clé gratuite",
+    "badgeEngine": "Basé sur",
+    "demoBefore": "Avant",
+    "demoAfter": "Après",
+    "demoBeforeText": "Me Jean Dupont, rue du Rhône 14, 1204 Genève.<br />Contact : <mark class=\"pii\">dupont@cabinet-ge.ch</mark>, tél. <mark class=\"pii\">+41 22 731 45 67</mark>.",
+    "demoAfterText": "Me &lt;PRIVATE_PERSON&gt;, &lt;PRIVATE_ADDRESS&gt;.<br />Contact : &lt;PRIVATE_EMAIL&gt;, tél. &lt;PRIVATE_PHONE&gt;."
+  },
+  "features": {
+    "title": "Pensé pour des utilisateurs non techniques",
+    "intro": "Pas de ligne de commande, pas de configuration complexe. Ouvrez l’application, collez votre texte ou ouvrez un fichier, cliquez sur <strong>Anonymiser</strong>.",
+    "localTitle": "Local et confidentiel",
+    "localText": "L’anonymisation s’exécute sur votre machine. Aucun envoi de vos dossiers vers un serveur pendant le traitement.",
+    "fastTitle": "Rapide au quotidien",
+    "fastText": "Au premier lancement, le moteur se télécharge une fois (~3 Go). Ensuite, l’outil est prêt en quelques secondes.",
+    "wordTitle": "Word et texte",
+    "wordText": "Ouvrez des fichiers <code>.docx</code> : la mise en forme est conservée dans le document anonymisé. Formats texte <code>.txt</code>, <code>.md</code>, etc."
+  },
+  "types": {
+    "title": "Ce que l’outil détecte",
+    "tags": [
+      "Noms de personnes",
+      "Adresses",
+      "E-mails",
+      "Téléphones",
+      "URLs",
+      "Dates",
+      "Numéros de compte",
+      "Secrets / identifiants"
+    ],
+    "disclaimer": "Outil d’aide à la réduction des données personnelles — pas un substitut à une relecture humaine ni une garantie de conformité RGPD. Voir les <a href=\"https://huggingface.co/openai/privacy-filter\" rel=\"noopener\">limites du modèle</a>."
+  },
+  "access": {
+    "title": "Obtenir votre clé gratuite",
+    "intro": "Nous stockons <strong>uniquement votre e-mail et votre clé</strong> — jamais le contenu que vous anonymisez. L’anonymisation reste <strong>100 % sur votre ordinateur</strong>.",
+    "emailLabel": "Adresse e-mail professionnelle",
+    "emailPlaceholder": "vous@cabinet.fr",
+    "submit": "Créer ma clé",
+    "submitting": "Création…",
+    "pendingTitle": "Confirmez votre e-mail",
+    "newTitle": "Votre clé d’activation — affichée une seule fois",
+    "newWarning": "<strong>Important :</strong> cette clé ne sera plus visible sur ce site. Enregistrez-la maintenant (gestionnaire de mots de passe, coffre-fort, note sécurisée). Vous en aurez besoin pour activer l’application.",
+    "copyKey": "Copier la clé",
+    "copied": "Copié !",
+    "existingTitle": "Clé déjà créée",
+    "existingHint": "Pour des raisons de sécurité, votre clé n’est jamais réaffichée ici. Si vous l’avez perdue, contactez l’équipe qui vous a orienté vers OpenPrivacy."
+  },
+  "download": {
+    "title": "Télécharger l’application",
+    "intro": "Après avoir obtenu votre clé ci-dessus, téléchargez l’application pour macOS. Version Windows : bientôt disponible. <a href=\"GUIDE_UTILISATEUR_FR.pdf\" target=\"_blank\" rel=\"noopener\">Guide utilisateur (PDF)</a>.",
+    "windowsSoon": "Installateur Windows en cours de préparation.",
+    "macTitle": "macOS",
+    "macSub": "Apple Silicon & Intel · macOS 12+",
+    "macBtn": "Télécharger pour Mac",
+    "winTitle": "Windows",
+    "winSub": "Windows 10 et 11 (64 bits)",
+    "winBtn": "Bientôt — Windows",
+    "reqTitle": "Prérequis",
+    "reqDisk": "<strong>Espace disque :</strong> environ 5 Go libres",
+    "reqNet": "<strong>Premier lancement :</strong> connexion Internet (téléchargement du modèle, une fois)",
+    "reqRam": "<strong>RAM :</strong> 8 Go recommandés",
+    "latestPrefix": "Dernière version :",
+    "latestSuffix": "· <a href=\"https://github.com/Joenvyme/openprivacy/releases\" id=\"link-releases\">Toutes les releases sur GitHub</a>."
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "q1": "Mes données sont-elles envoyées en ligne ?",
+    "a1": "<strong>Non</strong> pour le contenu de vos documents : l’anonymisation est entièrement locale. En ligne : l’inscription (e-mail), la vérification de votre <strong>clé d’activation</strong>, et le premier téléchargement du moteur (~3 Go, une fois).",
+    "q2": "Que stockez-vous sur vos serveurs ?",
+    "a2": "Uniquement votre <strong>adresse e-mail</strong>, votre <strong>clé</strong>, le plan (gratuit pour l’instant), et la date de dernière vérification de la clé. Aucun texte, fichier ou résultat d’anonymisation.",
+    "q3": "J’ai perdu ma clé ou je la vois plus sur le site",
+    "a3": "La clé n’est montrée <strong>qu’une seule fois</strong> lors de la création, pour éviter qu’une autre personne la récupère avec votre e-mail. Si vous l’avez perdue, contactez le support OpenPrivacy — elle reste consultable côté administration, pas sur ce site public.",
+    "q4": "macOS bloque l’application (« développeur non identifié »)",
+    "a4": "Clic droit sur l’application → <strong>Ouvrir</strong> → confirmer. Votre service informatique peut aussi distribuer une version signée.",
+    "q5": "Puis-je utiliser des fichiers Word ?",
+    "a5": "Oui, au format <strong>.docx</strong> : ouvrez le fichier dans l’application, cliquez <strong>Anonymiser</strong>, puis enregistrez le document <code>Nom_anonymise.docx</code> (styles, tableaux et en-têtes préservés). Les fichiers <code>.doc</code> anciens doivent être convertis en .docx dans Word.",
+    "q6": "Licence et origine du moteur",
+    "a6": "Le détecteur repose sur le modèle open source <a href=\"https://huggingface.co/openai/privacy-filter\" rel=\"noopener\">openai/privacy-filter</a> (licence Apache 2.0). OpenPrivacy en est une distribution simplifiée pour un usage en cabinet."
+  },
+  "cta": {
+    "title": "Une question ou un déploiement en cabinet ?",
+    "text": "Contactez l’équipe qui vous a communiqué ce lien, ou consultez la documentation technique pour construire les installateurs.",
+    "btn": "Télécharger maintenant"
+  },
+  "footer": {
+    "source": "Code source",
+    "engine": "Moteur",
+    "guide": "Guide utilisateur (PDF)"
+  },
+  "errors": {
+    "verifyInvalid": "Lien de confirmation invalide ou déjà utilisé.",
+    "verifyExpired": "Ce lien a expiré. Refaites une demande de clé.",
+    "verifyError": "Impossible de confirmer l’e-mail. Réessayez plus tard.",
+    "verifyUnknown": "Confirmation impossible.",
+    "turnstile": "Complétez la vérification anti-robot ci-dessous.",
+    "serverDown": "Serveur indisponible. Réessayez dans quelques minutes.",
+    "invalidResponse": "Réponse serveur invalide",
+    "serverError": "Erreur serveur",
+    "incomplete": "Réponse serveur incomplète.",
+    "registerFail": "Impossible de créer la clé. Réessayez plus tard.",
+    "copyFail": "Copie impossible — sélectionnez la clé manuellement.",
+    "pendingDefault": "Consultez votre boîte mail et cliquez sur le lien de confirmation.",
+    "existingDefault": "Une clé existe déjà pour cet e-mail."
+  },
+  "lang": {
+    "label": "Langue",
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch"
+  }
+}

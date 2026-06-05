@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "title": "OpenPrivacy.ch — Lokale Anonymisierung",
+    "description": "OpenPrivacy — personenbezogene Daten lokal auf Ihrem Computer anonymisieren. Mac und Windows."
+  },
+  "nav": {
+    "how": "Funktionsweise",
+    "access": "Gratis Zugang",
+    "download": "Herunterladen",
+    "faq": "FAQ"
+  },
+  "hero": {
+    "eyebrow": "Open Source · 100 % lokal",
+    "title": "Schützen Sie personenbezogene Daten in Ihren Akten, <em>ohne sie ins Internet zu senden</em>",
+    "lead": "Einfache Anwendung für Anwälte und regulierte Berufe: Namen, Kontaktdaten, Daten und sensible Informationen erkennen und anonymisieren — auf Ihrem Rechner, ohne Cloud.",
+    "ctaKey": "Gratis Lizenzschlüssel erhalten",
+    "ctaGuide": "Benutzerhandbuch",
+    "badgeMac": "Mac & Windows",
+    "badgeEmail": "E-Mail-Anmeldung · gratis Schlüssel",
+    "badgeEngine": "Basiert auf",
+    "demoBefore": "Vorher",
+    "demoAfter": "Nachher",
+    "demoBeforeText": "Hr. Jean Dupont, rue du Rhône 14, 1204 Genf.<br />Kontakt: <mark class=\"pii\">dupont@kanzlei.ch</mark>, Tel. <mark class=\"pii\">+41 22 731 45 67</mark>.",
+    "demoAfterText": "Hr. &lt;PRIVATE_PERSON&gt;, &lt;PRIVATE_ADDRESS&gt;.<br />Kontakt: &lt;PRIVATE_EMAIL&gt;, Tel. &lt;PRIVATE_PHONE&gt;."
+  },
+  "features": {
+    "title": "Für nicht-technische Anwender",
+    "intro": "Keine Befehlszeile, keine komplexe Konfiguration. App öffnen, Text einfügen oder Datei öffnen, auf <strong>Anonymisieren</strong> klicken.",
+    "localTitle": "Lokal und vertraulich",
+    "localText": "Die Anonymisierung läuft auf Ihrem Rechner. Ihre Akten werden während der Verarbeitung nicht an einen Server gesendet.",
+    "fastTitle": "Schnell im Alltag",
+    "fastText": "Beim ersten Start wird die Engine einmal heruntergeladen (~3 GB). Danach ist das Tool in Sekunden bereit.",
+    "wordTitle": "Word und Text",
+    "wordText": "<code>.docx</code>-Dateien öffnen: die Formatierung bleibt im anonymisierten Dokument erhalten. Textformate <code>.txt</code>, <code>.md</code> usw."
+  },
+  "types": {
+    "title": "Was das Tool erkennt",
+    "tags": [
+      "Personennamen",
+      "Adressen",
+      "E-Mail-Adressen",
+      "Telefonnummern",
+      "URLs",
+      "Daten",
+      "Kontonummern",
+      "Geheimnisse / Zugangsdaten"
+    ],
+    "disclaimer": "Hilfsmittel zur Reduktion personenbezogener Daten — kein Ersatz für menschliche Kontrolle und keine Garantie für DSGVO-Konformität. Siehe die <a href=\"https://huggingface.co/openai/privacy-filter\" rel=\"noopener\">Modellgrenzen</a>."
+  },
+  "access": {
+    "title": "Gratis Lizenzschlüssel erhalten",
+    "intro": "Wir speichern <strong>nur Ihre E-Mail und Ihren Schlüssel</strong> — nie den Inhalt, den Sie anonymisieren. Die Verarbeitung bleibt <strong>100 % auf Ihrem Rechner</strong>.",
+    "emailLabel": "Geschäftliche E-Mail-Adresse",
+    "emailPlaceholder": "sie@kanzlei.ch",
+    "submit": "Schlüssel erstellen",
+    "submitting": "Wird erstellt…",
+    "pendingTitle": "E-Mail bestätigen",
+    "newTitle": "Ihr Aktivierungsschlüssel — nur einmal angezeigt",
+    "newWarning": "<strong>Wichtig:</strong> dieser Schlüssel ist auf dieser Website nicht mehr sichtbar. Speichern Sie ihn jetzt (Passwortmanager, Tresor, sichere Notiz). Sie benötigen ihn zur Aktivierung der App.",
+    "copyKey": "Schlüssel kopieren",
+    "copied": "Kopiert!",
+    "existingTitle": "Schlüssel bereits erstellt",
+    "existingHint": "Aus Sicherheitsgründen wird Ihr Schlüssel hier nie erneut angezeigt. Bei Verlust wenden Sie sich an das Team, das Sie zu OpenPrivacy vermittelt hat."
+  },
+  "download": {
+    "title": "App herunterladen",
+    "intro": "Nach Erhalt Ihres Schlüssels laden Sie die App für macOS herunter. Windows-Version: demnächst. <a href=\"GUIDE_UTILISATEUR_FR.pdf\" target=\"_blank\" rel=\"noopener\">Benutzerhandbuch (PDF, Französisch)</a>.",
+    "windowsSoon": "Windows-Installer in Vorbereitung.",
+    "macTitle": "macOS",
+    "macSub": "Apple Silicon & Intel · macOS 12+",
+    "macBtn": "Für Mac herunterladen",
+    "winTitle": "Windows",
+    "winSub": "Windows 10 und 11 (64-Bit)",
+    "winBtn": "Demnächst — Windows",
+    "reqTitle": "Voraussetzungen",
+    "reqDisk": "<strong>Festplatte:</strong> ca. 5 GB frei",
+    "reqNet": "<strong>Erster Start:</strong> Internetverbindung (einmaliger Modell-Download)",
+    "reqRam": "<strong>RAM:</strong> 8 GB empfohlen",
+    "latestPrefix": "Neueste Version:",
+    "latestSuffix": "· <a href=\"https://github.com/Joenvyme/openprivacy/releases\" id=\"link-releases\">Alle Releases auf GitHub</a>."
+  },
+  "faq": {
+    "title": "Häufige Fragen",
+    "q1": "Werden meine Daten online gesendet?",
+    "a1": "<strong>Nein</strong> für den Inhalt Ihrer Dokumente: die Anonymisierung erfolgt vollständig lokal. Online: Anmeldung (E-Mail), Prüfung Ihres <strong>Aktivierungsschlüssels</strong> und der erste Engine-Download (~3 GB, einmalig).",
+    "q2": "Was speichern Sie auf Ihren Servern?",
+    "a2": "Nur Ihre <strong>E-Mail-Adresse</strong>, Ihren <strong>Schlüssel</strong>, den Plan (derzeit gratis) und das Datum der letzten Schlüsselprüfung. Kein Text, keine Dateien, keine Anonymisierungsergebnisse.",
+    "q3": "Ich habe meinen Schlüssel verloren oder sehe ihn nicht mehr",
+    "a3": "Der Schlüssel wird bei der Erstellung <strong>nur einmal</strong> angezeigt, damit ihn niemand mit Ihrer E-Mail abrufen kann. Bei Verlust kontaktieren Sie den OpenPrivacy-Support — er bleibt administrativ verfügbar, nicht auf dieser öffentlichen Website.",
+    "q4": "macOS blockiert die App (« nicht verifizierter Entwickler »)",
+    "a4": "Rechtsklick auf die App → <strong>Öffnen</strong> → bestätigen. Ihre IT kann auch eine signierte Version verteilen.",
+    "q5": "Kann ich Word-Dateien verwenden?",
+    "a5": "Ja, im Format <strong>.docx</strong>: Datei in der App öffnen, <strong>Anonymisieren</strong> klicken, dann <code>Name_anonymisiert.docx</code> speichern (Stile, Tabellen und Kopfzeilen bleiben erhalten). Alte <code>.doc</code>-Dateien müssen in Word nach .docx konvertiert werden.",
+    "q6": "Lizenz und Herkunft der Engine",
+    "a6": "Der Detektor basiert auf dem Open-Source-Modell <a href=\"https://huggingface.co/openai/privacy-filter\" rel=\"noopener\">openai/privacy-filter</a> (Apache-2.0-Lizenz). OpenPrivacy ist eine vereinfachte Distribution für den Kanzleieinsatz."
+  },
+  "cta": {
+    "title": "Fragen oder Rollout in der Kanzlei?",
+    "text": "Kontaktieren Sie das Team, das Ihnen diesen Link gegeben hat, oder lesen Sie die technische Dokumentation zum Erstellen von Installationspaketen.",
+    "btn": "Jetzt herunterladen"
+  },
+  "footer": {
+    "source": "Quellcode",
+    "engine": "Engine",
+    "guide": "Benutzerhandbuch (PDF)"
+  },
+  "errors": {
+    "verifyInvalid": "Ungültiger oder bereits verwendeter Bestätigungslink.",
+    "verifyExpired": "Dieser Link ist abgelaufen. Fordern Sie einen neuen Schlüssel an.",
+    "verifyError": "E-Mail konnte nicht bestätigt werden. Bitte später erneut versuchen.",
+    "verifyUnknown": "Bestätigung fehlgeschlagen.",
+    "turnstile": "Bitte schließen Sie die Anti-Bot-Prüfung unten ab.",
+    "serverDown": "Server nicht erreichbar. Bitte in einigen Minuten erneut versuchen.",
+    "invalidResponse": "Ungültige Serverantwort",
+    "serverError": "Serverfehler",
+    "incomplete": "Unvollständige Serverantwort.",
+    "registerFail": "Schlüssel konnte nicht erstellt werden. Bitte später erneut versuchen.",
+    "copyFail": "Kopieren fehlgeschlagen — Schlüssel manuell markieren.",
+    "pendingDefault": "Prüfen Sie Ihr Postfach und klicken Sie auf den Bestätigungslink.",
+    "existingDefault": "Für diese E-Mail existiert bereits ein Schlüssel."
+  },
+  "lang": {
+    "label": "Sprache",
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch"
+  }
+}

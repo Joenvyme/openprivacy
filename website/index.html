@@ -20,12 +20,17 @@
     <header class="site-header">
       <div class="wrap header-inner">
         <a class="logo" href="#">OpenPrivacy<span class="logo-tld">.ch</span></a>
-        <nav class="nav">
-          <a href="#fonctionnement">Fonctionnement</a>
-          <a href="#acces">Accès gratuit</a>
-          <a href="#telecharger">Télécharger</a>
-          <a href="#faq">FAQ</a>
+        <nav class="nav" aria-label="Main">
+          <a href="#fonctionnement" data-i18n="nav.how">Fonctionnement</a>
+          <a href="#acces" data-i18n="nav.access">Accès gratuit</a>
+          <a href="#telecharger" data-i18n="nav.download">Télécharger</a>
+          <a href="#faq" data-i18n="nav.faq">FAQ</a>
         </nav>
+        <div class="lang-switcher" role="group" aria-label="Language">
+          <button type="button" class="lang-btn" data-lang="fr" aria-pressed="true">FR</button>
+          <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+          <button type="button" class="lang-btn" data-lang="de" aria-pressed="false">DE</button>
+        </div>
       </div>
     </header>
 
@@ -33,12 +38,12 @@
       <section class="hero">
         <div class="wrap hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow">Open source · 100 % local</p>
-            <h1>
+            <p class="eyebrow" data-i18n="hero.eyebrow">Open source · 100 % local</p>
+            <h1 data-i18n-html="hero.title">
               Protégez les données personnelles de vos dossiers,
               <em>sans les envoyer sur Internet</em>
             </h1>
-            <p class="lead">
+            <p class="lead" data-i18n="hero.lead">
               Application simple pour avocats et professions réglementées :
               détectez et anonymisez noms, coordonnées, dates et informations
               sensibles — sur votre poste, sans cloud.
@@ -46,7 +51,7 @@
             <div class="hero-cta">
               <a class="btn btn-primary" href="#acces">
                 <i data-lucide="key-round" class="icon icon-sm" aria-hidden="true"></i>
-                Obtenir une clé gratuite
+                <span data-i18n="hero.ctaKey">Obtenir une clé gratuite</span>
               </a>
               <a
                 class="btn btn-ghost"
@@ -55,21 +60,21 @@
                 rel="noopener"
               >
                 <i data-lucide="book-open" class="icon icon-sm" aria-hidden="true"></i>
-                Guide utilisateur
+                <span data-i18n="hero.ctaGuide">Guide utilisateur</span>
               </a>
             </div>
             <ul class="hero-badges">
               <li>
                 <i data-lucide="laptop" class="icon icon-sm" aria-hidden="true"></i>
-                Mac &amp; Windows
+                <span data-i18n="hero.badgeMac">Mac &amp; Windows</span>
               </li>
               <li>
                 <i data-lucide="mail" class="icon icon-sm" aria-hidden="true"></i>
-                Inscription e-mail · clé gratuite
+                <span data-i18n="hero.badgeEmail">Inscription e-mail · clé gratuite</span>
               </li>
               <li>
                 <i data-lucide="cpu" class="icon icon-sm" aria-hidden="true"></i>
-                Basé sur
+                <span data-i18n="hero.badgeEngine">Basé sur</span>
                 <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
                   >OpenAI Privacy Filter</a
                 >
@@ -83,19 +88,19 @@
               </div>
               <div class="demo-body">
                 <div class="demo-pane demo-before">
-                  <span class="demo-label">Avant</span>
-                  <p>
+                  <span class="demo-label" data-i18n="hero.demoBefore">Avant</span>
+                  <p data-i18n-html="hero.demoBeforeText">
                     Me Jean Dupont, rue du Rhône 14, 1204 Genève.<br />
-                    Contact : <mark class="pii">dupont@cabinet-ge.ch</mark>,
-                    tél. <mark class="pii">+41 22 731 45 67</mark>.
+                    Contact : <mark class="pii">dupont@cabinet-ge.ch</mark>, tél.
+                    <mark class="pii">+41 22 731 45 67</mark>.
                   </p>
                 </div>
                 <div class="demo-arrow" aria-hidden="true">
                   <i data-lucide="arrow-right" class="icon"></i>
                 </div>
                 <div class="demo-pane demo-after">
-                  <span class="demo-label">Après</span>
-                  <p>
+                  <span class="demo-label" data-i18n="hero.demoAfter">Après</span>
+                  <p data-i18n-html="hero.demoAfterText">
                     Me &lt;PRIVATE_PERSON&gt;, &lt;PRIVATE_ADDRESS&gt;.<br />
                     Contact : &lt;PRIVATE_EMAIL&gt;, tél. &lt;PRIVATE_PHONE&gt;.
                   </p>
@@ -108,8 +113,8 @@
 
       <section id="fonctionnement" class="section features">
         <div class="wrap">
-          <h2>Pensé pour des utilisateurs non techniques</h2>
-          <p class="section-intro">
+          <h2 data-i18n="features.title">Pensé pour des utilisateurs non techniques</h2>
+          <p class="section-intro" data-i18n-html="features.intro">
             Pas de ligne de commande, pas de configuration complexe. Ouvrez
             l’application, collez votre texte ou ouvrez un fichier, cliquez sur
             <strong>Anonymiser</strong>.
@@ -119,8 +124,8 @@
               <div class="card-icon" aria-hidden="true">
                 <i data-lucide="shield-check" class="icon icon-lg"></i>
               </div>
-              <h3>Local et confidentiel</h3>
-              <p>
+              <h3 data-i18n="features.localTitle">Local et confidentiel</h3>
+              <p data-i18n="features.localText">
                 L’anonymisation s’exécute sur votre machine. Aucun envoi de vos
                 dossiers vers un serveur pendant le traitement.
               </p>
@@ -129,8 +134,8 @@
               <div class="card-icon" aria-hidden="true">
                 <i data-lucide="zap" class="icon icon-lg"></i>
               </div>
-              <h3>Rapide au quotidien</h3>
-              <p>
+              <h3 data-i18n="features.fastTitle">Rapide au quotidien</h3>
+              <p data-i18n="features.fastText">
                 Au premier lancement, le moteur se télécharge une fois (~3 Go).
                 Ensuite, l’outil est prêt en quelques secondes.
               </p>
@@ -139,8 +144,8 @@
               <div class="card-icon" aria-hidden="true">
                 <i data-lucide="file-text" class="icon icon-lg"></i>
               </div>
-              <h3>Word et texte</h3>
-              <p>
+              <h3 data-i18n="features.wordTitle">Word et texte</h3>
+              <p data-i18n-html="features.wordText">
                 Ouvrez des fichiers <code>.docx</code> : la mise en forme est
                 conservée dans le document anonymisé. Formats texte
                 <code>.txt</code>, <code>.md</code>, etc.
@@ -152,8 +157,8 @@
 
       <section class="section types">
         <div class="wrap types-inner">
-          <h2>Ce que l’outil détecte</h2>
-          <ul class="tag-list">
+          <h2 data-i18n="types.title">Ce que l’outil détecte</h2>
+          <ul class="tag-list" data-i18n-list="types.tags">
             <li>Noms de personnes</li>
             <li>Adresses</li>
             <li>E-mails</li>
@@ -163,7 +168,7 @@
             <li>Numéros de compte</li>
             <li>Secrets / identifiants</li>
           </ul>
-          <p class="disclaimer">
+          <p class="disclaimer" data-i18n-html="types.disclaimer">
             Outil d’aide à la réduction des données personnelles — pas un
             substitut à une relecture humaine ni une garantie de conformité
             RGPD. Voir les
@@ -176,14 +181,16 @@
 
       <section id="acces" class="section access">
         <div class="wrap">
-          <h2>Obtenir votre clé gratuite</h2>
-          <p class="section-intro">
+          <h2 data-i18n="access.title">Obtenir votre clé gratuite</h2>
+          <p class="section-intro" data-i18n-html="access.intro">
             Nous stockons <strong>uniquement votre e-mail et votre clé</strong> —
             jamais le contenu que vous anonymisez. L’anonymisation reste
             <strong>100 % sur votre ordinateur</strong>.
           </p>
           <form id="register-form" class="register-form" novalidate>
-            <label for="email">Adresse e-mail professionnelle</label>
+            <label for="email" data-i18n="access.emailLabel"
+              >Adresse e-mail professionnelle</label
+            >
             <div class="register-row">
               <input
                 type="email"
@@ -191,9 +198,12 @@
                 name="email"
                 required
                 autocomplete="email"
+                data-i18n-placeholder="access.emailPlaceholder"
                 placeholder="vous@cabinet.fr"
               />
-              <button type="submit" class="btn btn-primary">Créer ma clé</button>
+              <button type="submit" class="btn btn-primary" id="register-submit" data-i18n="access.submit">
+                Créer ma clé
+              </button>
             </div>
             <input
               type="text"
@@ -207,26 +217,30 @@
             <div id="turnstile-widget" class="turnstile-wrap" hidden></div>
           </form>
           <div id="register-result-pending" class="register-result register-result-pending" hidden>
-            <p class="register-success-title">Confirmez votre e-mail</p>
+            <p class="register-success-title" data-i18n="access.pendingTitle">
+              Confirmez votre e-mail
+            </p>
             <p id="register-pending-message" class="register-hint"></p>
           </div>
           <div id="register-result-new" class="register-result register-result-new" hidden>
-            <p class="register-success-title">Votre clé d’activation — affichée une seule fois</p>
+            <p class="register-success-title" data-i18n="access.newTitle">
+              Votre clé d’activation — affichée une seule fois
+            </p>
             <p class="register-warning">
               <i data-lucide="alert-circle" class="icon icon-sm" aria-hidden="true"></i>
-              <span
-                ><strong>Important :</strong> cette clé ne sera plus visible sur ce site.
-              Enregistrez-la maintenant (gestionnaire de mots de passe, coffre-fort,
-              note sécurisée). Vous en aurez besoin pour activer l’application.</span
-              >
+              <span data-i18n-html="access.newWarning"></span>
             </p>
             <code id="license-key-display" class="license-key"></code>
-            <button type="button" id="copy-key" class="btn btn-primary">Copier la clé</button>
+            <button type="button" id="copy-key" class="btn btn-primary" data-i18n="access.copyKey">
+              Copier la clé
+            </button>
           </div>
           <div id="register-result-existing" class="register-result register-result-existing" hidden>
-            <p class="register-success-title">Clé déjà créée</p>
+            <p class="register-success-title" data-i18n="access.existingTitle">
+              Clé déjà créée
+            </p>
             <p id="register-existing-message" class="register-hint"></p>
-            <p class="register-hint">
+            <p class="register-hint" data-i18n="access.existingHint">
               Pour des raisons de sécurité, votre clé n’est jamais réaffichée ici.
               Si vous l’avez perdue, contactez l’équipe qui vous a orienté vers
               OpenPrivacy.
@@ -238,8 +252,8 @@
 
       <section id="telecharger" class="section download">
         <div class="wrap download-inner">
-          <h2>Télécharger l’application</h2>
-          <p class="section-intro">
+          <h2 data-i18n="download.title">Télécharger l’application</h2>
+          <p class="section-intro" data-i18n-html="download.intro">
             Après avoir obtenu votre clé ci-dessus, téléchargez l’application
             pour macOS. Version Windows : bientôt disponible.
             <a href="GUIDE_UTILISATEUR_FR.pdf" target="_blank" rel="noopener"
@@ -249,7 +263,7 @@
 
           <p class="download-soon" id="download-notice-windows">
             <i data-lucide="info" class="icon icon-sm" aria-hidden="true"></i>
-            Installateur Windows en cours de préparation.
+            <span data-i18n="download.windowsSoon">Installateur Windows en cours de préparation.</span>
           </p>
 
           <div class="download-grid">
@@ -262,11 +276,11 @@
               <span class="os-icon" aria-hidden="true">
                 <i data-lucide="laptop" class="icon icon-xl"></i>
               </span>
-              <h3>macOS</h3>
-              <p>Apple Silicon &amp; Intel · macOS 12+</p>
+              <h3 data-i18n="download.macTitle">macOS</h3>
+              <p data-i18n="download.macSub">Apple Silicon &amp; Intel · macOS 12+</p>
               <span class="btn btn-download">
                 <i data-lucide="download" class="icon icon-sm" aria-hidden="true"></i>
-                Télécharger pour Mac
+                <span data-i18n="download.macBtn">Télécharger pour Mac</span>
               </span>
               <span class="file-meta" id="mac-version-meta">OpenPrivacy-mac.zip</span>
             </a>
@@ -279,114 +293,77 @@
               <span class="os-icon" aria-hidden="true">
                 <i data-lucide="monitor" class="icon icon-xl"></i>
               </span>
-              <h3>Windows</h3>
-              <p>Windows 10 et 11 (64 bits)</p>
-              <span class="btn btn-download">Bientôt — Windows</span>
+              <h3 data-i18n="download.winTitle">Windows</h3>
+              <p data-i18n="download.winSub">Windows 10 et 11 (64 bits)</p>
+              <span class="btn btn-download" data-i18n="download.winBtn">Bientôt — Windows</span>
               <span class="file-meta">OpenPrivacy-windows.zip</span>
             </span>
           </div>
 
           <div class="requirements">
-            <h3>Prérequis</h3>
+            <h3 data-i18n="download.reqTitle">Prérequis</h3>
             <ul class="requirements-list">
               <li>
                 <i data-lucide="hard-drive" class="icon icon-sm" aria-hidden="true"></i>
-                <span><strong>Espace disque :</strong> environ 5 Go libres</span>
+                <span data-i18n-html="download.reqDisk"></span>
               </li>
               <li>
                 <i data-lucide="wifi" class="icon icon-sm" aria-hidden="true"></i>
-                <span
-                  ><strong>Premier lancement :</strong> connexion Internet (téléchargement du
-                  modèle, une fois)</span
-                >
+                <span data-i18n-html="download.reqNet"></span>
               </li>
               <li>
                 <i data-lucide="gauge" class="icon icon-sm" aria-hidden="true"></i>
-                <span><strong>RAM :</strong> 8 Go recommandés</span>
+                <span data-i18n-html="download.reqRam"></span>
               </li>
             </ul>
           </div>
 
           <p class="download-latest-hint">
-            Dernière version :
+            <span data-i18n="download.latestPrefix">Dernière version :</span>
             <strong id="download-latest-label">—</strong>
-            ·
-            <a href="https://github.com/Joenvyme/openprivacy/releases" id="link-releases"
-              >Toutes les releases sur GitHub</a
-            >.
+            <span id="download-latest-suffix" data-i18n-html="download.latestSuffix"></span>
           </p>
         </div>
       </section>
 
       <section id="faq" class="section faq">
         <div class="wrap">
-          <h2>Questions fréquentes</h2>
+          <h2 data-i18n="faq.title">Questions fréquentes</h2>
           <details>
-            <summary>Mes données sont-elles envoyées en ligne ?</summary>
-            <p>
-              <strong>Non</strong> pour le contenu de vos documents : l’anonymisation
-              est entièrement locale. En ligne : l’inscription (e-mail), la
-              vérification de votre <strong>clé d’activation</strong>, et le premier
-              téléchargement du moteur (~3 Go, une fois).
-            </p>
+            <summary data-i18n="faq.q1">Mes données sont-elles envoyées en ligne ?</summary>
+            <p data-i18n-html="faq.a1"></p>
           </details>
           <details>
-            <summary>Que stockez-vous sur vos serveurs ?</summary>
-            <p>
-              Uniquement votre <strong>adresse e-mail</strong>, votre
-              <strong>clé</strong>, le plan (gratuit pour l’instant), et la date de
-              dernière vérification de la clé. Aucun texte, fichier ou résultat
-              d’anonymisation.
-            </p>
+            <summary data-i18n="faq.q2">Que stockez-vous sur vos serveurs ?</summary>
+            <p data-i18n-html="faq.a2"></p>
           </details>
           <details>
-            <summary>J’ai perdu ma clé ou je la vois plus sur le site</summary>
-            <p>
-              La clé n’est montrée <strong>qu’une seule fois</strong> lors de la
-              création, pour éviter qu’une autre personne la récupère avec votre
-              e-mail. Si vous l’avez perdue, contactez le support OpenPrivacy —
-              elle reste consultable côté administration, pas sur ce site public.
-            </p>
+            <summary data-i18n="faq.q3">J’ai perdu ma clé ou je la vois plus sur le site</summary>
+            <p data-i18n-html="faq.a3"></p>
           </details>
           <details>
-            <summary>macOS bloque l’application (« développeur non identifié »)</summary>
-            <p>
-              Clic droit sur l’application → <strong>Ouvrir</strong> → confirmer.
-              Votre service informatique peut aussi distribuer une version signée.
-            </p>
+            <summary data-i18n="faq.q4">macOS bloque l’application (« développeur non identifié »)</summary>
+            <p data-i18n-html="faq.a4"></p>
           </details>
           <details>
-            <summary>Puis-je utiliser des fichiers Word ?</summary>
-            <p>
-              Oui, au format <strong>.docx</strong> : ouvrez le fichier dans
-              l’application, cliquez <strong>Anonymiser</strong>, puis
-              enregistrez le document <code>Nom_anonymise.docx</code> (styles,
-              tableaux et en-têtes préservés). Les fichiers <code>.doc</code>
-              anciens doivent être convertis en .docx dans Word.
-            </p>
+            <summary data-i18n="faq.q5">Puis-je utiliser des fichiers Word ?</summary>
+            <p data-i18n-html="faq.a5"></p>
           </details>
           <details>
-            <summary>Licence et origine du moteur</summary>
-            <p>
-              Le détecteur repose sur le modèle open source
-              <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
-                >openai/privacy-filter</a
-              >
-              (licence Apache 2.0). OpenPrivacy en est une distribution simplifiée
-              pour un usage en cabinet.
-            </p>
+            <summary data-i18n="faq.q6">Licence et origine du moteur</summary>
+            <p data-i18n-html="faq.a6"></p>
           </details>
         </div>
       </section>
 
       <section class="section cta-bottom">
         <div class="wrap cta-bottom-inner">
-          <h2>Une question ou un déploiement en cabinet ?</h2>
-          <p>
+          <h2 data-i18n="cta.title">Une question ou un déploiement en cabinet ?</h2>
+          <p data-i18n="cta.text">
             Contactez l’équipe qui vous a communiqué ce lien, ou consultez la
             documentation technique pour construire les installateurs.
           </p>
-          <a class="btn btn-primary" href="#telecharger">Télécharger maintenant</a>
+          <a class="btn btn-primary" href="#telecharger" data-i18n="cta.btn">Télécharger maintenant</a>
         </div>
       </section>
     </main>
@@ -395,14 +372,16 @@
       <div class="wrap footer-inner">
         <p>
           <strong>OpenPrivacy.ch</strong> ·
-          <a href="https://github.com/Joenvyme/openprivacy" rel="noopener">Code source</a>
-          · Moteur
+          <a href="https://github.com/Joenvyme/openprivacy" rel="noopener" data-i18n="footer.source"
+            >Code source</a
+          >
+          · <span data-i18n="footer.engine">Moteur</span>
           <a href="https://huggingface.co/openai/privacy-filter" rel="noopener"
             >OpenAI Privacy Filter</a
           >
         </p>
         <p class="footer-small">
-          <a href="GUIDE_UTILISATEUR_FR.pdf" target="_blank" rel="noopener"
+          <a href="GUIDE_UTILISATEUR_FR.pdf" target="_blank" rel="noopener" data-i18n="footer.guide"
             >Guide utilisateur (PDF)</a
           >
         </p>
@@ -411,9 +390,13 @@
 
     <script src="https://unpkg.com/lucide@0.487.0/dist/umd/lucide.min.js"></script>
     <script src="config.js"></script>
+    <script src="i18n.js"></script>
     <script src="main.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        if (window.lucide) lucide.createIcons({ attrs: { "stroke-width": 1.75 } });
+      });
+      document.addEventListener("openprivacy:langchange", function () {
         if (window.lucide) lucide.createIcons({ attrs: { "stroke-width": 1.75 } });
       });
     </script>
