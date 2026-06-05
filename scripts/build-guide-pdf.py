@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Génère le guide utilisateur PDF depuis GUIDE_UTILISATEUR_FR.md (design OpenPrivacy)."""
+"""
+Génère un PDF depuis GUIDE_UTILISATEUR_FR.md (legacy).
+
+Le guide officiel est désormais GUIDE_UTILISATEUR_FR.pdf à la racine (édité manuellement).
+Pour le site : ./scripts/sync-guide-pdf.sh
+"""
 
 from __future__ import annotations
 

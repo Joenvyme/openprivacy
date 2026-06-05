@@ -43,14 +43,15 @@ Placez les zip dans `website/downloads/` ou GitHub Releases, puis mettez à jour
 
 ## Guide utilisateur (PDF)
 
-Le site peut proposer **`website/GUIDE_UTILISATEUR_FR.pdf`**.
+Fichier source : **`GUIDE_UTILISATEUR_FR.pdf`** à la racine du dépôt (version éditée manuellement).
 
-Après modification de `GUIDE_UTILISATEUR_FR.md` à la racine :
+Pour publier sur le site :
 
 ```bash
-source .venv/bin/activate
-pip install fpdf2
-python scripts/build-guide-pdf.py
+./scripts/sync-guide-pdf.sh
+git add GUIDE_UTILISATEUR_FR.pdf website/GUIDE_UTILISATEUR_FR.pdf
+git commit -m "Mise à jour guide utilisateur PDF"
+git push origin main
 ```
 
-Puis redéployez le site (push Git ou `npx vercel deploy --prod` depuis `website/`).
+Le site sert **`website/GUIDE_UTILISATEUR_FR.pdf`** (copie synchronisée).

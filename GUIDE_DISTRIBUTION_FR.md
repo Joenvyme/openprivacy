@@ -42,7 +42,7 @@ cd dist
 zip -r OpenPrivacy-mac.zip OpenPrivacy.app
 ```
 
-Envoyez **`OpenPrivacy-mac.zip`** + **`GUIDE_UTILISATEUR_FR.pdf`** (généré via `./scripts/build-guide-pdf.py`).
+Envoyez **`OpenPrivacy-mac.zip`** + **`GUIDE_UTILISATEUR_FR.pdf`** (à la racine du dépôt ; `./scripts/sync-guide-pdf.sh` pour le site).
 
 ### Signature macOS (recommandé en production)
 
