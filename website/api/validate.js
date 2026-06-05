@@ -1,5 +1,7 @@
 const {
   corsHeaders,
+  enforceRateLimit,
+  getClientIp,
   licenseIsValid,
   parseJsonBody,
   sendJson,
@@ -10,6 +12,7 @@ const CACHE_DAYS = 7;
 
 module.exports = async (req, res) => {
   const origin = req.headers.origin || req.headers.Origin;
+  const clientIp = getClientIp(req);
 
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
@@ -19,6 +22,20 @@ module.exports = async (req, res) => {
   }
   if (req.method !== "POST") {
     sendJson(res, 405, { error: "Method not allowed" }, origin);
+    return;
+  }
+
+  const rate = await enforceRateLimit("validate", clientIp);
+  if (!rate.ok) {
+    sendJson(
+      res,
+      429,
+      {
+        error: "Trop de tentatives. Réessayez plus tard.",
+        retry_after_sec: rate.retryAfterSec,
+      },
+      origin
+    );
     return;
   }
 
@@ -42,7 +59,7 @@ module.exports = async (req, res) => {
 
   try {
     const dbRes = await supabaseFetch(
-      `openprivacy_licenses?license_key=eq.${encodeURIComponent(license_key)}&select=id,plan,status,valid_until&limit=1`
+      `openprivacy_licenses?license_key=eq.${encodeURIComponent(license_key)}&select=id,plan,status,valid_until,email_verified_at&limit=1`
     );
     if (!dbRes.ok) {
       sendJson(res, 502, { error: "Service indisponible" }, origin);
@@ -65,13 +82,21 @@ module.exports = async (req, res) => {
       });
     }
 
+    let reason = null;
+    if (!valid) {
+      if (row.status === "revoked") reason = "revoked";
+      else if (row.status === "pending") reason = "pending_verification";
+      else if (!row.email_verified_at) reason = "pending_verification";
+      else reason = "expired";
+    }
+
     sendJson(
       res,
       200,
       {
         valid,
         plan: row.plan,
-        reason: valid ? null : row.status === "revoked" ? "revoked" : "expired",
+        reason: valid ? null : reason,
         cache_days: valid ? CACHE_DAYS : 0,
         app_version,
       },
@@ -80,5 +105,6 @@ module.exports = async (req, res) => {
   } catch (err) {
     console.error(err);
     sendJson(res, 503, { error: "Configuration serveur incomplète." }, origin);
+    return;
   }
 };

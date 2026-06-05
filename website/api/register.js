@@ -1,14 +1,23 @@
 const {
   corsHeaders,
+  emailVerificationEnabled,
+  enforceRateLimit,
   generateLicenseKey,
+  generateVerifyToken,
+  getClientIp,
+  isHoneypotTriggered,
   normalizeEmail,
   parseJsonBody,
   sendJson,
+  sendVerificationEmail,
   supabaseFetch,
+  verifyExpiresAt,
+  verifyTurnstile,
 } = require("./_lib.js");
 
 module.exports = async (req, res) => {
   const origin = req.headers.origin || req.headers.Origin;
+  const clientIp = getClientIp(req);
 
   if (req.method === "OPTIONS") {
     res.statusCode = 204;
@@ -21,11 +30,36 @@ module.exports = async (req, res) => {
     return;
   }
 
+  const rate = await enforceRateLimit("register", clientIp);
+  if (!rate.ok) {
+    sendJson(
+      res,
+      429,
+      {
+        error: "Trop de tentatives. Réessayez plus tard.",
+        retry_after_sec: rate.retryAfterSec,
+      },
+      origin
+    );
+    return;
+  }
+
   let payload;
   try {
     payload = parseJsonBody(req);
   } catch {
     sendJson(res, 400, { error: "JSON invalide" }, origin);
+    return;
+  }
+
+  if (isHoneypotTriggered(payload)) {
+    sendJson(res, 400, { error: "Requête refusée." }, origin);
+    return;
+  }
+
+  const turnstile = await verifyTurnstile(payload.turnstile_token, clientIp);
+  if (!turnstile.ok) {
+    sendJson(res, 400, { error: turnstile.error }, origin);
     return;
   }
 
@@ -37,14 +71,14 @@ module.exports = async (req, res) => {
 
   try {
     const existing = await supabaseFetch(
-      `openprivacy_licenses?email=eq.${encodeURIComponent(email)}&select=id,status,plan&limit=1`
+      `openprivacy_licenses?email=eq.${encodeURIComponent(email)}&select=id,status,plan,email_verified_at&limit=1`
     );
     if (!existing.ok) {
       const detail = await existing.text();
       console.error("supabase existing", existing.status, detail);
       const hint =
         existing.status === 404
-          ? "Table openprivacy_licenses introuvable sur ce projet Supabase. Vérifiez SUPABASE_URL (https://REF.supabase.co) et exécutez la migration SQL."
+          ? "Table openprivacy_licenses introuvable. Exécutez les migrations SQL du dépôt."
           : existing.status === 401
             ? "Clé Supabase invalide : utilisez la clé service_role (pas anon)."
             : "Service indisponible";
@@ -52,37 +86,91 @@ module.exports = async (req, res) => {
       return;
     }
     const rows = await existing.json();
-    if (rows.length > 0 && rows[0].status === "active") {
+    if (rows.length > 0) {
+      const row = rows[0];
+      if (row.status === "active" && (!emailVerificationEnabled() || row.email_verified_at)) {
+        sendJson(
+          res,
+          200,
+          {
+            email,
+            existing: true,
+            plan: row.plan,
+            message:
+              "Si une clé a déjà été créée pour cet e-mail, elle ne peut plus être affichée ici. Utilisez la clé enregistrée lors de votre première inscription.",
+          },
+          origin
+        );
+        return;
+      }
+    }
+
+    const license_key = generateLicenseKey();
+    const needsEmailVerify = emailVerificationEnabled();
+    const verify_token = needsEmailVerify ? generateVerifyToken() : null;
+    const body = {
+      email,
+      license_key,
+      plan: "free",
+      status: needsEmailVerify ? "pending" : "active",
+      valid_until: null,
+      email_verified_at: needsEmailVerify ? null : new Date().toISOString(),
+      verify_token,
+      verify_token_expires_at: needsEmailVerify ? verifyExpiresAt() : null,
+    };
+
+    const insert = await supabaseFetch("openprivacy_licenses", {
+      method: "POST",
+      prefer: "return=representation",
+      body,
+    });
+
+    if (insert.status === 409) {
       sendJson(
         res,
         200,
         {
           email,
           existing: true,
-          plan: rows[0].plan,
           message:
-            "Une clé a déjà été créée pour cet e-mail. Pour votre sécurité, elle n'est plus affichée ici. Utilisez la clé que vous avez enregistrée lors de la première inscription.",
+            "Si une clé a déjà été créée pour cet e-mail, elle ne peut plus être affichée ici.",
         },
         origin
       );
       return;
     }
 
-    const license_key = generateLicenseKey();
-    const insert = await supabaseFetch("openprivacy_licenses", {
-      method: "POST",
-      prefer: "return=representation",
-      body: {
-        email,
-        license_key,
-        plan: "free",
-        status: "active",
-        valid_until: null,
-      },
-    });
     if (insert.status === 201) {
       const created = await insert.json();
       const row = Array.isArray(created) ? created[0] : created;
+
+      if (needsEmailVerify && verify_token) {
+        try {
+          await sendVerificationEmail(email, verify_token);
+        } catch (err) {
+          console.error(err);
+          await supabaseFetch(
+            `openprivacy_licenses?id=eq.${encodeURIComponent(row.id)}`,
+            { method: "DELETE", prefer: "return=minimal" }
+          );
+          sendJson(res, 502, { error: "Impossible d’envoyer l’e-mail de confirmation." }, origin);
+          return;
+        }
+        sendJson(
+          res,
+          201,
+          {
+            email,
+            pending_verification: true,
+            existing: false,
+            message:
+              "Un e-mail de confirmation vous a été envoyé. Cliquez sur le lien pour afficher votre clé d’activation.",
+          },
+          origin
+        );
+        return;
+      }
+
       sendJson(
         res,
         201,

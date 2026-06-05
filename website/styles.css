@@ -511,6 +511,19 @@ h3,
   border-bottom: 1px solid var(--border);
 }
 
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.turnstile-wrap {
+  margin-top: 1rem;
+}
+
 .register-form label {
   display: block;
   font-weight: 600;

@@ -195,7 +195,21 @@
               />
               <button type="submit" class="btn btn-primary">Créer ma clé</button>
             </div>
+            <input
+              type="text"
+              name="company"
+              id="register-company"
+              class="hp-field"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
+            <div id="turnstile-widget" class="turnstile-wrap" hidden></div>
           </form>
+          <div id="register-result-pending" class="register-result register-result-pending" hidden>
+            <p class="register-success-title">Confirmez votre e-mail</p>
+            <p id="register-pending-message" class="register-hint"></p>
+          </div>
           <div id="register-result-new" class="register-result register-result-new" hidden>
             <p class="register-success-title">Votre clé d’activation — affichée une seule fois</p>
             <p class="register-warning">
