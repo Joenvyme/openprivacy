@@ -2,16 +2,15 @@
 Interface graphique locale — OpenPrivacy (PyWebview).
 
 UI HTML/CSS/JS embarquée ; logique métier dans desktop/api.py.
-Tkinter conservé uniquement pour le dialogue d’activation de licence.
+Tkinter conservé uniquement pour le dialogue d’activation de licence (thread principal).
 """
 
 from __future__ import annotations
 
 import sys
-import threading
 from pathlib import Path
 
-APP_VERSION = "1.3.0"
+APP_VERSION = "1.3.1"
 WINDOW_MIN_WIDTH = 960
 WINDOW_MIN_HEIGHT = 640
 
@@ -23,50 +22,33 @@ def _web_root() -> Path:
     return Path(__file__).resolve().parent / "web"
 
 
-class _MacReopenBridge:
-    """Réaffiche la fenêtre PyWebview au clic sur l’icône Dock (macOS)."""
+def _run_license_gate() -> bool:
+    """Dialogue d’activation Tk sur le thread principal (avant PyWebview)."""
+    import tkinter as tk
 
-    def __init__(self, window: object) -> None:
-        self._window = window
-        threading.Thread(target=self._run_tk_loop, daemon=True).start()
+    if __package__:
+        from .license import ensure_license
+    else:
+        from license import ensure_license
 
-    def _run_tk_loop(self) -> None:
-        import tkinter as tk
-
-        root = tk.Tk()
-        root.withdraw()
-        try:
-            root.createcommand("::tk::mac::ReopenApplication", self._on_reopen)
-        except tk.TclError:
-            return
-        root.mainloop()
-
-    def _on_reopen(self) -> None:
-        try:
-            self._window.show()
-            self._window.restore()
-        except Exception:
-            pass
+    lic_root = tk.Tk()
+    lic_root.withdraw()
+    try:
+        return ensure_license(lic_root)
+    finally:
+        lic_root.destroy()
 
 
 def main() -> None:
-    import tkinter as tk
     import webview
 
     if __package__:
         from .api import Api
-        from .license import ensure_license
     else:
         from api import Api
-        from license import ensure_license
 
-    # Étape licence : dialogue modal Tk (seul usage conservé de tkinter)
-    lic_root = tk.Tk()
-    lic_root.withdraw()
-    if not ensure_license(lic_root):
-        lic_root.destroy()
+    if not _run_license_gate():
         return
-    lic_root.destroy()
 
     web_dir = _web_root()
     index = web_dir / "index.html"
@@ -87,9 +69,7 @@ def main() -> None:
     )
     api.bind_window(window)
 
-    if sys.platform == "darwin":
-        _MacReopenBridge(window)
-
+    # Pas de Tkinter en arrière-plan : macOS exige NSWindow sur le thread principal.
     webview.start(debug=False)
 
 

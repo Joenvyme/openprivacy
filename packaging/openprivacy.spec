@@ -139,8 +139,8 @@ if sys.platform == "darwin":
         info_plist={
             "CFBundleName": "OpenPrivacy",
             "CFBundleDisplayName": "OpenPrivacy",
-            "CFBundleVersion": "1.3.0",
-            "CFBundleShortVersionString": "1.3.0",
+            "CFBundleVersion": "1.3.1",
+            "CFBundleShortVersionString": "1.3.1",
             "NSHighResolutionCapable": True,
             "NSHumanReadableCopyright": "OpenPrivacy · OpenAI Privacy Filter (Apache 2.0)",
         },
