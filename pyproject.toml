@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-desktop = ["python-docx>=1.1.2"]
+desktop = ["python-docx>=1.1.2", "pywebview>=5.0"]
 
 [project.scripts]
 opf = "opf.__main__:main"

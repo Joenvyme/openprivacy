@@ -7,12 +7,38 @@ from pathlib import Path
 
 block_cipher = None
 project_root = Path(SPECPATH).parent
+web_dir = project_root / "desktop" / "web"
+
+# Imports PyWebview selon la plateforme de build
+_webview_imports = [
+    "webview",
+    "webview.util",
+    "api",
+]
+if sys.platform == "darwin":
+    _webview_imports.extend(
+        [
+            "webview.platforms.cocoa",
+            "objc",
+            "WebKit",
+        ]
+    )
+elif sys.platform == "win32":
+    _webview_imports.extend(
+        [
+            "webview.platforms.winforms",
+            "webview.platforms.edgechromium",
+            "clr",
+            "System",
+            "System.Windows.Forms",
+        ]
+    )
 
 a = Analysis(
     [str(project_root / "desktop" / "app_gui.py")],
     pathex=[str(project_root), str(project_root / "desktop")],
     binaries=[],
-    datas=[],
+    datas=[(str(web_dir), "desktop/web")],
     hiddenimports=[
         "opf",
         "opf._api",
@@ -52,7 +78,8 @@ a = Analysis(
         "docx.styles",
         "docx.enum",
         "docx.shared",
-    ],
+    ]
+    + _webview_imports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -112,8 +139,8 @@ if sys.platform == "darwin":
         info_plist={
             "CFBundleName": "OpenPrivacy",
             "CFBundleDisplayName": "OpenPrivacy",
-            "CFBundleVersion": "1.2.0",
-            "CFBundleShortVersionString": "1.2.0",
+            "CFBundleVersion": "1.3.0",
+            "CFBundleShortVersionString": "1.3.0",
             "NSHighResolutionCapable": True,
             "NSHumanReadableCopyright": "OpenPrivacy · OpenAI Privacy Filter (Apache 2.0)",
         },

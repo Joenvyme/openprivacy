@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenPrivacy.ch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..600;1,400..600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <header class="header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="brand-title">OpenPrivacy.ch</h1>
+            <p class="brand-sub">Anonymisation locale · données personnelles</p>
+          </div>
+        </div>
+        <div class="header-meta">
+          <span class="badge" id="mode-badge">Texte</span>
+          <span class="version" id="app-version"></span>
+        </div>
+      </header>
+
+      <div class="toolbar" role="toolbar" aria-label="Actions">
+        <button type="button" class="btn btn-primary" id="btn-redact" disabled>
+          <span class="btn-icon" aria-hidden="true">✦</span>
+          Anonymiser
+        </button>
+        <button type="button" class="btn btn-secondary" id="btn-open">
+          <span class="btn-icon" aria-hidden="true">↗</span>
+          Ouvrir…
+        </button>
+        <button type="button" class="btn btn-secondary" id="btn-save" disabled>
+          <span class="btn-icon" aria-hidden="true">↓</span>
+          Enregistrer…
+        </button>
+        <button type="button" class="btn btn-ghost" id="btn-clear">
+          Effacer
+        </button>
+      </div>
+
+      <main class="workspace">
+        <section class="panel panel-source">
+          <div class="panel-head">
+            <h2>Source</h2>
+            <span class="panel-hint" id="source-filename">—</span>
+          </div>
+          <textarea
+            id="source-text"
+            class="editor"
+            placeholder="Collez un texte ou ouvrez un fichier Word (.docx) ou texte…"
+            spellcheck="false"
+          ></textarea>
+        </section>
+        <section class="panel panel-result">
+          <div class="panel-head">
+            <h2>Résultat</h2>
+            <span class="panel-hint">Données personnelles masquées</span>
+          </div>
+          <textarea
+            id="output-text"
+            class="editor editor-readonly"
+            readonly
+            placeholder="Le texte anonymisé apparaîtra ici…"
+            spellcheck="false"
+          ></textarea>
+        </section>
+      </main>
+
+      <footer class="statusbar">
+        <div class="status-left">
+          <span class="status-dot" id="status-dot" data-state="loading"></span>
+          <span id="status-text">Chargement du moteur…</span>
+        </div>
+        <div class="progress-wrap" id="progress-wrap" hidden>
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </footer>
+
+      <div class="toasts" id="toasts" aria-live="polite"></div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
