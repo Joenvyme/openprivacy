@@ -9,6 +9,9 @@
     "download": "Download",
     "faq": "FAQ"
   },
+  "guides": {
+    "pdf": "USER_GUIDE_EN.pdf"
+  },
   "hero": {
     "eyebrow": "Open source · 100% local",
     "title": "Protect personal data in your case files, <em>without sending them over the Internet</em>",
@@ -64,7 +67,7 @@
   },
   "download": {
     "title": "Download the app",
-    "intro": "After obtaining your key above, download the app for macOS. Windows version: coming soon. <a href=\"GUIDE_UTILISATEUR_FR.pdf\" target=\"_blank\" rel=\"noopener\">User guide (PDF, French)</a>.",
+    "intro": "After obtaining your key above, download the app for macOS. Windows version: coming soon. <a href=\"USER_GUIDE_EN.pdf\" target=\"_blank\" rel=\"noopener\" class=\"link-guide\">User guide (PDF)</a>.",
     "windowsSoon": "Windows installer in preparation.",
     "macTitle": "macOS",
     "macSub": "Apple Silicon & Intel · macOS 12+",

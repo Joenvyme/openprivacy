@@ -9,6 +9,9 @@
     "download": "Télécharger",
     "faq": "FAQ"
   },
+  "guides": {
+    "pdf": "GUIDE_UTILISATEUR_FR.pdf"
+  },
   "hero": {
     "eyebrow": "Open source · 100 % local",
     "title": "Protégez les données personnelles de vos dossiers, <em>sans les envoyer sur Internet</em>",
@@ -64,7 +67,7 @@
   },
   "download": {
     "title": "Télécharger l’application",
-    "intro": "Après avoir obtenu votre clé ci-dessus, téléchargez l’application pour macOS. Version Windows : bientôt disponible. <a href=\"GUIDE_UTILISATEUR_FR.pdf\" target=\"_blank\" rel=\"noopener\">Guide utilisateur (PDF)</a>.",
+    "intro": "Après avoir obtenu votre clé ci-dessus, téléchargez l’application pour macOS. Version Windows : bientôt disponible. <a href=\"GUIDE_UTILISATEUR_FR.pdf\" target=\"_blank\" rel=\"noopener\" class=\"link-guide\">Guide utilisateur (PDF)</a>.",
     "windowsSoon": "Installateur Windows en cours de préparation.",
     "macTitle": "macOS",
     "macSub": "Apple Silicon & Intel · macOS 12+",

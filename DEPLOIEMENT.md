@@ -41,17 +41,23 @@ Crée `https://github.com/VOTRE_COMPTE/openprivacy` (privé si vous utilisez ce 
 
 Placez les zip dans `website/downloads/` ou GitHub Releases, puis mettez à jour `website/config.js`.
 
-## Guide utilisateur (PDF)
+## Guides utilisateur (PDF)
 
-Fichier source : **`GUIDE_UTILISATEUR_FR.pdf`** à la racine du dépôt (version éditée manuellement).
+Fichiers source à la racine (édition manuelle) :
+
+| Langue | Fichier |
+|--------|---------|
+| Français | `GUIDE_UTILISATEUR_FR.pdf` |
+| English | `USER_GUIDE_EN.pdf` |
+| Deutsch | `GUIDE_BENUTZER_DE.pdf` |
 
 Pour publier sur le site :
 
 ```bash
 ./scripts/sync-guide-pdf.sh
-git add GUIDE_UTILISATEUR_FR.pdf website/GUIDE_UTILISATEUR_FR.pdf
-git commit -m "Mise à jour guide utilisateur PDF"
+git add GUIDE_*.pdf USER_GUIDE_EN.pdf website/*.pdf
+git commit -m "Mise à jour guides utilisateur PDF"
 git push origin main
 ```
 
-Le site sert **`website/GUIDE_UTILISATEUR_FR.pdf`** (copie synchronisée).
+Le site affiche le PDF selon la langue (FR / EN / DE).

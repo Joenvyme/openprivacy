@@ -9,6 +9,9 @@
     "download": "Herunterladen",
     "faq": "FAQ"
   },
+  "guides": {
+    "pdf": "GUIDE_BENUTZER_DE.pdf"
+  },
   "hero": {
     "eyebrow": "Open Source · 100 % lokal",
     "title": "Schützen Sie personenbezogene Daten in Ihren Akten, <em>ohne sie ins Internet zu senden</em>",
@@ -64,7 +67,7 @@
   },
   "download": {
     "title": "App herunterladen",
-    "intro": "Nach Erhalt Ihres Schlüssels laden Sie die App für macOS herunter. Windows-Version: demnächst. <a href=\"GUIDE_UTILISATEUR_FR.pdf\" target=\"_blank\" rel=\"noopener\">Benutzerhandbuch (PDF, Französisch)</a>.",
+    "intro": "Nach Erhalt Ihres Schlüssels laden Sie die App für macOS herunter. Windows-Version: demnächst. <a href=\"GUIDE_BENUTZER_DE.pdf\" target=\"_blank\" rel=\"noopener\" class=\"link-guide\">Benutzerhandbuch (PDF)</a>.",
     "windowsSoon": "Windows-Installer in Vorbereitung.",
     "macTitle": "macOS",
     "macSub": "Apple Silicon & Intel · macOS 12+",

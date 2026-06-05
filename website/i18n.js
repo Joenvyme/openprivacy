@@ -58,6 +58,12 @@
       if (typeof val === "string") el.setAttribute("placeholder", val);
     });
 
+    document.querySelectorAll("[data-i18n-href]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-href");
+      const val = t(key);
+      if (typeof val === "string") el.setAttribute("href", val);
+    });
+
     document.querySelectorAll("[data-i18n-list]").forEach((ul) => {
       const key = ul.getAttribute("data-i18n-list");
       const items = resolve(strings, key);
