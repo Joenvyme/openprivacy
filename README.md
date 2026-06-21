@@ -26,7 +26,7 @@ Repository resources: [License](LICENSE) and [Security Policy](SECURITY.md).
 pip install -e .
 ```
 
-After this, you will have a python script `opf` that can be run directly or via `python -m opf`. The script can be used in 3 separate ways, as described below.
+After this, you will have a python script `opf` that can be run directly or via `python -m opf`. The script can be used in multiple ways, as described below.
 
 2. Run one-shot redaction:
 
@@ -81,6 +81,22 @@ opf train /path/to/train.jsonl --output-dir /path/to/finetuned_checkpoint
 ```
 
 Consult `opf train --help` for more flags and information about the finetuning mode.
+
+5. Anonymize with reversible mapping:
+
+```bash
+opf anonymize "Alice lives at alice@example.com" --map-output mapping.json
+```
+
+This creates an anonymized version of the text and saves a mapping file that can be used to restore the original text.
+
+6. Deanonymize (restore original text):
+
+```bash
+opf deanonymize "<PRIVATE_PERSON> lives at <PRIVATE_EMAIL>" --map-file mapping.json
+```
+
+For detailed information about anonymization and deanonymization, see [ANONYMIZATION.md](ANONYMIZATION.md).
 
 ### Structure
 

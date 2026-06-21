@@ -17,6 +17,7 @@ from ._core.runtime import (
     load_inference_runtime,
     predict_text,
 )
+from ._core.anonymization_map import AnonymizationMap, deanonymize_text
 
 
 class _InheritType:
@@ -40,6 +41,7 @@ class RedactionResult:
     detected_spans: tuple[DetectedSpan, ...]
     redacted_text: str
     warning: str | None = None
+    anonymization_map: AnonymizationMap | None = None
 
     def to_dict(self) -> dict[str, object]:
         """Convert the redaction result into a JSON-serializable dictionary.
@@ -66,6 +68,8 @@ class RedactionResult:
         }
         if self.warning is not None:
             payload["warning"] = self.warning
+        if self.anonymization_map is not None:
+            payload["anonymization_map_id"] = self.anonymization_map.map_id
         return payload
 
     def to_json(self, *, indent: int | None = 2) -> str:
@@ -272,6 +276,48 @@ class OPF:
             redacted_text=redacted_text,
             warning=_warning_for_prediction(prediction),
         )
+
+    def anonymize(
+        self,
+        text: str,
+        *,
+        decode: DecodeOptions | None = None,
+    ) -> tuple[str, AnonymizationMap]:
+        """Run anonymization with reversible mapping on one input string.
+
+        Args:
+            text: Input text to anonymize.
+            decode: Optional per-call decode overrides.
+
+        Returns:
+            A tuple containing the anonymized text and the anonymization map
+            that can be used to restore the original text.
+
+        Raises:
+            ValueError: If runtime or decode configuration is invalid.
+            RuntimeError: If the checkpoint cannot be loaded or requires
+                unsupported interactive confirmation.
+        """
+        runtime, decoder = self.get_prediction_components(decode=decode)
+        prediction = predict_text(runtime, text, decoder=decoder)
+        redacted_text = _redact_text(prediction.text, prediction.spans)
+
+        # Build the anonymization map
+        anon_map = AnonymizationMap(
+            original_text=prediction.text,
+            anonymized_text=redacted_text,
+        )
+
+        for span in prediction.spans:
+            anon_map.add_span(
+                label=span.label,
+                original_text=span.text,
+                placeholder=span.placeholder,
+                start=span.start,
+                end=span.end,
+            )
+
+        return redacted_text, anon_map
 
     def set_model_path(self, model_path: str | os.PathLike[str]) -> OPF:
         """Update the checkpoint directory used by this redactor.
@@ -486,3 +532,36 @@ def redact(text: str) -> str:
         RuntimeError: If the local checkpoint cannot be loaded.
     """
     return str(_default_redactor().redact(text))
+
+
+def anonymize(text: str) -> tuple[str, AnonymizationMap]:
+    """Anonymize one text string with reversible mapping.
+
+    Args:
+        text: Input text to anonymize.
+
+    Returns:
+        A tuple containing the anonymized text and the anonymization map.
+
+    Raises:
+        ValueError: If model configuration or decode settings are invalid.
+        RuntimeError: If the local checkpoint cannot be loaded.
+    """
+    redactor = OPF(output_text_only=False)
+    return redactor.anonymize(text)
+
+
+def deanonymize(anonymized_text: str, mapping: AnonymizationMap) -> str:
+    """Restore original text from anonymized text using a mapping.
+
+    Args:
+        anonymized_text: The anonymized text to restore.
+        mapping: The anonymization map containing the reversible mapping.
+
+    Returns:
+        The original text with sensitive information restored.
+
+    Raises:
+        ValueError: If the anonymized text doesn't match the mapping.
+    """
+    return deanonymize_text(anonymized_text, mapping)
