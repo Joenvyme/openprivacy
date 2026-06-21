@@ -11,19 +11,23 @@ from ._cli.args import (
     using_interactive_prompt,
 )
 
-_SUBCOMMANDS = frozenset({"redact", "eval", "train"})
+_SUBCOMMANDS = frozenset({"redact", "eval", "train", "anonymize", "deanonymize"})
 _ROOT_DESCRIPTION = (
     "OpenAI Privacy Filter (OPF): redact text to remove PII. "
     "Redact locally via CLI and interactive mode; run evaluations; "
     "or fine-tune on your own labeled dataset.\n\n"
     "Subcommands:\n"
-    "  redact  Redact text locally (default, implied).\n"
-    "  eval    Run encoder eval on a ground-truth dataset.\n"
-    "  train   Fine-tune a checkpoint on a local labeled dataset.\n"
+    "  redact       Redact text locally (default, implied).\n"
+    "  anonymize    Anonymize text with reversible mapping.\n"
+    "  deanonymize  Restore original text from anonymized text.\n"
+    "  eval         Run encoder eval on a ground-truth dataset.\n"
+    "  train        Fine-tune a checkpoint on a local labeled dataset.\n"
     "Default mode: redact\n"
     "  The redact mode has additional flags; see `opf redact --help`."
 )
 _REDACT_DESCRIPTION = "Redact text to remove PII."
+_ANONYMIZE_DESCRIPTION = "Anonymize text with reversible mapping."
+_DEANONYMIZE_DESCRIPTION = "Restore original text from anonymized text."
 
 
 def build_parser(*, prog: str | None = None) -> argparse.ArgumentParser:
@@ -183,6 +187,128 @@ def _run_train_command(argv: Sequence[str]) -> None:
     train_main(argv, prog=f"{resolve_prog('opf')} train")
 
 
+def _run_anonymize_command(argv: Sequence[str], *, prog: str | None = None) -> None:
+    """Run the anonymization CLI mode."""
+    parser = argparse.ArgumentParser(
+        description=_ANONYMIZE_DESCRIPTION,
+        formatter_class=CliHelpFormatter,
+        prog=prog or resolve_prog("opf anonymize"),
+    )
+    input_group = parser.add_argument_group("Input / Source")
+    runtime_group = parser.add_argument_group("Model / Runtime")
+    decode_group = parser.add_argument_group("Decode")
+    output_group = parser.add_argument_group("Output")
+    
+    input_group.add_argument(
+        "positional_text",
+        nargs="?",
+        help="Text input to anonymize.",
+    )
+    add_checkpoint_arg(runtime_group)
+    add_common_redaction_args(
+        parser,
+        runtime_group=runtime_group,
+        decode_group=decode_group,
+        output_group=output_group,
+    )
+    output_group.add_argument(
+        "--map-output",
+        type=str,
+        required=True,
+        help="Output path for the anonymization map JSON file.",
+    )
+    input_group.add_argument(
+        "-f",
+        "--text-file",
+        action="append",
+        default=None,
+        help=(
+            "Text file path; each file is treated as one full input example "
+            "(repeat for multiple files)."
+        ),
+    )
+    
+    args = parser.parse_args(argv)
+    if args.positional_text:
+        text_items = [] if args.text is None else list(args.text)
+        args.text = [args.positional_text, *text_items]
+    
+    from ._cli.render import build_redactor_from_args
+    from pathlib import Path
+    
+    redactor = build_redactor_from_args(args, output_text_only=False)
+    
+    for text in iter_inputs(args):
+        anonymized_text, anon_map = redactor.anonymize(text)
+        
+        # Save the map
+        map_path = Path(args.map_output)
+        anon_map.save(map_path)
+        
+        # Print anonymized text
+        print(anonymized_text)
+        print(f"\nAnonymization map saved to: {map_path}", file=sys.stderr)
+        print(f"Map ID: {anon_map.map_id}", file=sys.stderr)
+
+
+def _run_deanonymize_command(argv: Sequence[str], *, prog: str | None = None) -> None:
+    """Run the deanonymization CLI mode."""
+    parser = argparse.ArgumentParser(
+        description=_DEANONYMIZE_DESCRIPTION,
+        formatter_class=CliHelpFormatter,
+        prog=prog or resolve_prog("opf deanonymize"),
+    )
+    
+    parser.add_argument(
+        "anonymized_text",
+        nargs="?",
+        help="Anonymized text to restore (or use --text-file).",
+    )
+    parser.add_argument(
+        "--map-file",
+        type=str,
+        required=True,
+        help="Path to the anonymization map JSON file.",
+    )
+    parser.add_argument(
+        "-f",
+        "--text-file",
+        type=str,
+        help="File containing anonymized text.",
+    )
+    
+    args = parser.parse_args(argv)
+    
+    from ._core.anonymization_map import AnonymizationMap
+    from pathlib import Path
+    
+    # Load the mapping
+    map_path = Path(args.map_file)
+    if not map_path.exists():
+        print(f"Error: Map file not found: {map_path}", file=sys.stderr)
+        raise SystemExit(1)
+    
+    anon_map = AnonymizationMap.load(map_path)
+    
+    # Get the anonymized text
+    if args.text_file:
+        anonymized_text = Path(args.text_file).read_text(encoding="utf-8")
+    elif args.anonymized_text:
+        anonymized_text = args.anonymized_text
+    elif not sys.stdin.isatty():
+        anonymized_text = sys.stdin.read()
+    else:
+        print("Error: No input text provided", file=sys.stderr)
+        parser.print_help()
+        raise SystemExit(1)
+    
+    # Deanonymize
+    from ._api import deanonymize
+    
+    original_text = deanonymize(anonymized_text, anon_map)
+    print(original_text)
+
+
 def main(argv: Sequence[str] | None = None) -> None:
     """Run the unified ``opf`` command-line entrypoint."""
     argv_list = list(argv or [])
@@ -195,6 +321,18 @@ def main(argv: Sequence[str] | None = None) -> None:
             _run_redaction_command(
                 subcommand_argv,
                 prog=f"{resolve_prog('opf')} redact",
+            )
+            return
+        if command == "anonymize":
+            _run_anonymize_command(
+                subcommand_argv,
+                prog=f"{resolve_prog('opf')} anonymize",
+            )
+            return
+        if command == "deanonymize":
+            _run_deanonymize_command(
+                subcommand_argv,
+                prog=f"{resolve_prog('opf')} deanonymize",
             )
             return
         if command == "eval":
