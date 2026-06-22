@@ -75,6 +75,7 @@
     "winTitle": "Windows",
     "winSub": "Windows 10 and 11 (64-bit)",
     "winBtn": "Coming soon — Windows",
+    "winBtnActive": "Download for Windows",
     "reqTitle": "Requirements",
     "reqDisk": "<strong>Disk space:</strong> about 5 GB free",
     "reqNet": "<strong>First launch:</strong> Internet connection (one-time model download)",

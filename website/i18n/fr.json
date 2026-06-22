@@ -75,6 +75,7 @@
     "winTitle": "Windows",
     "winSub": "Windows 10 et 11 (64 bits)",
     "winBtn": "Bientôt — Windows",
+    "winBtnActive": "Télécharger pour Windows",
     "reqTitle": "Prérequis",
     "reqDisk": "<strong>Espace disque :</strong> environ 5 Go libres",
     "reqNet": "<strong>Premier lancement :</strong> connexion Internet (téléchargement du modèle, une fois)",

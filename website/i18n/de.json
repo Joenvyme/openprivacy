@@ -75,6 +75,7 @@
     "winTitle": "Windows",
     "winSub": "Windows 10 und 11 (64-Bit)",
     "winBtn": "Demnächst — Windows",
+    "winBtnActive": "Für Windows herunterladen",
     "reqTitle": "Voraussetzungen",
     "reqDisk": "<strong>Festplatte:</strong> ca. 5 GB frei",
     "reqNet": "<strong>Erster Start:</strong> Internetverbindung (einmaliger Modell-Download)",

@@ -27,7 +27,7 @@
       linkReleases.href = cfg.releasesPage;
     }
 
-    function applyLatestVersion(latest, tag) {
+    function applyLatestVersion(latest, tag, downloads) {
       if (latestLabel) {
         latestLabel.textContent = `v${latest}`;
       }
@@ -36,6 +36,49 @@
       }
       if (linkMac && linkMac.tagName === "A" && tag && !cfg.downloadMac?.includes("latest")) {
         linkMac.href = `https://github.com/Joenvyme/openprivacy/releases/download/${tag}/OpenPrivacy-mac.zip`;
+      }
+      
+      // Activate Windows download if available
+      if (downloads && downloads.windows && linkWin) {
+        const windowsNotice = document.getElementById("download-notice-windows");
+        
+        // Convert span to anchor if Windows download is available
+        if (linkWin.tagName === "SPAN") {
+          const anchor = document.createElement("a");
+          anchor.id = "link-windows";
+          anchor.className = "download-card";
+          anchor.href = downloads.windows;
+          anchor.download = true;
+          anchor.innerHTML = linkWin.innerHTML;
+          linkWin.parentNode.replaceChild(anchor, linkWin);
+          
+          // Update button text
+          const btn = anchor.querySelector(".btn-download");
+          if (btn) {
+            btn.innerHTML = `
+              <i data-lucide="download" class="icon icon-sm" aria-hidden="true"></i>
+              <span data-i18n="download.winBtnActive">Télécharger pour Windows</span>
+            `;
+          }
+          
+          // Update file meta
+          const fileMeta = anchor.querySelector(".file-meta");
+          if (fileMeta) {
+            fileMeta.textContent = `OpenPrivacy-windows.zip · v${latest}`;
+          }
+          
+          // Recreate icons
+          if (window.lucide) {
+            window.lucide.createIcons({ attrs: { "stroke-width": 1.75 } });
+          }
+        } else if (linkWin.tagName === "A") {
+          linkWin.href = downloads.windows;
+        }
+        
+        // Hide the "coming soon" notice
+        if (windowsNotice) {
+          windowsNotice.hidden = true;
+        }
       }
     }
 
@@ -49,7 +92,7 @@
         const latest = data.latest || releases[0]?.version;
         if (!latest) return;
         const latestRelease = releases.find((r) => r.version === latest) || releases[0];
-        applyLatestVersion(latest, latestRelease?.tag);
+        applyLatestVersion(latest, latestRelease?.tag, latestRelease?.downloads);
       } catch {
         /* garde les libellés par défaut */
       }
