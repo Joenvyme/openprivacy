@@ -694,6 +694,10 @@ h3,
   font-size: 0.9rem;
 }
 
+.download-soon[hidden] {
+  display: none !important;
+}
+
 .download-card-soon {
   opacity: 0.75;
   cursor: not-allowed;
