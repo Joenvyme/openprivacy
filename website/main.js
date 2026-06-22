@@ -40,8 +40,6 @@
       
       // Activate Windows download if available
       if (downloads && downloads.windows && linkWin) {
-        const windowsNotice = document.getElementById("download-notice-windows");
-        
         // Convert span to anchor if Windows download is available
         if (linkWin.tagName === "SPAN") {
           const anchor = document.createElement("a");
@@ -73,9 +71,16 @@
           }
         } else if (linkWin.tagName === "A") {
           linkWin.href = downloads.windows;
+          
+          // Update file meta even if already an anchor
+          const fileMeta = linkWin.querySelector(".file-meta");
+          if (fileMeta) {
+            fileMeta.textContent = `OpenPrivacy-windows.zip · v${latest}`;
+          }
         }
         
-        // Hide the "coming soon" notice
+        // Always hide the "coming soon" notice when Windows download is available
+        const windowsNotice = document.getElementById("download-notice-windows");
         if (windowsNotice) {
           windowsNotice.hidden = true;
         }
