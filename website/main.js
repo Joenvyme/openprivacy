@@ -93,12 +93,16 @@
         const res = await fetch(cfg.versionsData);
         if (!res.ok) return;
         const data = await res.json();
+        console.log("Loaded versions data:", data);
         const releases = Array.isArray(data.releases) ? data.releases : [];
         const latest = data.latest || releases[0]?.version;
         if (!latest) return;
         const latestRelease = releases.find((r) => r.version === latest) || releases[0];
+        console.log("Latest release:", latestRelease);
+        console.log("Downloads:", latestRelease?.downloads);
         applyLatestVersion(latest, latestRelease?.tag, latestRelease?.downloads);
-      } catch {
+      } catch (err) {
+        console.error("Error loading versions:", err);
         /* garde les libellés par défaut */
       }
     }
