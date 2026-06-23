@@ -232,14 +232,41 @@ def build_header(
     return header
 
 
-def style_activation_dialog(dialog: tk.Toplevel, content: ttk.Frame) -> Palette:
+def style_activation_dialog(dialog: tk.Toplevel | tk.Tk, content: ttk.Frame) -> Palette:
     p = apply_app_theme(dialog)
     dialog.configure(bg=p.bg)
-    for w in (dialog, content):
-        try:
-            style = ttk.Style(dialog)
-            style.configure("Dialog.TFrame", background=p.bg)
-        except tk.TclError:
-            pass
+    style = ttk.Style(dialog)
+    style.configure("Dialog.TFrame", background=p.bg)
+    style.configure(
+        "Activation.TLabel",
+        background=p.bg,
+        foreground=p.text,
+        font=(ui_font_family(), 13, "bold"),
+    )
+    style.configure(
+        "ActivationHint.TLabel",
+        background=p.bg,
+        foreground=p.muted,
+        font=(ui_font_family(), 11),
+        wraplength=480,
+    )
+    style.configure(
+        "Activation.TEntry",
+        fieldbackground=p.surface,
+        foreground=p.text,
+        font=(mono_font_family(), 15),
+        padding=(12, 10),
+    )
     content.configure(style="Dialog.TFrame")
     return p
+
+
+def center_window(window: tk.Misc, width: int, height: int) -> None:
+    """Centre une fenêtre sur l'écran (évite les dialogues minuscules sur macOS)."""
+    window.update_idletasks()
+    sw = window.winfo_screenwidth()
+    sh = window.winfo_screenheight()
+    x = max(0, (sw - width) // 2)
+    y = max(0, (sh - height) // 2)
+    window.geometry(f"{width}x{height}+{x}+{y}")
+    window.minsize(width, height)
