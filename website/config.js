@@ -5,7 +5,8 @@
 window.SITE_CONFIG = {
   downloadMac:
     "https://github.com/Joenvyme/openprivacy/releases/latest/download/OpenPrivacy-mac.zip",
-  downloadWindows: null,
+  downloadWindows:
+    "https://github.com/Joenvyme/openprivacy/releases/latest/download/OpenPrivacy-windows.zip",
 
   releasesPage: "https://github.com/Joenvyme/openprivacy/releases",
   versionsData: "versions.json",

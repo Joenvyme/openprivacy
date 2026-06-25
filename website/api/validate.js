@@ -1,5 +1,6 @@
 const {
   corsHeaders,
+  emailVerificationEnabled,
   enforceRateLimit,
   getClientIp,
   licenseIsValid,
@@ -58,8 +59,12 @@ module.exports = async (req, res) => {
   const app_version = String(payload.app_version || "unknown").slice(0, 32);
 
   try {
+    const verifyOn = emailVerificationEnabled();
+    const selectCols = verifyOn
+      ? "id,plan,status,valid_until,email_verified_at"
+      : "id,plan,status,valid_until";
     const dbRes = await supabaseFetch(
-      `openprivacy_licenses?license_key=eq.${encodeURIComponent(license_key)}&select=id,plan,status,valid_until,email_verified_at&limit=1`
+      `openprivacy_licenses?license_key=eq.${encodeURIComponent(license_key)}&select=${selectCols}&limit=1`
     );
     if (!dbRes.ok) {
       sendJson(res, 502, { error: "Service indisponible" }, origin);
@@ -86,7 +91,7 @@ module.exports = async (req, res) => {
     if (!valid) {
       if (row.status === "revoked") reason = "revoked";
       else if (row.status === "pending") reason = "pending_verification";
-      else if (!row.email_verified_at) reason = "pending_verification";
+      else if (verifyOn && !row.email_verified_at) reason = "pending_verification";
       else reason = "expired";
     }
 

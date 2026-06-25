@@ -27,7 +27,22 @@
       linkReleases.href = cfg.releasesPage;
     }
 
-    function applyLatestVersion(latest, tag, downloads) {
+    function resolveWindowsDownload(releases, latestRelease) {
+      if (latestRelease?.downloads?.windows) {
+        return {
+          url: latestRelease.downloads.windows,
+          version: latestRelease.version,
+        };
+      }
+      for (const r of releases) {
+        if (r.downloads?.windows) {
+          return { url: r.downloads.windows, version: r.version };
+        }
+      }
+      return null;
+    }
+
+    function applyLatestVersion(latest, tag, winDl) {
       if (latestLabel) {
         latestLabel.textContent = `v${latest}`;
       }
@@ -38,14 +53,14 @@
         linkMac.href = `https://github.com/Joenvyme/openprivacy/releases/download/${tag}/OpenPrivacy-mac.zip`;
       }
       
-      // Activate Windows download if available
-      if (downloads && downloads.windows && linkWin) {
+      // Activate Windows download if available (latest or most recent release with a build)
+      if (winDl?.url && linkWin) {
         // Convert span to anchor if Windows download is available
         if (linkWin.tagName === "SPAN") {
           const anchor = document.createElement("a");
           anchor.id = "link-windows";
           anchor.className = "download-card";
-          anchor.href = downloads.windows;
+          anchor.href = winDl.url;
           anchor.download = true;
           anchor.innerHTML = linkWin.innerHTML;
           linkWin.parentNode.replaceChild(anchor, linkWin);
@@ -62,7 +77,7 @@
           // Update file meta
           const fileMeta = anchor.querySelector(".file-meta");
           if (fileMeta) {
-            fileMeta.textContent = `OpenPrivacy-windows.zip · v${latest}`;
+            fileMeta.textContent = `OpenPrivacy-windows.zip · v${winDl.version}`;
           }
           
           // Recreate icons
@@ -70,12 +85,12 @@
             window.lucide.createIcons({ attrs: { "stroke-width": 1.75 } });
           }
         } else if (linkWin.tagName === "A") {
-          linkWin.href = downloads.windows;
-          
+          linkWin.href = winDl.url;
+
           // Update file meta even if already an anchor
           const fileMeta = linkWin.querySelector(".file-meta");
           if (fileMeta) {
-            fileMeta.textContent = `OpenPrivacy-windows.zip · v${latest}`;
+            fileMeta.textContent = `OpenPrivacy-windows.zip · v${winDl.version}`;
           }
         }
         
@@ -93,14 +108,12 @@
         const res = await fetch(cfg.versionsData);
         if (!res.ok) return;
         const data = await res.json();
-        console.log("Loaded versions data:", data);
         const releases = Array.isArray(data.releases) ? data.releases : [];
         const latest = data.latest || releases[0]?.version;
         if (!latest) return;
         const latestRelease = releases.find((r) => r.version === latest) || releases[0];
-        console.log("Latest release:", latestRelease);
-        console.log("Downloads:", latestRelease?.downloads);
-        applyLatestVersion(latest, latestRelease?.tag, latestRelease?.downloads);
+        const winDl = resolveWindowsDownload(releases, latestRelease);
+        applyLatestVersion(latest, latestRelease?.tag, winDl);
       } catch (err) {
         console.error("Error loading versions:", err);
         /* garde les libellés par défaut */

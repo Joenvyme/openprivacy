@@ -70,8 +70,12 @@ module.exports = async (req, res) => {
   }
 
   try {
+    const verifyOn = emailVerificationEnabled();
+    const selectCols = verifyOn
+      ? "id,status,plan,email_verified_at"
+      : "id,status,plan";
     const existing = await supabaseFetch(
-      `openprivacy_licenses?email=eq.${encodeURIComponent(email)}&select=id,status,plan,email_verified_at&limit=1`
+      `openprivacy_licenses?email=eq.${encodeURIComponent(email)}&select=${selectCols}&limit=1`
     );
     if (!existing.ok) {
       const detail = await existing.text();
@@ -81,14 +85,16 @@ module.exports = async (req, res) => {
           ? "Table openprivacy_licenses introuvable. Exécutez les migrations SQL du dépôt."
           : existing.status === 401
             ? "Clé Supabase invalide : utilisez la clé service_role (pas anon)."
-            : "Service indisponible";
+            : existing.status === 400 && detail.includes("email_verified_at")
+              ? "Migration SQL manquante : exécutez 20260606_openprivacy_email_verify.sql sur Supabase."
+              : "Service indisponible";
       sendJson(res, 502, { error: hint }, origin);
       return;
     }
     const rows = await existing.json();
     if (rows.length > 0) {
       const row = rows[0];
-      if (row.status === "active" && (!emailVerificationEnabled() || row.email_verified_at)) {
+      if (row.status === "active" && (!verifyOn || row.email_verified_at)) {
         sendJson(
           res,
           200,
@@ -106,7 +112,7 @@ module.exports = async (req, res) => {
     }
 
     const license_key = generateLicenseKey();
-    const needsEmailVerify = emailVerificationEnabled();
+    const needsEmailVerify = verifyOn;
     const verify_token = needsEmailVerify ? generateVerifyToken() : null;
     const body = {
       email,
@@ -114,10 +120,12 @@ module.exports = async (req, res) => {
       plan: "free",
       status: needsEmailVerify ? "pending" : "active",
       valid_until: null,
-      email_verified_at: needsEmailVerify ? null : new Date().toISOString(),
-      verify_token,
-      verify_token_expires_at: needsEmailVerify ? verifyExpiresAt() : null,
     };
+    if (verifyOn) {
+      body.email_verified_at = needsEmailVerify ? null : new Date().toISOString();
+      body.verify_token = verify_token;
+      body.verify_token_expires_at = needsEmailVerify ? verifyExpiresAt() : null;
+    }
 
     const insert = await supabaseFetch("openprivacy_licenses", {
       method: "POST",
