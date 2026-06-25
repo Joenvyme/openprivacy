@@ -27,6 +27,22 @@
       linkReleases.href = cfg.releasesPage;
     }
 
+    function resolveMacDownload(releases, latestRelease) {
+      if (latestRelease?.downloads?.mac) {
+        return {
+          url: latestRelease.downloads.mac,
+          version: latestRelease.version,
+          tag: latestRelease.tag,
+        };
+      }
+      for (const r of releases) {
+        if (r.downloads?.mac) {
+          return { url: r.downloads.mac, version: r.version, tag: r.tag };
+        }
+      }
+      return null;
+    }
+
     function resolveWindowsDownload(releases, latestRelease) {
       if (latestRelease?.downloads?.windows) {
         return {
@@ -42,15 +58,20 @@
       return null;
     }
 
-    function applyLatestVersion(latest, tag, winDl) {
+    function applyLatestVersion(latest, tag, macDl, winDl) {
       if (latestLabel) {
         latestLabel.textContent = `v${latest}`;
       }
       if (macVersionMeta) {
-        macVersionMeta.textContent = `OpenPrivacy-mac.zip · v${latest}`;
+        macVersionMeta.textContent = `OpenPrivacy-mac.zip · v${macDl?.version || latest}`;
       }
-      if (linkMac && linkMac.tagName === "A" && tag && !cfg.downloadMac?.includes("latest")) {
-        linkMac.href = `https://github.com/Joenvyme/openprivacy/releases/download/${tag}/OpenPrivacy-mac.zip`;
+      if (linkMac && linkMac.tagName === "A") {
+        const macUrl =
+          macDl?.url ||
+          (tag
+            ? `https://github.com/Joenvyme/openprivacy/releases/download/${tag}/OpenPrivacy-mac.zip`
+            : null);
+        if (macUrl) linkMac.href = macUrl;
       }
       
       // Activate Windows download if available (latest or most recent release with a build)
@@ -112,8 +133,9 @@
         const latest = data.latest || releases[0]?.version;
         if (!latest) return;
         const latestRelease = releases.find((r) => r.version === latest) || releases[0];
+        const macDl = resolveMacDownload(releases, latestRelease);
         const winDl = resolveWindowsDownload(releases, latestRelease);
-        applyLatestVersion(latest, latestRelease?.tag, winDl);
+        applyLatestVersion(latest, latestRelease?.tag, macDl, winDl);
       } catch (err) {
         console.error("Error loading versions:", err);
         /* garde les libellés par défaut */
