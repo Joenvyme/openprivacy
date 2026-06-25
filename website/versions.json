@@ -12,7 +12,7 @@
       ],
       "downloads": {
         "mac": "https://github.com/Joenvyme/openprivacy/releases/download/v1.3.2/OpenPrivacy-mac.zip",
-        "windows": null
+        "windows": "https://github.com/Joenvyme/openprivacy/releases/download/v1.3.2/OpenPrivacy-windows.zip"
       }
     },
     {
