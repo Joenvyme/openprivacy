@@ -44,6 +44,12 @@ DOCX_SAVE_TYPES = (
     "Tous les fichiers (*.*)",
 )
 
+MAP_FILE_SUFFIX = ".opf-map.json"
+MAP_FILE_TYPES = (
+    "Mapping OpenPrivacy (*.json)",
+    "Tous les fichiers (*.*)",
+)
+
 
 def _default_device() -> str:
     try:
@@ -73,6 +79,7 @@ class Api:
         self._current_file: Path | None = None
         self._input_mode = "text"
         self._docx_output_path: Path | None = None
+        self._last_mapping: Any = None
         self._status = "Préparation du moteur d’anonymisation…"
         self._model_error: str | None = None
         self._start_model_load()
@@ -161,9 +168,10 @@ class Api:
             elif kind == "redact_ok":
                 self._busy = False
                 self._status = "Anonymisation terminée"
+                payload = msg[1] if isinstance(msg[1], dict) else {"output_text": msg[1]}
                 self._emit(
                     "redact_ok",
-                    {"output_text": msg[1], "status": self._status},
+                    {"status": self._status, **payload},
                 )
             elif kind == "docx_ok":
                 self._busy = False
@@ -279,8 +287,50 @@ class Api:
         self._current_file = None
         self._input_mode = "text"
         self._docx_output_path = None
+        self._last_mapping = None
         self._status = "Texte effacé"
         return {"ok": True, "status": self._status}
+
+    def pick_map_and_restore(self, anonymized_text: str) -> dict[str, Any]:
+        import webview
+
+        if not webview.windows:
+            return {"ok": False, "message": "Fenêtre indisponible."}
+        if not anonymized_text.strip():
+            return {
+                "ok": False,
+                "message": (
+                    "Collez le texte anonymisé dans « Résultat », ou ouvrez le fichier "
+                    "anonymisé puis réessayez."
+                ),
+            }
+
+        paths = webview.windows[0].create_file_dialog(
+            webview.OPEN_DIALOG,
+            allow_multiple=False,
+            file_types=MAP_FILE_TYPES,
+        )
+        if not paths:
+            return {"ok": False, "cancelled": True}
+
+        try:
+            from opf._api import deanonymize
+            from opf._core.anonymization_map import AnonymizationMap
+
+            anon_map = AnonymizationMap.load(Path(paths[0]))
+            restored = deanonymize(anonymized_text, anon_map)
+        except Exception as exc:
+            return {"ok": False, "message": f"Restauration impossible : {exc}"}
+
+        span_count = len(anon_map.spans)
+        self._status = f"Texte restauré ({span_count} donnée(s) réintégrée(s))"
+        return {
+            "ok": True,
+            "source_text": restored,
+            "status": self._status,
+            "map_file": Path(paths[0]).name,
+            "span_count": span_count,
+        }
 
     def redact_text(self, text: str) -> dict[str, Any]:
         blocked = self._require_ready()
@@ -297,8 +347,18 @@ class Api:
 
         def worker() -> None:
             try:
-                result = self._redactor.redact(text)
-                self._load_queue.put(("redact_ok", result))
+                anonymized, mapping = self._redactor.anonymize(text)
+                self._last_mapping = mapping
+                self._load_queue.put(
+                    (
+                        "redact_ok",
+                        {
+                            "output_text": anonymized,
+                            "span_count": len(mapping.spans),
+                            "reversible": True,
+                        },
+                    )
+                )
             except Exception as exc:
                 self._load_queue.put(("redact_error", str(exc)))
 
@@ -377,13 +437,21 @@ class Api:
         if not path:
             return {"ok": False, "cancelled": True}
         try:
-            Path(path).write_text(output_text, encoding="utf-8")
+            dest = Path(path)
+            dest.write_text(output_text, encoding="utf-8")
+            map_note = ""
+            if self._last_mapping is not None:
+                map_path = dest.parent / f"{dest.stem}{MAP_FILE_SUFFIX}"
+                self._last_mapping.save(map_path)
+                map_note = (
+                    f"\n\nFichier de mapping (pour restaurer plus tard) :\n{map_path}"
+                )
         except OSError as exc:
             return {"ok": False, "message": f"Impossible d’enregistrer : {exc}"}
         self._status = f"Enregistré : {Path(path).name}"
         return {
             "ok": True,
-            "message": f"Fichier enregistré :\n{path}",
+            "message": f"Fichier enregistré :\n{path}{map_note}",
             "path": str(path),
             "status": self._status,
         }

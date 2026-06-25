@@ -1,6 +1,21 @@
 {
-  "latest": "1.3.2",
+  "latest": "1.3.3",
   "releases": [
+    {
+      "version": "1.3.3",
+      "tag": "v1.3.3",
+      "date": "2026-06-25",
+      "title": "Restauration des données anonymisées",
+      "highlights": [
+        "Bouton « Restaurer… » avec fichier de mapping .opf-map.json",
+        "Fichier de mapping créé automatiquement à l’enregistrement",
+        "Anonymisation réversible pour les textes (mode texte)"
+      ],
+      "downloads": {
+        "mac": null,
+        "windows": null
+      }
+    },
     {
       "version": "1.3.2",
       "tag": "v1.3.2",

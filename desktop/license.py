@@ -12,7 +12,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-APP_VERSION = "1.3.2"
+APP_VERSION = "1.3.3"
 LICENSE_DIR = Path.home() / ".openprivacy"
 LICENSE_FILE = LICENSE_DIR / "license.json"
 DEFAULT_API_BASE = "https://www.openprivacy.ch"

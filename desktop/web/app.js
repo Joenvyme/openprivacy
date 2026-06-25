@@ -10,6 +10,7 @@
     btnRedact: $("btn-redact"),
     btnOpen: $("btn-open"),
     btnSave: $("btn-save"),
+    btnRestore: $("btn-restore"),
     btnClear: $("btn-clear"),
     sourceText: $("source-text"),
     outputText: $("output-text"),
@@ -62,6 +63,7 @@
     const canAct = state.ready && !state.busy;
     els.btnRedact.disabled = !canAct;
     els.btnSave.disabled = !canAct || !state.hasOutput;
+    els.btnRestore.disabled = !canAct || state.inputMode === "docx";
     els.btnOpen.disabled = state.busy;
     els.btnClear.disabled = state.busy;
   }
@@ -131,6 +133,29 @@
     updateButtons();
   }
 
+  async function onRestore() {
+    const a = api();
+    if (!a) return;
+    const res = await a.pick_map_and_restore(els.outputText.value);
+    if (res.cancelled) return;
+    if (!res.ok) {
+      if (res.message) toast(res.message, "error");
+      return;
+    }
+    els.sourceText.value = res.source_text || "";
+    state.hasOutput = Boolean(els.outputText.value.trim());
+    setMode("text", res.map_file || null);
+    if (res.status) setStatus(res.status, "ready");
+    const count = res.span_count != null ? res.span_count : "";
+    toast(
+      count !== ""
+        ? `Texte restauré (${count} donnée(s) réintégrée(s)).`
+        : "Texte restauré.",
+      "success"
+    );
+    updateButtons();
+  }
+
   async function onSave() {
     const a = api();
     if (!a) return;
@@ -181,6 +206,14 @@
           els.outputText.value = payload.output_text || "";
           state.hasOutput = true;
           if (payload.status) setStatus(payload.status, "ready");
+          if (payload.reversible && payload.span_count != null) {
+            toast(
+              `Anonymisation terminée (${payload.span_count} donnée(s)). ` +
+                "Enregistrez pour créer le fichier .opf-map.json de restauration.",
+              "success",
+              7000
+            );
+          }
           updateButtons();
           break;
         case "docx_ok":
@@ -206,6 +239,7 @@
   els.btnRedact.addEventListener("click", onRedact);
   els.btnOpen.addEventListener("click", onOpen);
   els.btnSave.addEventListener("click", onSave);
+  els.btnRestore.addEventListener("click", onRestore);
   els.btnClear.addEventListener("click", onClear);
 
   els.sourceText.addEventListener("input", () => {
